@@ -14,7 +14,8 @@ namespace MyWarehouse.Entities
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset LastUpdated { get; set; }
 
-        //public ICollection<Sale> Sales { get; set; } = new List<Sale>();
+        public ICollection<Sale> Sales { get; set; } = new List<Sale>();
     }
 }
