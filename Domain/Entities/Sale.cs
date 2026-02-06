@@ -7,24 +7,48 @@ namespace Domain.Entities
 {
     public class Sale
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
-        public long? CustomerId { get; set; }
-        public Customer? Customer { get; set; }
+        public long? CustomerId { get; private set; }
+        public long UserId { get; private set; }
 
+        public DateTimeOffset SaleDate { get; private set; }
 
-        public long UserId { get; set; }
-        public User User { get; set; } = null!;
+        public decimal TotalAmount { get; private set; }
+        public decimal PaidAmount { get; private set; }
 
-        public DateTimeOffset SaleDate { get; set; }
-        public decimal TotalAmount { get; set; }
-        public decimal PaidAmount { get; set; }
-        public bool IsCredit { get; set; }
-        public string? PaymentMethod { get; set; }
-        public string? Notes { get; set; }
+        public bool IsCredit => PaidAmount < TotalAmount;
 
+        private readonly List<SaleItem> _items = new();
+        public IReadOnlyCollection<SaleItem> SaleItems => _items;
 
-        public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();
-        public ICollection<DebtPayment> DebtPayments { get; set; } = new List<DebtPayment>();
+        private readonly List<DebtPayment> _payments = new();
+        public IReadOnlyCollection<DebtPayment> DebtPayments => _payments;
+
+        public Sale(long? customerId, long userId)
+        {
+            CustomerId = customerId;
+            UserId = userId;
+            SaleDate = DateTimeOffset.UtcNow;
+        }
+
+        public void AddItem(long productId, int quantity, decimal price)
+        {
+            if (quantity <= 0)
+                throw new DomainException("Quantity must be positive");
+
+            var item = new SaleItem(productId, quantity, price);
+            _items.Add(item);
+
+            TotalAmount += item.TotalPrice;
+        }
+
+        public void Pay(decimal amount)
+        {
+            if (amount <= 0)
+                throw new DomainException("Payment must be positive");
+
+            PaidAmount += amount;
+        }
     }
 }
