@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,12 +7,35 @@ namespace Domain.Entities
 {
     public class Customer
     {
-        public long Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string? Phone { get; set; }
-        public string? Email { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
+        public long Id { get; private set; }
 
-        public ICollection<Sale> Sales { get; set; } = new List<Sale>();
+        public string Name { get; private set; }
+        public string? Phone { get; private set; }
+        public string? Email { get; private set; }
+
+        public DateTimeOffset CreatedAt { get; private set; }
+
+        private Customer() { }
+
+        public Customer(string name, string? phone, string? email)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Customer name is required");
+
+            Name = name;
+            Phone = phone;
+            Email = email;
+            CreatedAt = DateTimeOffset.UtcNow;
+        }
+
+        public void Update(string name, string? phone, string? email)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Customer name is required");
+
+            Name = name;
+            Phone = phone;
+            Email = email;
+        }
     }
 }
