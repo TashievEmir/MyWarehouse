@@ -9,13 +9,13 @@ namespace Domain.Entities
     {
         public long Id { get; private set; }
 
-        public int Quantity { get; private set; }
-        public DateTimeOffset LastUpdated { get; private set; }
-
         public long ProductId { get; private set; }
         public Product Product { get; private set; } = null!;
 
-        private Inventory() { } // EF ctor
+        public int Quantity { get; private set; }
+        public DateTimeOffset LastUpdated { get; private set; }
+
+        private Inventory() { }
 
         public Inventory(long productId, int initialQuantity)
         {
