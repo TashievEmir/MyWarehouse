@@ -6,15 +6,26 @@ namespace Domain.Entities
 {
     public class PurchaseItem
     {
-        public long Id { get; set; }
+        public long Id { get; private set; }
 
-        public long PurchaseId { get; set; }
-        public Purchase Purchase { get; set; } = null!;
+        public long PurchaseId { get; private set; }
+        public Purchase Purchase { get; private set; } = null!;
 
-        public long ProductId { get; set; }
-        public Product Product { get; set; } = null!;
+        public long ProductId { get; private set; }
+        public Product Product { get; private set; } = null!;
 
-        public int Quantity { get; set; }
-        public decimal CostPerUnit { get; set; }
+        public int Quantity { get; private set; }
+        public decimal CostPerUnit { get; private set; }
+
+        public decimal TotalCost => Quantity * CostPerUnit;
+
+        private PurchaseItem() { }
+
+        public PurchaseItem(long productId, int quantity, decimal cost)
+        {
+            ProductId = productId;
+            Quantity = quantity;
+            CostPerUnit = cost;
+        }
     }
 }
