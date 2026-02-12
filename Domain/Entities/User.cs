@@ -11,7 +11,9 @@ namespace Domain.Entities
 
         public string Username { get; private set; }
         public string PasswordHash { get; private set; }
-        public string FullName { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string? Patronymic { get; private set; }
 
         private readonly List<UserRole> _roles = new();
         public IReadOnlyCollection<UserRole> Roles => _roles;
@@ -23,15 +25,36 @@ namespace Domain.Entities
 
         private User() { }
 
-        public User(string username, string password, string fullName)
+        public User(string username, string password, string lastname, string firstname, string patronymic, IEnumerable<int> roleIds)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new DomainException("Username required");
 
+            if (string.IsNullOrWhiteSpace(password))
+                throw new DomainException("Password required");
+
+            if (string.IsNullOrWhiteSpace(firstname))
+                throw new DomainException("First name required");
+
+            if (string.IsNullOrWhiteSpace(lastname))
+                throw new DomainException("Last name required");
+
+            var roles = roleIds?.ToList() ?? new List<int>();
+
+            if (!roles.Any())
+                throw new DomainException("User must have at least one role");
+
             Username = username;
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
-            FullName = fullName;
+            LastName = lastname;
+            FirstName = firstname;
+            Patronymic = patronymic;
             CreatedAt = DateTimeOffset.UtcNow;
+
+            foreach (var roleId in roles)
+            {
+                _roles.Add(new UserRole(Id, roleId));
+            }
         }
 
         public void AddRole(Role role)
