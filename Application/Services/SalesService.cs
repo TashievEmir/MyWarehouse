@@ -20,24 +20,36 @@ namespace Application.Services
 
         public async Task<long> CreateSaleAsync(CreateSaleRequest request, CancellationToken ct)
         {
-            var sale = new Sale(request.CustomerId, request.UserId);
+            await using var tx = await _db.BeginTransactionAsync(ct);
 
-            foreach (var item in request.Items)
+            try
             {
-                var inventory = await _db.Inventories
-                    .FirstAsync(x => x.ProductId == item.ProductId, ct);
+                var sale = new Sale(request.CustomerId, request.UserId);
 
-                inventory.Decrease(item.Quantity);
+                foreach (var item in request.Items)
+                {
+                    var inventory = await _db.Inventories
+                        .FirstAsync(x => x.ProductId == item.ProductId, ct);
 
-                sale.AddItem(item.ProductId, item.Quantity, item.Price);
+                    inventory.Decrease(item.Quantity);
+
+                    sale.AddItem(item.ProductId, item.Quantity, item.Price);
+                }
+
+                sale.Pay(request.PaidAmount);
+
+                _db.Sales.Add(sale);
+                await _db.SaveChangesAsync(ct);
+                await tx.CommitAsync(ct);
+
+                return sale.Id;
             }
-
-            sale.Pay(request.PaidAmount);
-
-            _db.Sales.Add(sale);
-            await _db.SaveChangesAsync(ct);
-
-            return sale.Id;
+            catch
+            {
+                await tx.RollbackAsync(ct);
+                throw;
+            }
+            
         }
 
         public async Task<SaleResponse?> GetSaleAsync(long saleId, CancellationToken ct)

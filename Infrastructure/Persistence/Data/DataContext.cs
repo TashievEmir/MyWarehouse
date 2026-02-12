@@ -1,5 +1,7 @@
-﻿using Domain.Entities;
+﻿using Application.Contracts.Persistence;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +11,7 @@ using System.Text;
 
 namespace Infrastructure.Persistence.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDataContext
     {
         public DataContext(DbContextOptions<DataContext> options)
         : base(options)
@@ -27,6 +29,9 @@ namespace Infrastructure.Persistence.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<DebtPayment> DebtPayments => Set<DebtPayment>();
+
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
+        => Database.BeginTransactionAsync(ct);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
