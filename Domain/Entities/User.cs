@@ -13,16 +13,17 @@ namespace Domain.Entities
         public string PasswordHash { get; private set; }
         public string FullName { get; private set; }
 
-        public string Role { get; private set; }
+        private readonly List<UserRole> _roles = new();
+        public IReadOnlyCollection<UserRole> Roles => _roles;
 
         public DateTimeOffset CreatedAt { get; private set; }
 
         public ICollection<Sale> Sales { get; private set; } = new List<Sale>();
         public ICollection<DebtPayment> DebtPayments { get; private set; } = new List<DebtPayment>();
 
-        private User() { } // EF ctor
+        private User() { }
 
-        public User(string username, string password, string fullName, string role)
+        public User(string username, string password, string fullName)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new DomainException("Username required");
@@ -30,8 +31,15 @@ namespace Domain.Entities
             Username = username;
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
             FullName = fullName;
-            Role = role;
             CreatedAt = DateTimeOffset.UtcNow;
+        }
+
+        public void AddRole(Role role)
+        {
+            if (_roles.Any(r => r.RoleId == role.Id))
+                return;
+
+            _roles.Add(new UserRole(Id, role.Id));
         }
 
         public bool VerifyPassword(string password)
