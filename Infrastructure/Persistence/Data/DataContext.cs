@@ -2,12 +2,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Net.ServerSentEvents;
-using System.Reflection.Emit;
-using System.Text;
 
 namespace Infrastructure.Persistence.Data
 {
@@ -37,74 +31,35 @@ namespace Infrastructure.Persistence.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Category -> Products (1:N)
-            //modelBuilder.Entity<Product>()
-            //    .HasOne(p => p.Category)
-            //    .WithMany(c => c.Products)
-            //    .HasForeignKey(p => p.CategoryId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+            // SaleItem composite key
+            modelBuilder.Entity<SaleItem>()
+                .HasKey(x => new { x.SaleId, x.ProductId });
 
-            //// Product -> Inventory (1:1)
-            //modelBuilder.Entity<Inventory>()
-            //    .HasKey(i => i.ProductId);
+            // PurchaseItem composite key
+            modelBuilder.Entity<PurchaseItem>()
+                .HasKey(x => new { x.PurchaseId, x.ProductId });
 
-            //modelBuilder.Entity<Inventory>()
-            //    .HasOne(i => i.Product)
-            //    .WithOne(p => p.Inventory)
-            //    .HasForeignKey<Inventory>(i => i.ProductId);
+            // Inventory 1:1 Product
+            modelBuilder.Entity<Inventory>()
+                .HasOne(i => i.Product)
+                .WithOne(p => p.Inventory)
+                .HasForeignKey<Inventory>(i => i.ProductId);
 
-            //// SaleItem composite key
-            //modelBuilder.Entity<SaleItem>()
-            //    .HasKey(x => new { x.SaleId, x.ProductId });
+            // Many-to-many User ↔ Role
+            modelBuilder.Entity<UserRole>()
+                .HasKey(x => new { x.UserId, x.RoleId });
 
-            //modelBuilder.Entity<SaleItem>()
-            //    .HasOne(x => x.Sale)
-            //    .WithMany(s => s.SaleItems)
-            //    .HasForeignKey(x => x.SaleId);
+            // User ↔ UserRole
+            modelBuilder.Entity<UserRole>()
+                .HasOne(x => x.User)
+                .WithMany(u => u.Roles)
+                .HasForeignKey(x => x.UserId);
 
-            //modelBuilder.Entity<SaleItem>()
-            //    .HasOne(x => x.Product)
-            //    .WithMany(p => p.SaleItems)
-            //    .HasForeignKey(x => x.ProductId);
-
-            //// PurchaseItem composite key
-            //modelBuilder.Entity<PurchaseItem>()
-            //    .HasKey(x => new { x.PurchaseId, x.ProductId });
-
-            //modelBuilder.Entity<PurchaseItem>()
-            //    .HasOne(x => x.Purchase)
-            //    .WithMany(p => p.PurchaseItems)
-            //    .HasForeignKey(x => x.PurchaseId);
-
-            //modelBuilder.Entity<PurchaseItem>()
-            //    .HasOne(x => x.Product)
-            //    .WithMany(p => p.PurchaseItems)
-            //    .HasForeignKey(x => x.ProductId);
-
-            //// Sale -> Customer (optional)
-            //modelBuilder.Entity<Sale>()
-            //    .HasOne(s => s.Customer)
-            //    .WithMany(c => c.Sales)
-            //    .HasForeignKey(s => s.CustomerId)
-            //    .OnDelete(DeleteBehavior.SetNull);
-
-            //// User -> Role (N:1)
-            //modelBuilder.Entity<User>()
-            //    .HasOne(u => u.Role)
-            //    .WithMany(r => r.Users)
-            //    .HasForeignKey(u => u.RoleId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //// DebtPayment relations
-            //modelBuilder.Entity<DebtPayment>()
-            //    .HasOne(d => d.Sale)
-            //    .WithMany(s => s.DebtPayments)
-            //    .HasForeignKey(d => d.SaleId);
-
-            //modelBuilder.Entity<DebtPayment>()
-            //    .HasOne(d => d.User)
-            //    .WithMany(u => u.DebtPayments)
-            //    .HasForeignKey(d => d.UserId);
+            // Role ↔ UserRole
+            modelBuilder.Entity<UserRole>()
+                .HasOne(x => x.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(x => x.RoleId);
         }
     }
 }
