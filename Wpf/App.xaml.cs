@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using Application.Contracts.Interfaces;
 using Application.Contracts.Persistence;
 using Application.Services;
@@ -21,9 +22,11 @@ namespace Wpf
 
             var services = new ServiceCollection();
 
-            // register services
+            var dbPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "app.db");
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlite("Data Source=app.db"));
+                options.UseSqlite($"Data Source={dbPath}"));
 
             services.AddScoped<IDataContext>(sp =>
                 sp.GetRequiredService<DataContext>());
@@ -38,6 +41,8 @@ namespace Wpf
             using var scope = _services.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<IDataContext>();
 
+            await db.MigrateAsync(CancellationToken.None);
+            
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
 
             // start UI

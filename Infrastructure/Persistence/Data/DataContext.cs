@@ -26,6 +26,12 @@ namespace Infrastructure.Persistence.Data
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
         => Database.BeginTransactionAsync(ct);
+        
+        public async Task MigrateAsync(CancellationToken ct)
+        {
+            await Database.MigrateAsync(ct);
+        }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

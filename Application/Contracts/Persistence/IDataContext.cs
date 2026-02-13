@@ -26,5 +26,7 @@ namespace Application.Contracts.Persistence
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct);
+        Task MigrateAsync(CancellationToken ct);
+        
     }
 }
