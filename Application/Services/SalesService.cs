@@ -59,7 +59,7 @@ namespace Application.Services
             .Select(x => new SaleResponse(x))
             .FirstOrDefaultAsync(ct);
         }
-
+        
         public async Task<List<SaleResponse>> GetSalesByPeriodAsync(DateTimeOffset from, DateTimeOffset to, CancellationToken ct)
         {
             return await _db.Sales
