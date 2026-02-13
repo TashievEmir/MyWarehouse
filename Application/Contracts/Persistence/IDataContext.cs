@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,5 +24,7 @@ namespace Application.Contracts.Persistence
         DbSet<DebtPayment> DebtPayments { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct);
     }
 }

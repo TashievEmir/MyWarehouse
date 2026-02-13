@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.ServerSentEvents;
-using System.Text;
+﻿using Domain.Exceptions;
 
 namespace Domain.Entities
 {
