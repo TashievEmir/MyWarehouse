@@ -21,23 +21,35 @@ namespace Application.Services
 
         public async Task<long> RegisterPurchaseAsync(RegisterPurchaseRequest request, CancellationToken ct)
         {
-            var purchase = new Purchase(request.SupplierName);
+            await using var tx = await _db.BeginTransactionAsync(ct);
 
-            foreach (var item in request.Items)
+            try
             {
-                var inventory = await _db.Inventories
-                    .FirstOrDefaultAsync(x => x.ProductId == item.ProductId, ct)
-                    ?? throw new DomainException("Inventory not found");
+                var purchase = new Purchase(request.SupplierName);
 
-                inventory.Increase(item.Quantity);
+                foreach (var item in request.Items)
+                {
+                    var inventory = await _db.Inventories
+                        .FirstAsync(x => x.ProductId == item.ProductId, ct);
 
-                purchase.AddItem(item.ProductId, item.Quantity, item.Cost);
+                    inventory.Increase(item.Quantity);
+
+                    purchase.AddItem(item.ProductId, item.Quantity, item.Cost);
+                }
+
+                _db.Purchases.Add(purchase);
+
+                await _db.SaveChangesAsync(ct);
+
+                await tx.CommitAsync(ct);
+
+                return purchase.Id;
             }
-
-            _db.Purchases.Add(purchase);
-            await _db.SaveChangesAsync(ct);
-
-            return purchase.Id;
+            catch
+            {
+                await tx.RollbackAsync(ct);
+                throw;
+            }
         }
 
         public async Task<PurchaseResponse?> GetPurchaseAsync(long id, CancellationToken ct)

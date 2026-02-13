@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Domain.Exceptions;
 
 namespace Domain.Entities
 {
@@ -19,7 +17,9 @@ namespace Domain.Entities
 
         public decimal TotalPrice => Quantity * PriceAtSale;
 
-        private SaleItem() { }
+        private SaleItem()
+        {
+        }
 
         public SaleItem(long productId, int quantity, decimal price)
         {
@@ -34,4 +34,5 @@ namespace Domain.Entities
             PriceAtSale = price;
 
         }
+    }
 }
