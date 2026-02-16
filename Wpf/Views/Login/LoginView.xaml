@@ -1,0 +1,75 @@
+﻿<Window x:Class="Wpf.Views.Login.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Login"
+        WindowState="Maximized"
+        ResizeMode="CanResize">
+
+    <Grid>
+
+        <!-- 🌈 Gradient background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#141E30" Offset="0"/>
+                <GradientStop Color="#243B55" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Center container -->
+        <Border Width="360"
+                Padding="30"
+                CornerRadius="12"
+                Background="#F5F5F5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20"
+                                  ShadowDepth="0"
+                                  Opacity="0.35"/>
+            </Border.Effect>
+
+            <StackPanel>
+
+                <!-- Title -->
+                <TextBlock Text="Enter your login"
+                           FontSize="22"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,20"
+                           HorizontalAlignment="Center"/>
+
+                <!-- Username -->
+                <TextBox Height="36"
+                         Margin="0,0,0,10"
+                         Padding="8"
+                         FontSize="14"
+                         Text="{Binding Username}"/>
+
+                <!-- Password -->
+                <PasswordBox Height="36"
+                             Margin="0,0,0,15"
+                             Padding="8"
+                             x:Name="PasswordBox"/>
+
+                <!-- Button -->
+                <Button Height="40"
+                        Content="Login"
+                        FontSize="14"
+                        Background="#243B55"
+                        Foreground="White"
+                        BorderThickness="0"
+                        Command="{Binding LoginCommand}"
+                        CommandParameter="{Binding ElementName=PasswordBox}"/>
+
+                <!-- Error -->
+                <TextBlock Margin="0,10,0,0"
+                           Foreground="Red"
+                           TextAlignment="Center"
+                           Text="{Binding ErrorMessage}"/>
+
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>
+

@@ -6,6 +6,8 @@ using Application.Services;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Wpf.ViewModels.Login;
+using Wpf.Views.Login;
 
 namespace Wpf
 {
@@ -15,7 +17,10 @@ namespace Wpf
     public partial class App : System.Windows.Application
     {
         private IServiceProvider _services;
-        
+
+        // 🔥 глобальный доступ к DI
+        public static IServiceProvider Services { get; private set; } = null!;
+
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -25,6 +30,7 @@ namespace Wpf
             var dbPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "app.db");
+
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlite($"Data Source={dbPath}"));
 
@@ -35,20 +41,26 @@ namespace Wpf
             services.AddScoped<ISalesService, SalesService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
 
-            _services = services.BuildServiceProvider();
+            // Views
+            services.AddTransient<LoginView>();
+            services.AddTransient<MainWindow>();
 
-            // 🔥 RUN SEEDER HERE
+            // ViewModels
+            services.AddTransient<LoginViewModel>();
+
+            _services = services.BuildServiceProvider();
+            Services = _services;
+
+            // 🔥 migrate + seed
             using var scope = _services.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<IDataContext>();
 
             await db.MigrateAsync(CancellationToken.None);
-            
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
 
-            // start UI
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            // 🔥 открываем Login через DI
+            var login = Services.GetRequiredService<LoginView>();
+            login.Show();
         }
     }
-
 }
