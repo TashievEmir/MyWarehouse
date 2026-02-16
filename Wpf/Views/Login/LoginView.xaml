@@ -46,10 +46,31 @@
                          Text="{Binding Username}"/>
 
                 <!-- Password -->
-                <PasswordBox Height="36"
-                             Margin="0,0,0,15"
+                <Grid Margin="0,0,0,15">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- hidden password -->
+                    <PasswordBox x:Name="PasswordBox"
+                                 Height="36"
+                                 Padding="8"
+                                 Visibility="Visible"/>
+
+                    <!-- visible password -->
+                    <TextBox x:Name="VisiblePassword"
+                             Height="36"
                              Padding="8"
-                             x:Name="PasswordBox"/>
+                             Visibility="Collapsed"/>
+
+                    <!-- toggle button -->
+                    <Button Grid.Column="1"
+                            Content="👁"
+                            Click="TogglePassword"
+                            Margin="5,0,0,0"/>
+                </Grid>
 
                 <!-- Button -->
                 <Button Height="40"
