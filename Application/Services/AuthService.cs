@@ -23,13 +23,15 @@ namespace Application.Services
         {
             var user = await _db.Users
             .Include(x => x.Roles)
+            .ThenInclude(ur => ur.Role)
             .FirstOrDefaultAsync(x => x.Username == request.Username, ct)
             ?? throw new DomainException("Invalid credentials");
 
             if (!user.VerifyPassword(request.Password))
                 throw new DomainException("Invalid credentials");
-
-            return new LoginResponse(user);
+            
+            var result = new LoginResponse(user);
+            return result;
         }
 
         public async Task<long> RegisterAsync(RegisterRequest request, CancellationToken ct)
