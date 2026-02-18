@@ -5,8 +5,103 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Мой склад"
+        WindowState="Maximized"
+        ResizeMode="CanResize">
+    
+    <Window.Resources>
+
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#2D2D44"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3E3E5A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    
     <Grid>
 
+        <!-- 🌈 Background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1E1E2F" Offset="0"/>
+                <GradientStop Color="#2B2B45" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid>
+
+            <!-- Layout grid -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- 🔹 Sidebar -->
+            <Border Grid.Row="0" Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Background="#181825">
+
+                <StackPanel Margin="10">
+
+                    <TextBlock Text="MY STORAGE"
+                               Foreground="White"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="10"/>
+
+                    <Button Content="Dashboard" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Products" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Sales" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Purchases" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Debts" Style="{StaticResource MenuButton}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- 🔹 Header -->
+            <Border Grid.Row="0" Grid.Column="1"
+                    Background="#252538"
+                    Padding="20">
+
+                <TextBlock Text="Dashboard"
+                           Foreground="White"
+                           FontSize="20"
+                           FontWeight="SemiBold"/>
+            </Border>
+
+            <!-- 🔹 Main content -->
+            <Border Grid.Row="1" Grid.Column="1"
+                    Background="#F5F5F5"
+                    Padding="20">
+
+                <Grid>
+
+                    <TextBlock Text="Welcome to My Storage System"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+
+                </Grid>
+            </Border>
+
+        </Grid>
     </Grid>
 </Window>
