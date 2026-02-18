@@ -1,14 +1,10 @@
 ﻿<Window x:Class="Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Wpf"
-        mc:Ignorable="d"
         Title="Мой склад"
         WindowState="Maximized"
         ResizeMode="CanResize">
-    
+
     <Window.Resources>
 
         <Style x:Key="MenuButton" TargetType="Button">
@@ -30,10 +26,9 @@
         </Style>
 
     </Window.Resources>
-    
-    <Grid>
 
-        <!-- 🌈 Background -->
+    <!-- 🌈 Background -->
+    <Grid>
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#1E1E2F" Offset="0"/>
@@ -41,22 +36,17 @@
             </LinearGradientBrush>
         </Grid.Background>
 
+        <!-- Главный layout -->
         <Grid>
 
-            <!-- Layout grid -->
+            <!-- Sidebar + Main -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="220"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <!-- 🔹 Sidebar -->
-            <Border Grid.Row="0" Grid.RowSpan="2"
-                    Grid.Column="0"
+            <!-- Sidebar -->
+            <Border Grid.Column="0"
                     Background="#181825">
 
                 <StackPanel Margin="10">
@@ -72,36 +62,49 @@
                     <Button Content="Продажи" Style="{StaticResource MenuButton}"/>
                     <Button Content="Покупки" Style="{StaticResource MenuButton}"/>
                     <Button Content="Долги" Style="{StaticResource MenuButton}"/>
+
                 </StackPanel>
             </Border>
 
-            <!-- 🔹 Header -->
-            <Border Grid.Row="0" Grid.Column="1"
-                    Background="#252538"
-                    Padding="20">
+            <!-- Правая часть -->
+            <Grid Grid.Column="1">
 
-                <TextBlock Text="Dashboard"
-                           Foreground="White"
-                           FontSize="20"
-                           FontWeight="SemiBold"/>
-            </Border>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="9*"/>
+                </Grid.RowDefinitions>
 
-            <!-- 🔹 Main content -->
-            <Border Grid.Row="1" Grid.Column="1"
-                    Background="#F5F5F5"
-                    Padding="20">
+                <!-- Header -->
+                <Border Grid.Row="0"
+                        Background="#252538"
+                        Padding="20">
 
-                <Grid>
-
-                    <TextBlock Text="Welcome to My Storage System"
-                               FontSize="22"
+                    <TextBlock Text="Header"
+                               Foreground="White"
+                               FontSize="20"
                                FontWeight="SemiBold"
-                               HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
+                </Border>
 
-                </Grid>
-            </Border>
+                <!-- Content -->
+                <Border Grid.Row="1"
+                        Background="#F5F5F5"
+                        Padding="20">
+
+                    <Grid>
+
+                        <TextBlock Text="Welcome to My Storage System"
+                                   FontSize="22"
+                                   FontWeight="SemiBold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    </Grid>
+                </Border>
+
+            </Grid>
 
         </Grid>
     </Grid>
+
 </Window>
