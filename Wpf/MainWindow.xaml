@@ -61,17 +61,17 @@
 
                 <StackPanel Margin="10">
 
-                    <TextBlock Text="MY STORAGE"
+                    <TextBlock Text="Мой склад"
                                Foreground="White"
                                FontSize="18"
                                FontWeight="Bold"
                                Margin="10"/>
 
-                    <Button Content="Dashboard" Style="{StaticResource MenuButton}"/>
-                    <Button Content="Products" Style="{StaticResource MenuButton}"/>
-                    <Button Content="Sales" Style="{StaticResource MenuButton}"/>
-                    <Button Content="Purchases" Style="{StaticResource MenuButton}"/>
-                    <Button Content="Debts" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Главная" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Продукты" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Продажи" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Покупки" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Долги" Style="{StaticResource MenuButton}"/>
                 </StackPanel>
             </Border>
 
