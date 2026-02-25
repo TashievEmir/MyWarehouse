@@ -17,10 +17,15 @@ public class MainViewModel : ViewModelBase
     {
         _navigation = navigation;
 
+        // 🔥 ВАЖНО
+        _navigation.PropertyChanged += (_, __) =>
+        {
+            OnPropertyChanged(nameof(CurrentView));
+        };
+
         ShowDashboardCommand = new RelayCommand(ShowDashboard);
         ShowProductsCommand = new RelayCommand(ShowProducts);
 
-        // стартовая страница
         ShowDashboard();
     }
 

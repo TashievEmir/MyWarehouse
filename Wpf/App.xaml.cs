@@ -63,7 +63,7 @@ namespace Wpf
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
 
             // 🔥 открываем Login через DI
-            var login = Services.GetRequiredService<LoginView>();
+            var login = Services.GetRequiredService<MainWindow>();
             login.Show();
         }
     }
