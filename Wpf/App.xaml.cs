@@ -6,6 +6,7 @@ using Application.Services;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Wpf.Services;
 using Wpf.ViewModels.Login;
 using Wpf.Views.Login;
 
@@ -44,9 +45,10 @@ namespace Wpf
             // Views
             services.AddTransient<LoginView>();
             services.AddTransient<MainWindow>();
-
+            
             // ViewModels
             services.AddTransient<LoginViewModel>();
+            services.AddSingleton<NavigationService>();
 
             _services = services.BuildServiceProvider();
             Services = _services;
