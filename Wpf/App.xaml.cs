@@ -6,6 +6,8 @@ using Application.Services;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Wpf.Services;
+using Wpf.ViewModels;
 using Wpf.ViewModels.Login;
 using Wpf.Views.Login;
 
@@ -40,13 +42,15 @@ namespace Wpf
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISalesService, SalesService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddSingleton<NavigationService>();
 
             // Views
             services.AddTransient<LoginView>();
             services.AddTransient<MainWindow>();
-
+            
             // ViewModels
             services.AddTransient<LoginViewModel>();
+            services.AddTransient<MainViewModel>();
 
             _services = services.BuildServiceProvider();
             Services = _services;
@@ -59,7 +63,7 @@ namespace Wpf
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
 
             // 🔥 открываем Login через DI
-            var login = Services.GetRequiredService<LoginView>();
+            var login = Services.GetRequiredService<MainWindow>();
             login.Show();
         }
     }
