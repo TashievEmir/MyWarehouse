@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Wpf.Views.DashBoard;
+namespace Wpf.Views.Dashboard;
 
 public partial class DashboardView : UserControl
 {

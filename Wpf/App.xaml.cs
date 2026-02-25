@@ -7,6 +7,7 @@ using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Services;
+using Wpf.ViewModels;
 using Wpf.ViewModels.Login;
 using Wpf.Views.Login;
 
@@ -41,6 +42,7 @@ namespace Wpf
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISalesService, SalesService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddSingleton<NavigationService>();
 
             // Views
             services.AddTransient<LoginView>();
@@ -48,7 +50,7 @@ namespace Wpf
             
             // ViewModels
             services.AddTransient<LoginViewModel>();
-            services.AddSingleton<NavigationService>();
+            services.AddTransient<MainViewModel>();
 
             _services = services.BuildServiceProvider();
             Services = _services;

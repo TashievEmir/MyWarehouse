@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Wpf.Views.Product;
+namespace Wpf.Views.Products;
 
 public partial class ProductsView : UserControl
 {
