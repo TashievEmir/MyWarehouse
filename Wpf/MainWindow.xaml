@@ -57,8 +57,12 @@
                                FontWeight="Bold"
                                Margin="10"/>
 
-                    <Button Content="Главная" Style="{StaticResource MenuButton}"/>
-                    <Button Content="Продукты" Style="{StaticResource MenuButton}"/>
+                    <Button Content="Главная"
+                            Style="{StaticResource MenuButton}"
+                            Command="{Binding ShowDashboardCommand}"/>
+                    <Button Content="Продукты"
+                            Style="{StaticResource MenuButton}"
+                            Command="{Binding ShowProductsCommand}"/>
                     <Button Content="Продажи" Style="{StaticResource MenuButton}"/>
                     <Button Content="Покупки" Style="{StaticResource MenuButton}"/>
                     <Button Content="Долги" Style="{StaticResource MenuButton}"/>
@@ -91,15 +95,7 @@
                         Background="#F5F5F5"
                         Padding="20">
 
-                    <Grid>
-
-                        <TextBlock Text="Welcome to My Storage System"
-                                   FontSize="22"
-                                   FontWeight="SemiBold"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-
-                    </Grid>
+                    <ContentControl Content="{Binding CurrentView}" />
                 </Border>
 
             </Grid>
