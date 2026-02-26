@@ -12,6 +12,9 @@ public class MainViewModel : ViewModelBase
 
     public ICommand ShowDashboardCommand { get; }
     public ICommand ShowProductsCommand { get; }
+    public ICommand ShowSalesCommand { get; }
+    public ICommand ShowPurchasesCommand { get; }
+    public ICommand ShowDebtsCommand { get; }
 
     public MainViewModel(NavigationService navigation)
     {
@@ -25,6 +28,9 @@ public class MainViewModel : ViewModelBase
 
         ShowDashboardCommand = new RelayCommand(ShowDashboard);
         ShowProductsCommand = new RelayCommand(ShowProducts);
+        ShowSalesCommand = new RelayCommand(ShowSales);
+        ShowPurchasesCommand = new RelayCommand(ShowPurchases);
+        ShowDebtsCommand = new RelayCommand(ShowDebts);
 
         ShowDashboard();
     }
@@ -37,5 +43,20 @@ public class MainViewModel : ViewModelBase
     private void ShowProducts()
     {
         _navigation.CurrentView = new Views.Products.ProductsView();
+    }
+    
+    private void ShowSales()
+    {
+        _navigation.CurrentView = new Views.Sales.SalesView();
+    }
+
+    private void ShowPurchases()
+    {
+        _navigation.CurrentView = new Views.Purchases.PurchasesView();
+    }
+
+    private void ShowDebts()
+    {
+        _navigation.CurrentView = new Views.Debts.DebtsView();
     }
 }
