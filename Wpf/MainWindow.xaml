@@ -41,7 +41,7 @@
 
             <!-- Sidebar + Main -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition x:Name="SidebarColumn" Width="2*"/>
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
 
@@ -55,7 +55,8 @@
                                Foreground="White"
                                FontSize="18"
                                FontWeight="Bold"
-                               Margin="10"/>
+                               Margin="10"
+                               MouseLeftButtonUp="ToggleSidebar"/>
 
                     <Button Content="Главная"
                             Style="{StaticResource MenuButton}"
