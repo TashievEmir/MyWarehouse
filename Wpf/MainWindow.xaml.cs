@@ -26,19 +26,12 @@ namespace Wpf
             DataContext = vm;
         }
         
-        private void ToggleSidebar(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ToggleSidebar(object sender, RoutedEventArgs e)
         {
-            double from = SidebarColumn.Width.Value;
-            double to = _sidebarOpened ? 60 : 220; // закрытый / открытый размер
-
-            var animation = new GridLengthAnimation
-            {
-                From = new GridLength(from),
-                To = new GridLength(to),
-                Duration = new Duration(TimeSpan.FromMilliseconds(200))
-            };
-
-            SidebarColumn.BeginAnimation(ColumnDefinition.WidthProperty, animation);
+            if (_sidebarOpened)
+                SidebarColumn.Width = new GridLength(0.5, GridUnitType.Star);
+            else
+                SidebarColumn.Width = new GridLength(1, GridUnitType.Star);
 
             _sidebarOpened = !_sidebarOpened;
         }

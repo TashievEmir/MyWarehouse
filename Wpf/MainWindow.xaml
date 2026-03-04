@@ -41,8 +41,8 @@
 
             <!-- Sidebar + Main -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="SidebarColumn" Width="2*"/>
-                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition x:Name="SidebarColumn" Width="1*"/>
+                <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Sidebar -->
@@ -51,12 +51,22 @@
 
                 <StackPanel Margin="10">
 
-                    <TextBlock Text="Мой склад"
-                               Foreground="White"
-                               FontSize="18"
-                               FontWeight="Bold"
-                               Margin="10"
-                               MouseLeftButtonUp="ToggleSidebar"/>
+                    <Button Click="ToggleSidebar"
+                            Width="40"
+                            Height="40"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="5">
+
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                   Text="&#xE700;"
+                                   FontSize="20"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    </Button>
 
                     <Button Content="Главная"
                             Style="{StaticResource MenuButton}"
