@@ -57,8 +57,8 @@
 
             <!-- Sidebar + Main -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="SidebarColumn" Width="1*"/>
-                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition x:Name="SidebarColumn" Width="220"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Sidebar -->

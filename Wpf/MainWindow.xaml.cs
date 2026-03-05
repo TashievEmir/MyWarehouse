@@ -28,25 +28,33 @@ namespace Wpf
         
         private void ToggleSidebar(object sender, RoutedEventArgs e)
         {
+            double from = SidebarColumn.Width.Value;
+            double to = _sidebarOpened ? 60 : 220;
+
+            var animation = new GridLengthAnimation
+            {
+                From = new GridLength(from),
+                To = new GridLength(to),
+                Duration = new Duration(TimeSpan.FromMilliseconds(250))
+            };
+
+            SidebarColumn.BeginAnimation(ColumnDefinition.WidthProperty, animation);
+
             if (_sidebarOpened)
             {
-                SidebarColumn.Width = new GridLength(60);
-
                 DashboardText.Visibility = Visibility.Collapsed;
-                //ProductsText.Visibility = Visibility.Collapsed;
-                //SalesText.Visibility = Visibility.Collapsed;
-                //PurchasesText.Visibility = Visibility.Collapsed;
-                //DebtsText.Visibility = Visibility.Collapsed;
+                ProductsText.Visibility = Visibility.Collapsed;
+                SalesText.Visibility = Visibility.Collapsed;
+                PurchasesText.Visibility = Visibility.Collapsed;
+                DebtsText.Visibility = Visibility.Collapsed;
             }
             else
             {
-                SidebarColumn.Width = new GridLength(220);
-
                 DashboardText.Visibility = Visibility.Visible;
-                //ProductsText.Visibility = Visibility.Visible;
-                //SalesText.Visibility = Visibility.Visible;
-                //PurchasesText.Visibility = Visibility.Visible;
-                //DebtsText.Visibility = Visibility.Visible;
+                ProductsText.Visibility = Visibility.Visible;
+                SalesText.Visibility = Visibility.Visible;
+                PurchasesText.Visibility = Visibility.Visible;
+                DebtsText.Visibility = Visibility.Visible;
             }
 
             _sidebarOpened = !_sidebarOpened;

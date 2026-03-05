@@ -30,15 +30,15 @@ public class GridLengthAnimation : AnimationTimeline
         return new GridLengthAnimation();
     }
 
-    public override object GetCurrentValue(object defaultOriginValue, object defaultDestinationValue, AnimationClock animationClock)
+    public override object GetCurrentValue(object defaultOriginValue, object defaultDestinationValue, AnimationClock clock)
     {
-        double fromVal = From.Value;
-        double toVal = To.Value;
+        double from = From.Value;
+        double to = To.Value;
 
-        double progress = animationClock.CurrentProgress ?? 0;
+        double progress = clock.CurrentProgress ?? 0;
 
-        double current = fromVal + (toVal - fromVal) * progress;
+        double value = from + (to - from) * progress;
 
-        return new GridLength(current, GridUnitType.Pixel);
+        return new GridLength(value, GridUnitType.Pixel);
     }
 }
