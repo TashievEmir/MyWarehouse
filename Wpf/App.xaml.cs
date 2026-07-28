@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Wpf.Services;
 using Wpf.ViewModels;
 using Wpf.ViewModels.Login;
+using Wpf.ViewModels.Products;
 using Wpf.Views.Login;
+using Wpf.Views.Products;
 
 namespace Wpf
 {
@@ -42,15 +44,18 @@ namespace Wpf
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ISalesService, SalesService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IInventoryService, InventoryService>();
             services.AddSingleton<NavigationService>();
 
             // Views
             services.AddTransient<LoginView>();
             services.AddTransient<MainWindow>();
+            services.AddTransient<ProductsView>();
             
             // ViewModels
             services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
+            services.AddTransient<ProductsViewModel>();
 
             _services = services.BuildServiceProvider();
             Services = _services;
