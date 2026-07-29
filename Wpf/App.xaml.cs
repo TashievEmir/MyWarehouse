@@ -45,6 +45,8 @@ namespace Wpf
             services.AddScoped<ISalesService, SalesService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
 

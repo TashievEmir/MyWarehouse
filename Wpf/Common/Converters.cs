@@ -45,6 +45,30 @@ public class MinWidthToVisibilityConverter : IValueConverter
 }
 
 /// <summary>
+/// Пустая строка -> Visible. Нужен для подсказок поверх пустых полей ввода.
+/// </summary>
+public class EmptyStringToVisibilityConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => string.IsNullOrEmpty(value as string) ? Visibility.Visible : Visibility.Collapsed;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+/// <summary>
+/// null -> Visible. Нужен для подсказок в полях, где значение выбирается, а не вводится.
+/// </summary>
+public class NullToVisibilityConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is null ? Visibility.Visible : Visibility.Collapsed;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+/// <summary>
 /// true, если все переданные значения равны. Нужен для подсветки активного пункта меню.
 /// </summary>
 public class EqualsConverter : IMultiValueConverter
