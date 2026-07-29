@@ -418,3 +418,6 @@ FodyWeavers.xsd
 *.msp
 
 .idea/
+
+# Claude Code temporary files
+.claude-tmp/
