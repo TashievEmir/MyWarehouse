@@ -80,7 +80,7 @@ public class MainViewModel : ViewModelBase
 
     private void ShowProducts()
     {
-        Navigate(new Views.Products.ProductsView(), "Products", "Продукты", "Товары и остатки на складе");
+        Navigate(new Views.Products.ProductsView(), "Products", "Товары", "Остатки на складе и приём товара");
     }
 
     private void ShowSales()

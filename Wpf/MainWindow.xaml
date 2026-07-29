@@ -239,7 +239,7 @@
                                 Command="{Binding ShowDashboardCommand}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Продукты"
+                                Content="Товары"
                                 common:Nav.Icon="PackageVariantClosed"
                                 common:Nav.PageKey="Products"
                                 Command="{Binding ShowProductsCommand}"/>
