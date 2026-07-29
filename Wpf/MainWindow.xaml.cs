@@ -1,13 +1,7 @@
-﻿using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media.Animation;
+using MaterialDesignThemes.Wpf;
 using Wpf.Common;
 using Wpf.ViewModels;
 
@@ -18,46 +12,75 @@ namespace Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool _sidebarOpened = true;
-        
+        private const double ExpandedWidth = 240;
+        private const double CollapsedWidth = 72;
+
+        /// <summary>Ниже этой ширины окна меню сворачивается автоматически.</summary>
+        private const double AutoCollapseWidth = 1100;
+
+        private bool? _isNarrow;
+
+        public static readonly DependencyProperty IsSidebarCollapsedProperty =
+            DependencyProperty.Register(
+                nameof(IsSidebarCollapsed),
+                typeof(bool),
+                typeof(MainWindow),
+                new PropertyMetadata(false));
+
+        /// <summary>Состояние меню. XAML привязывается к нему, чтобы прятать подписи.</summary>
+        public bool IsSidebarCollapsed
+        {
+            get => (bool)GetValue(IsSidebarCollapsedProperty);
+            private set => SetValue(IsSidebarCollapsedProperty, value);
+        }
+
         public MainWindow(MainViewModel vm)
         {
             InitializeComponent();
+
             DataContext = vm;
+
+            SizeChanged += OnSizeChanged;
         }
-        
+
         private void ToggleSidebar(object sender, RoutedEventArgs e)
         {
-            double from = SidebarColumn.Width.Value;
-            double to = _sidebarOpened ? 60 : 220;
+            SetSidebarCollapsed(!IsSidebarCollapsed);
+        }
+
+        /// <summary>
+        /// Меню сворачивается/разворачивается само при пересечении контрольной ширины.
+        /// Внутри одного диапазона ручной выбор пользователя не сбрасывается.
+        /// </summary>
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (!e.WidthChanged) return;
+
+            var isNarrow = e.NewSize.Width < AutoCollapseWidth;
+
+            if (_isNarrow == isNarrow) return;
+
+            _isNarrow = isNarrow;
+
+            SetSidebarCollapsed(isNarrow);
+        }
+
+        private void SetSidebarCollapsed(bool collapsed)
+        {
+            if (IsSidebarCollapsed == collapsed) return;
+
+            IsSidebarCollapsed = collapsed;
+            ToggleIcon.Kind = collapsed ? PackIconKind.Menu : PackIconKind.Backburger;
 
             var animation = new GridLengthAnimation
             {
-                From = new GridLength(from),
-                To = new GridLength(to),
-                Duration = new Duration(TimeSpan.FromMilliseconds(250))
+                From = new GridLength(SidebarColumn.ActualWidth),
+                To = new GridLength(collapsed ? CollapsedWidth : ExpandedWidth),
+                Duration = new Duration(TimeSpan.FromMilliseconds(220)),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseInOut }
             };
 
             SidebarColumn.BeginAnimation(ColumnDefinition.WidthProperty, animation);
-
-            if (_sidebarOpened)
-            {
-                DashboardText.Visibility = Visibility.Collapsed;
-                ProductsText.Visibility = Visibility.Collapsed;
-                SalesText.Visibility = Visibility.Collapsed;
-                PurchasesText.Visibility = Visibility.Collapsed;
-                DebtsText.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                DashboardText.Visibility = Visibility.Visible;
-                ProductsText.Visibility = Visibility.Visible;
-                SalesText.Visibility = Visibility.Visible;
-                PurchasesText.Visibility = Visibility.Visible;
-                DebtsText.Visibility = Visibility.Visible;
-            }
-
-            _sidebarOpened = !_sidebarOpened;
         }
     }
 }

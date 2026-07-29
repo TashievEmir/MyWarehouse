@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Globalization;
+using System.Windows.Input;
 using Wpf.Common;
 using Wpf.Services;
 
@@ -6,9 +7,39 @@ namespace Wpf.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
+    private static readonly CultureInfo RussianCulture = new("ru-RU");
+
     private readonly NavigationService _navigation;
+    private readonly SessionService _session;
 
     public object CurrentView => _navigation.CurrentView;
+
+    private string _currentPage = "";
+    /// <summary>Ключ активной страницы — по нему подсвечивается пункт меню.</summary>
+    public string CurrentPage
+    {
+        get => _currentPage;
+        private set => SetProperty(ref _currentPage, value);
+    }
+
+    private string _pageTitle = "";
+    public string PageTitle
+    {
+        get => _pageTitle;
+        private set => SetProperty(ref _pageTitle, value);
+    }
+
+    private string _pageSubtitle = "";
+    public string PageSubtitle
+    {
+        get => _pageSubtitle;
+        private set => SetProperty(ref _pageSubtitle, value);
+    }
+
+    public string UserName => _session.DisplayName;
+    public string UserRole => _session.RoleTitle;
+
+    public string Today => DateTime.Now.ToString("d MMMM yyyy", RussianCulture);
 
     public ICommand ShowDashboardCommand { get; }
     public ICommand ShowProductsCommand { get; }
@@ -16,14 +47,21 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowPurchasesCommand { get; }
     public ICommand ShowDebtsCommand { get; }
 
-    public MainViewModel(NavigationService navigation)
+    public MainViewModel(NavigationService navigation, SessionService session)
     {
         _navigation = navigation;
+        _session = session;
 
         // 🔥 ВАЖНО
         _navigation.PropertyChanged += (_, __) =>
         {
             OnPropertyChanged(nameof(CurrentView));
+        };
+
+        _session.PropertyChanged += (_, __) =>
+        {
+            OnPropertyChanged(nameof(UserName));
+            OnPropertyChanged(nameof(UserRole));
         };
 
         ShowDashboardCommand = new RelayCommand(ShowDashboard);
@@ -37,26 +75,35 @@ public class MainViewModel : ViewModelBase
 
     private void ShowDashboard()
     {
-        _navigation.CurrentView = new Views.Dashboard.DashboardView();
+        Navigate(new Views.Dashboard.DashboardView(), "Dashboard", "Главная", "Общее состояние склада");
     }
 
     private void ShowProducts()
     {
-        _navigation.CurrentView = new Views.Products.ProductsView();
+        Navigate(new Views.Products.ProductsView(), "Products", "Продукты", "Товары и остатки на складе");
     }
-    
+
     private void ShowSales()
     {
-        _navigation.CurrentView = new Views.Sales.SalesView();
+        Navigate(new Views.Sales.SalesView(), "Sales", "Продажи", "История продаж и выручка");
     }
 
     private void ShowPurchases()
     {
-        _navigation.CurrentView = new Views.Purchases.PurchasesView();
+        Navigate(new Views.Purchases.PurchasesView(), "Purchases", "Покупки", "Поставки и закупки товара");
     }
 
     private void ShowDebts()
     {
-        _navigation.CurrentView = new Views.Debts.DebtsView();
+        Navigate(new Views.Debts.DebtsView(), "Debts", "Долги", "Задолженности контрагентов");
+    }
+
+    private void Navigate(object view, string pageKey, string title, string subtitle)
+    {
+        _navigation.CurrentView = view;
+
+        CurrentPage = pageKey;
+        PageTitle = title;
+        PageSubtitle = subtitle;
     }
 }

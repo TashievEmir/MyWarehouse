@@ -25,6 +25,15 @@ public class GridLengthAnimation : AnimationTimeline
     public static readonly DependencyProperty ToProperty =
         DependencyProperty.Register(nameof(To), typeof(GridLength), typeof(GridLengthAnimation));
 
+    public IEasingFunction? EasingFunction
+    {
+        get => (IEasingFunction?)GetValue(EasingFunctionProperty);
+        set => SetValue(EasingFunctionProperty, value);
+    }
+
+    public static readonly DependencyProperty EasingFunctionProperty =
+        DependencyProperty.Register(nameof(EasingFunction), typeof(IEasingFunction), typeof(GridLengthAnimation));
+
     protected override Freezable CreateInstanceCore()
     {
         return new GridLengthAnimation();
@@ -36,6 +45,9 @@ public class GridLengthAnimation : AnimationTimeline
         double to = To.Value;
 
         double progress = clock.CurrentProgress ?? 0;
+
+        if (EasingFunction is { } easing)
+            progress = easing.Ease(progress);
 
         double value = from + (to - from) * progress;
 

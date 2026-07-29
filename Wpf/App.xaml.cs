@@ -46,6 +46,7 @@ namespace Wpf
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddSingleton<NavigationService>();
+            services.AddSingleton<SessionService>();
 
             // Views
             services.AddTransient<LoginView>();

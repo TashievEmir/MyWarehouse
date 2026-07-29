@@ -5,6 +5,7 @@ using Application.Contracts.Interfaces;
 using Application.DTOs.Auths;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Common;
+using Wpf.Services;
 using Wpf.Views.Login;
 
 namespace Wpf.ViewModels.Login;
@@ -12,6 +13,7 @@ namespace Wpf.ViewModels.Login;
 public class LoginViewModel : ViewModelBase
 {
     private readonly IAuthService _auth;
+    private readonly SessionService _session;
 
     private string _username;
     public string Username
@@ -29,9 +31,10 @@ public class LoginViewModel : ViewModelBase
 
     public ICommand LoginCommand { get; }
 
-    public LoginViewModel(IAuthService auth)
+    public LoginViewModel(IAuthService auth, SessionService session)
     {
         _auth = auth;
+        _session = session;
         LoginCommand = new RelayCommand<PasswordBox>(Login);
     }
 
@@ -48,6 +51,8 @@ public class LoginViewModel : ViewModelBase
                 CancellationToken.None);
 
             ErrorMessage = "";
+
+            _session.User = user;
 
             MessageBox.Show($"Welcome {user.Username}");
 
