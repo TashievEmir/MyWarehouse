@@ -56,6 +56,51 @@ public class RelayCommand : ICommand
     }
 }
 
+public class AsyncRelayCommand<T> : ICommand
+{
+    private readonly Func<T, Task> _execute;
+    private readonly Predicate<T>? _canExecute;
+    private bool _isExecuting;
+
+    public AsyncRelayCommand(Func<T, Task> execute, Predicate<T>? canExecute = null)
+    {
+        _execute = execute;
+        _canExecute = canExecute;
+    }
+
+    public bool CanExecute(object? parameter)
+    {
+        if (_isExecuting) return false;
+
+        return _canExecute == null || (parameter is T t && _canExecute(t));
+    }
+
+    public async void Execute(object? parameter)
+    {
+        if (_isExecuting || parameter is not T t) return;
+
+        try
+        {
+            _isExecuting = true;
+            RaiseCanExecuteChanged();
+
+            await _execute(t);
+        }
+        finally
+        {
+            _isExecuting = false;
+            RaiseCanExecuteChanged();
+        }
+    }
+
+    public event EventHandler? CanExecuteChanged;
+
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+}
+
 public class AsyncRelayCommand : ICommand
 {
     private readonly Func<Task> _execute;

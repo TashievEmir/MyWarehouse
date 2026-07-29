@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.ViewModels.Products;
 
@@ -15,6 +16,15 @@ public partial class ProductsView : UserControl
 
         // Сканер работает как клавиатура — поле ввода штрихкода должно быть под фокусом
         Loaded += (_, _) => BarcodeBox.Focus();
+    }
+
+    /// <summary>Поле новой категории появляется по выбору в списке — сразу даём в него печатать.</summary>
+    private void OnCategoryEditorVisible(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (sender is not TextBox box || !box.IsVisible)
+            return;
+
+        box.Dispatcher.BeginInvoke(new Action(() => box.Focus()), DispatcherPriority.Input);
     }
 
     /// <summary>Кнопки панели прихода возвращают фокус сканеру.</summary>

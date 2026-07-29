@@ -184,7 +184,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*" MinWidth="150"/>
-                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="215"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="90"/>
                         <ColumnDefinition Width="Auto"/>
@@ -247,20 +247,85 @@
                                    Foreground="{StaticResource TextSecondaryBrush}"
                                    Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}"/>
 
-                        <ComboBox Style="{StaticResource FieldCombo}"
-                                  Height="32"
-                                  FontSize="12"
-                                  Tag="Категория"
-                                  ItemsSource="{Binding DataContext.AvailableCategories, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                  SelectedItem="{Binding Category, Mode=TwoWay}"
-                                  Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}">
+                        <Grid Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}">
 
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                            <ComboBox Style="{StaticResource FieldCombo}"
+                                      Height="32"
+                                      FontSize="12"
+                                      Tag="Категория"
+                                      ItemsSource="{Binding DataContext.CategoryOptions, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                                      Visibility="{Binding IsCreatingCategory, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsCreateNew}" Value="True">
+                                                            <Setter Property="Foreground" Value="{StaticResource BrandBrush}"/>
+                                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <!-- Ввод названия новой категории -->
+                            <Grid Visibility="{Binding IsCreatingCategory, Converter={StaticResource BoolToVisibility}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <TextBox Style="{StaticResource Field}"
+                                             Height="32"
+                                             FontSize="12"
+                                             IsVisibleChanged="OnCategoryEditorVisible"
+                                             Text="{Binding NewCategoryName, UpdateSourceTrigger=PropertyChanged}">
+
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Enter"
+                                                        Command="{Binding DataContext.CreateCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}"/>
+                                            <KeyBinding Key="Escape" Command="{Binding CancelNewCategoryCommand}"/>
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+
+                                    <TextBlock Text="Название категории"
+                                               FontSize="12"
+                                               Margin="12,0,0,0"
+                                               IsHitTestVisible="False"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextSecondaryBrush}"
+                                               Visibility="{Binding NewCategoryName, Converter={StaticResource EmptyToVisibility}}"/>
+                                </Grid>
+
+                                <Button Grid.Column="1"
+                                        Style="{StaticResource MiniIconButton}"
+                                        Margin="2,0,0,0"
+                                        ToolTip="Создать категорию"
+                                        Command="{Binding DataContext.CreateCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}">
+
+                                    <materialDesign:PackIcon Kind="Check" Width="16" Height="16"/>
+                                </Button>
+
+                                <Button Grid.Column="2"
+                                        Style="{StaticResource MiniIconButton}"
+                                        ToolTip="Отменить"
+                                        Command="{Binding CancelNewCategoryCommand}">
+
+                                    <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </Grid>
 
                     <!-- Количество -->

@@ -17,8 +17,8 @@ public class ProductsViewModel : ViewModelBase
     /// <summary>Статистика: категории с товарами внутри.</summary>
     public ObservableCollection<CategoryStatItem> Stats { get; } = new();
 
-    /// <summary>Категории для выбора у новых товаров.</summary>
-    public ObservableCollection<CategoryResponse> AvailableCategories { get; } = new();
+    /// <summary>Категории для выбора у новых товаров, последний пункт — «создать новую».</summary>
+    public ObservableCollection<CategoryOption> CategoryOptions { get; } = new();
 
     /// <summary>Отсканированные товары, ещё не записанные в базу.</summary>
     public ObservableCollection<ScannedProductItem> Scanned { get; } = new();
@@ -28,6 +28,7 @@ public class ProductsViewModel : ViewModelBase
     public ICommand ScanCommand { get; }
     public ICommand RemoveScannedCommand { get; }
     public ICommand ClearScannedCommand { get; }
+    public ICommand CreateCategoryCommand { get; }
     public ICommand SaveCommand { get; }
 
     public ProductsViewModel(IProductService products, ICategoryService categories)
@@ -40,6 +41,7 @@ public class ProductsViewModel : ViewModelBase
         ScanCommand = new AsyncRelayCommand(ScanAsync);
         RemoveScannedCommand = new RelayCommand<ScannedProductItem>(RemoveScanned);
         ClearScannedCommand = new RelayCommand(ClearScanned);
+        CreateCategoryCommand = new AsyncRelayCommand<ScannedProductItem>(CreateCategoryAsync);
         SaveCommand = new AsyncRelayCommand(SaveAsync);
 
         Scanned.CollectionChanged += OnScannedChanged;
@@ -184,15 +186,81 @@ public class ProductsViewModel : ViewModelBase
         {
             var categories = await _categories.GetAllAsync(CancellationToken.None);
 
-            AvailableCategories.Clear();
+            CategoryOptions.Clear();
 
             foreach (var category in categories.OrderBy(c => c.Name))
-                AvailableCategories.Add(category);
+                CategoryOptions.Add(CategoryOption.For(category));
+
+            CategoryOptions.Add(CategoryOption.CreateNew());
         }
         catch (Exception ex)
         {
             ShowError($"Не удалось загрузить категории: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Заводит категорию прямо из строки сканирования — для товара,
+    /// который не подходит ни под одну из существующих.
+    /// </summary>
+    private async Task CreateCategoryAsync(ScannedProductItem item)
+    {
+        var name = item.NewCategoryName.Trim();
+
+        if (name.Length == 0)
+        {
+            ShowError("Введите название категории");
+            return;
+        }
+
+        var existing = CategoryOptions.FirstOrDefault(o =>
+            o.Category is not null &&
+            string.Equals(o.Category.Name, name, StringComparison.CurrentCultureIgnoreCase));
+
+        if (existing is not null)
+        {
+            item.ApplyCategory(existing);
+            ShowInfo($"Категория «{existing.Category!.Name}» уже есть — выбрана она");
+            return;
+        }
+
+        try
+        {
+            var id = await _categories.CreateAsync(new CreateCategoryRequest { Name = name }, CancellationToken.None);
+            var created = await _categories.GetAsync(id, CancellationToken.None);
+
+            if (created is null)
+            {
+                ShowError("Не удалось создать категорию");
+                return;
+            }
+
+            var option = CategoryOption.For(created);
+
+            InsertCategoryOption(option);
+            item.ApplyCategory(option);
+
+            ShowInfo($"Категория «{created.Name}» добавлена");
+        }
+        catch (Exception ex)
+        {
+            ShowError($"Не удалось создать категорию: {ex.Message}");
+        }
+    }
+
+    /// <summary>Вставляет категорию по алфавиту, но перед пунктом «создать новую».</summary>
+    private void InsertCategoryOption(CategoryOption option)
+    {
+        var index = 0;
+
+        while (index < CategoryOptions.Count &&
+               CategoryOptions[index].Category is { } current &&
+               string.Compare(current.Name, option.Category!.Name, StringComparison.CurrentCulture) < 0)
+        {
+            index++;
+        }
+
+        CategoryOptions.Insert(index, option);
     }
 
     private async Task LoadStatsAsync()
@@ -345,8 +413,8 @@ public class ProductsViewModel : ViewModelBase
 
     // ===================== Вспомогательное =====================
 
-    private CategoryResponse? FindCategory(long categoryId)
-        => AvailableCategories.FirstOrDefault(c => c.Id == categoryId);
+    private CategoryOption? FindCategory(long categoryId)
+        => CategoryOptions.FirstOrDefault(o => o.Category?.Id == categoryId);
 
     private static string DisplayName(ScannedProductItem item)
         => string.IsNullOrWhiteSpace(item.Name) ? item.Barcode : item.Name;

@@ -54,10 +54,10 @@ public class DatabaseSeeder
             return;
 
         db.Categories.AddRange(
-            new Category("Electronics", null),
-            new Category("Food", null),
-            new Category("Clothes", null),
-            new Category("Office", null)
+            new Category("Электроника", null),
+            new Category("Продукты питания", null),
+            new Category("Одежда", null),
+            new Category("Канцтовары", null)
         );
 
         await db.SaveChangesAsync(ct);

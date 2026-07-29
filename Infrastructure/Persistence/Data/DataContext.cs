@@ -45,6 +45,13 @@ namespace Infrastructure.Persistence.Data
             modelBuilder.Entity<PurchaseItem>()
                 .HasKey(x => new { x.PurchaseId, x.ProductId });
 
+            // Штрихкод определяет товар: две карточки с одним кодом развели бы
+            // остатки по разным товарам. NULL в SQLite между собой не конфликтуют,
+            // поэтому товары без штрихкода индекс не задевает.
+            modelBuilder.Entity<Product>()
+                .HasIndex(p => p.Barcode)
+                .IsUnique();
+
             // Inventory 1:1 Product
             modelBuilder.Entity<Inventory>()
                 .HasOne(i => i.Product)
