@@ -61,7 +61,9 @@ namespace Wpf
             // ViewModels
             services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
-            services.AddTransient<ProductsViewModel>();
+            services.AddTransient<ProductsPageViewModel>();
+            services.AddTransient<ProductCatalogViewModel>();
+            services.AddTransient<ReceivingViewModel>();
             services.AddTransient<StatisticsViewModel>();
 
             // Касса живёт всё время работы приложения: открытые чеки

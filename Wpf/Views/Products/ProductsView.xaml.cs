@@ -12,7 +12,7 @@ public partial class ProductsView : UserControl
     public ProductsView()
     {
         InitializeComponent();
-        DataContext = App.Services.GetRequiredService<ProductsViewModel>();
+        DataContext = App.Services.GetRequiredService<ProductsPageViewModel>();
 
         // Сканер работает как клавиатура — поле ввода штрихкода должно быть под фокусом
         Loaded += (_, _) => BarcodeBox.Focus();

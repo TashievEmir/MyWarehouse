@@ -23,6 +23,7 @@ namespace Infrastructure.Persistence.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<DebtPayment> DebtPayments => Set<DebtPayment>();
+        public DbSet<StockWriteOff> StockWriteOffs => Set<StockWriteOff>();
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
         => Database.BeginTransactionAsync(ct);

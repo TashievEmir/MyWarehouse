@@ -22,6 +22,7 @@ namespace Application.Contracts.Persistence
         DbSet<User> Users { get; }
         DbSet<Role> Roles { get; }
         DbSet<DebtPayment> DebtPayments { get; }
+        DbSet<StockWriteOff> StockWriteOffs { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

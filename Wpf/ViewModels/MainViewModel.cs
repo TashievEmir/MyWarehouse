@@ -80,7 +80,7 @@ public class MainViewModel : ViewModelBase
 
     private void ShowProducts()
     {
-        Navigate(new Views.Products.ProductsView(), "Products", "Товары", "Приём товара по штрихкоду");
+        Navigate(new Views.Products.ProductsView(), "Products", "Товары", "Каталог товаров и приёмка по штрихкоду");
     }
 
     private void ShowSales()

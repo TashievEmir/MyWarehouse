@@ -13,7 +13,9 @@ namespace Wpf.ViewModels.Products;
 /// Приём товара по штрихкоду: сканирование партии и запись прихода на склад.
 /// Остатки и статистика живут на странице «Статистика».
 /// </summary>
-public class ProductsViewModel : ViewModelBase
+/// <remarks>После удачного прихода поднимает <see cref="Received"/>,
+/// чтобы каталог перечитал изменившиеся карточки и остатки.</remarks>
+public class ReceivingViewModel : ViewModelBase
 {
     private readonly IProductService _products;
     private readonly ICategoryService _categories;
@@ -30,7 +32,10 @@ public class ProductsViewModel : ViewModelBase
     public ICommand CreateCategoryCommand { get; }
     public ICommand SaveCommand { get; }
 
-    public ProductsViewModel(IProductService products, ICategoryService categories)
+    /// <summary>Приход записан — каталог и остатки изменились.</summary>
+    public event Action? Received;
+
+    public ReceivingViewModel(IProductService products, ICategoryService categories)
     {
         _products = products;
         _categories = categories;
@@ -283,6 +288,8 @@ public class ProductsViewModel : ViewModelBase
             await _products.ReceiveAsync(request, CancellationToken.None);
 
             ClearScanned();
+
+            Received?.Invoke();
 
             ShowInfo($"Добавлено {positions} поз. · {quantity} шт. — остатки видны в «Статистике»");
         }

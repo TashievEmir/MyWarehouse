@@ -100,6 +100,157 @@ namespace Application.Services
                 .FirstOrDefaultAsync(ct);
         }
 
+        public async Task<List<ProductListItemResponse>> GetCatalogAsync(string? search, CancellationToken ct)
+        {
+            var catalog = await _db.Products
+                .AsNoTracking()
+                .OrderBy(p => p.Name)
+                .Select(p => new ProductListItemResponse
+                {
+                    ProductId = p.Id,
+                    Name = p.Name,
+                    SKU = p.SKU,
+                    Barcode = p.Barcode,
+                    Description = p.Description,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name,
+                    PricePerUnit = p.PricePerUnit,
+                    CostPerUnit = p.CostPerUnit,
+                    InStock = p.Inventory != null ? p.Inventory.Quantity : 0,
+                    HasHistory = p.SaleItems.Any()
+                                 || p.PurchaseItems.Any()
+                                 || _db.StockWriteOffs.Any(w => w.ProductId == p.Id)
+                })
+                .ToListAsync(ct);
+
+            if (string.IsNullOrWhiteSpace(search))
+                return catalog;
+
+            // LIKE в SQLite не учитывает регистр только для латиницы, поэтому
+            // «кола» не нашла бы «Кола» — ищем в памяти по правилам культуры.
+            var term = search.Trim();
+
+            return catalog
+                .Where(p =>
+                    Contains(p.Name, term) ||
+                    Contains(p.SKU, term) ||
+                    Contains(p.Barcode, term) ||
+                    Contains(p.CategoryName, term))
+                .ToList();
+        }
+
+        private static bool Contains(string? value, string term)
+            => value is not null && value.Contains(term, StringComparison.CurrentCultureIgnoreCase);
+
+        public async Task UpdateAsync(UpdateProductRequest request, CancellationToken ct)
+        {
+            var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == request.ProductId, ct)
+                ?? throw new DomainException("Товар не найден");
+
+            var name = (request.Name ?? "").Trim();
+
+            if (name.Length == 0)
+                throw new DomainException("Укажите название товара");
+
+            if (request.PricePerUnit <= 0)
+                throw new DomainException("Укажите цену продажи");
+
+            if (request.CostPerUnit is < 0)
+                throw new DomainException("Цена закупки не может быть отрицательной");
+
+            if (!await _db.Categories.AnyAsync(c => c.Id == request.CategoryId, ct))
+                throw new DomainException("Категория не найдена");
+
+            var barcode = string.IsNullOrWhiteSpace(request.Barcode) ? null : request.Barcode.Trim();
+
+            // Штрихкод уникален: без своей проверки пользователь увидел бы ошибку SQLite
+            if (barcode is not null &&
+                await _db.Products.AnyAsync(p => p.Barcode == barcode && p.Id != product.Id, ct))
+            {
+                throw new DomainException($"Штрихкод {barcode} уже занят другим товаром");
+            }
+
+            var sku = (request.SKU ?? "").Trim();
+
+            product.Name = name;
+            product.SKU = sku.Length > 0 ? sku : barcode ?? product.SKU;
+            product.Barcode = barcode;
+            product.Description = string.IsNullOrWhiteSpace(request.Description) ? null : request.Description.Trim();
+            product.CategoryId = request.CategoryId;
+            product.PricePerUnit = request.PricePerUnit;
+            product.CostPerUnit = request.CostPerUnit;
+
+            await _db.SaveChangesAsync(ct);
+        }
+
+        public async Task WriteOffAsync(WriteOffProductRequest request, CancellationToken ct)
+        {
+            if (request.Quantity <= 0)
+                throw new DomainException("Количество должно быть больше нуля");
+
+            if (request.UserId <= 0)
+                throw new DomainException("Не указан сотрудник");
+
+            var product = await _db.Products
+                .Where(p => p.Id == request.ProductId)
+                .Select(p => new { p.Id, p.Name })
+                .FirstOrDefaultAsync(ct)
+                ?? throw new DomainException("Товар не найден");
+
+            await using var tx = await _db.BeginTransactionAsync(ct);
+
+            try
+            {
+                var inventory = await _db.Inventories
+                    .FirstOrDefaultAsync(x => x.ProductId == request.ProductId, ct)
+                    ?? throw new DomainException("Остатка по товару нет");
+
+                if (inventory.Quantity < request.Quantity)
+                    throw new DomainException($"«{product.Name}»: на складе {inventory.Quantity} шт., списать {request.Quantity} нельзя");
+
+                inventory.Decrease(request.Quantity);
+
+                _db.StockWriteOffs.Add(new StockWriteOff(
+                    request.ProductId,
+                    request.UserId,
+                    request.Quantity,
+                    request.Reason,
+                    string.IsNullOrWhiteSpace(request.Comment) ? null : request.Comment.Trim()));
+
+                await _db.SaveChangesAsync(ct);
+                await tx.CommitAsync(ct);
+            }
+            catch
+            {
+                await tx.RollbackAsync(ct);
+                throw;
+            }
+        }
+
+        public async Task DeleteAsync(long productId, CancellationToken ct)
+        {
+            var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == productId, ct)
+                ?? throw new DomainException("Товар не найден");
+
+            if (await _db.SaleItems.AnyAsync(x => x.ProductId == productId, ct))
+                throw new DomainException($"«{product.Name}» продавался — удаление стёрло бы историю продаж. Спишите остаток вместо удаления");
+
+            if (await _db.PurchaseItems.AnyAsync(x => x.ProductId == productId, ct))
+                throw new DomainException($"«{product.Name}» есть в поставках — удаление стёрло бы историю приходов. Спишите остаток вместо удаления");
+
+            if (await _db.StockWriteOffs.AnyAsync(x => x.ProductId == productId, ct))
+                throw new DomainException($"По «{product.Name}» уже были списания — карточку удалять нельзя");
+
+            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ProductId == productId, ct);
+
+            if (inventory is not null)
+                _db.Inventories.Remove(inventory);
+
+            _db.Products.Remove(product);
+
+            await _db.SaveChangesAsync(ct);
+        }
+
         public async Task<long> ReceiveAsync(ReceiveProductsRequest request, CancellationToken ct)
         {
             if (request.Items.Count == 0)
