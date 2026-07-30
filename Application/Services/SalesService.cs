@@ -2,6 +2,8 @@
 using Application.Contracts.Persistence;
 using Application.DTOs.Sales;
 using Domain.Entities;
+using Domain.Enums;
+using Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,23 +22,98 @@ namespace Application.Services
 
         public async Task<long> CreateSaleAsync(CreateSaleRequest request, CancellationToken ct)
         {
+            if (request.Items.Count == 0)
+                throw new DomainException("Чек пуст");
+
+            if (request.UserId <= 0)
+                throw new DomainException("Не указан продавец");
+
+            if (request.PaymentMethod == PaymentMethod.Credit && request.CustomerId is null)
+                throw new DomainException("Для продажи в долг нужно выбрать клиента");
+
+            if (request.CustomerId is { } customerId &&
+                !await _db.Customers.AnyAsync(x => x.Id == customerId, ct))
+            {
+                throw new DomainException("Клиент не найден");
+            }
+
+            // В чеке позиция на товар одна — одинаковые товары складываем,
+            // иначе не пройдёт составной ключ SaleItems.
+            var lines = request.Items
+                .GroupBy(x => x.ProductId)
+                .Select(g => new
+                {
+                    ProductId = g.Key,
+                    Quantity = g.Sum(x => x.Quantity),
+                    Price = g.First().Price
+                })
+                .ToList();
+
+            var subtotal = lines.Sum(l => l.Price * l.Quantity);
+
+            if (request.DiscountAmount < 0)
+                throw new DomainException("Скидка не может быть отрицательной");
+
+            if (request.DiscountAmount > subtotal)
+                throw new DomainException($"Скидка {request.DiscountAmount:N2} больше суммы чека {subtotal:N2}");
+
             await using var tx = await _db.BeginTransactionAsync(ct);
 
             try
             {
                 var sale = new Sale(request.CustomerId, request.UserId);
 
-                foreach (var item in request.Items)
+                foreach (var line in lines)
                 {
+                    if (line.Quantity <= 0)
+                        throw new DomainException("Количество должно быть больше нуля");
+
+                    if (line.Price < 0)
+                        throw new DomainException("Цена не может быть отрицательной");
+
                     var inventory = await _db.Inventories
-                        .FirstAsync(x => x.ProductId == item.ProductId, ct);
+                        .FirstOrDefaultAsync(x => x.ProductId == line.ProductId, ct)
+                        ?? throw new DomainException("Товар не найден на складе");
 
-                    inventory.Decrease(item.Quantity);
+                    if (inventory.Quantity < line.Quantity)
+                    {
+                        var name = await _db.Products
+                            .Where(p => p.Id == line.ProductId)
+                            .Select(p => p.Name)
+                            .FirstOrDefaultAsync(ct);
 
-                    sale.AddItem(item.ProductId, item.Quantity, item.Price);
+                        throw new DomainException(
+                            $"«{name}»: на складе {inventory.Quantity} шт., а в чеке {line.Quantity}");
+                    }
+
+                    inventory.Decrease(line.Quantity);
+
+                    sale.AddItem(line.ProductId, line.Quantity, line.Price);
                 }
 
-                sale.Pay(request.PaidAmount);
+                sale.ApplyDiscount(request.DiscountAmount);
+                sale.SetPaymentMethod(request.PaymentMethod);
+
+                if (request.PaymentMethod == PaymentMethod.Credit)
+                {
+                    if (request.PaidAmount < 0)
+                        throw new DomainException("Предоплата не может быть отрицательной");
+
+                    if (request.PaidAmount > sale.TotalAmount)
+                        throw new DomainException("Предоплата больше суммы чека");
+
+                    if (request.PaidAmount > 0)
+                        sale.Pay(request.PaidAmount);
+                }
+                else
+                {
+                    if (request.PaidAmount < sale.TotalAmount)
+                        throw new DomainException("Оплата меньше суммы чека");
+
+                    // сдача не хранится: чек оплачен ровно на свою сумму
+                    if (sale.TotalAmount > 0)
+                        sale.Pay(sale.TotalAmount);
+                }
 
                 _db.Sales.Add(sale);
                 await _db.SaveChangesAsync(ct);
@@ -49,7 +126,6 @@ namespace Application.Services
                 await tx.RollbackAsync(ct);
                 throw;
             }
-            
         }
 
         public async Task<SaleResponse?> GetSaleAsync(long saleId, CancellationToken ct)

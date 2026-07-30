@@ -10,6 +10,7 @@ using Wpf.Services;
 using Wpf.ViewModels;
 using Wpf.ViewModels.Login;
 using Wpf.ViewModels.Products;
+using Wpf.ViewModels.Sales;
 using Wpf.Views.Login;
 using Wpf.Views.Products;
 
@@ -47,6 +48,7 @@ namespace Wpf
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ICustomerService, CustomerService>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
 
@@ -60,6 +62,10 @@ namespace Wpf
             services.AddTransient<MainViewModel>();
             services.AddTransient<ProductsViewModel>();
 
+            // Касса живёт всё время работы приложения: открытые чеки
+            // не должны теряться при переходе на другую страницу
+            services.AddSingleton<SalesViewModel>();
+
             _services = services.BuildServiceProvider();
             Services = _services;
 
@@ -70,8 +76,9 @@ namespace Wpf
             await db.MigrateAsync(CancellationToken.None);
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
 
-            // 🔥 открываем Login через DI
-            var login = Services.GetRequiredService<MainWindow>();
+            // 🔥 открываем Login через DI: продажа привязывается к кассиру,
+            // поэтому без входа работать нельзя
+            var login = Services.GetRequiredService<LoginView>();
             login.Show();
         }
     }

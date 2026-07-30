@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,10 +10,16 @@ namespace Application.DTOs.Sales
     {
         public long SaleId { get; set; }
         public DateTimeOffset SaleDate { get; set; }
+
+        public decimal Subtotal { get; set; }
+        public decimal DiscountAmount { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
+
         public decimal Debt => TotalAmount - PaidAmount;
         public bool IsCredit { get; set; }
+
+        public PaymentMethod PaymentMethod { get; set; }
 
         public long? CustomerId { get; set; }
         public long UserId { get; set; }
@@ -25,9 +32,12 @@ namespace Application.DTOs.Sales
         {
             SaleId = sale.Id;
             SaleDate = sale.SaleDate;
+            Subtotal = sale.Subtotal;
+            DiscountAmount = sale.DiscountAmount;
             TotalAmount = sale.TotalAmount;
             PaidAmount = sale.PaidAmount;
             IsCredit = sale.IsCredit;
+            PaymentMethod = sale.PaymentMethod;
             CustomerId = sale.CustomerId;
             UserId = sale.UserId;
 

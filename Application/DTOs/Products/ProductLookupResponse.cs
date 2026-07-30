@@ -18,6 +18,10 @@ namespace Application.DTOs.Products
         public string CategoryName { get; set; } = "";
 
         public int InStock { get; set; }
+
+        /// <summary>Цена продажи из карточки товара.</summary>
+        public decimal PricePerUnit { get; set; }
+
         public decimal? CostPerUnit { get; set; }
     }
 }

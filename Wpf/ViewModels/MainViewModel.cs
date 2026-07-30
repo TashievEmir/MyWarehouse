@@ -85,7 +85,7 @@ public class MainViewModel : ViewModelBase
 
     private void ShowSales()
     {
-        Navigate(new Views.Sales.SalesView(), "Sales", "Продажи", "История продаж и выручка");
+        Navigate(new Views.Sales.SalesView(), "Sales", "Продажи", "Касса: чеки, скидки и оплата");
     }
 
     private void ShowPurchases()

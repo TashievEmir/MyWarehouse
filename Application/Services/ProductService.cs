@@ -94,6 +94,7 @@ namespace Application.Services
                     CategoryId = p.CategoryId,
                     CategoryName = p.Category.Name,
                     InStock = p.Inventory != null ? p.Inventory.Quantity : 0,
+                    PricePerUnit = p.PricePerUnit,
                     CostPerUnit = p.CostPerUnit
                 })
                 .FirstOrDefaultAsync(ct);

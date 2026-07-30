@@ -54,8 +54,6 @@ public class LoginViewModel : ViewModelBase
 
             _session.User = user;
 
-            MessageBox.Show($"Welcome {user.Username}");
-
             // 🔥 ШАГ 3 — открыть MainWindow
             var main = App.Services.GetRequiredService<MainWindow>();
             main.Show();
