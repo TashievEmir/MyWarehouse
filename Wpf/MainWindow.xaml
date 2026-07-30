@@ -262,8 +262,8 @@
                         <Button Style="{StaticResource NavButton}"
                                 Content="Статистика"
                                 common:Nav.Icon="ChartLine"
-                                common:Nav.PageKey="Debts"
-                                Command="{Binding ShowDebtsCommand}"/>
+                                common:Nav.PageKey="Statistics"
+                                Command="{Binding ShowStatisticsCommand}"/>
 
                     </StackPanel>
                 </ScrollViewer>

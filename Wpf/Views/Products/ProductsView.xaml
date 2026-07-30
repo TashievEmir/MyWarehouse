@@ -15,162 +15,6 @@
         <common:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         <common:EmptyStringToVisibilityConverter x:Key="EmptyToVisibility"/>
 
-        <!-- Плашка с числом -->
-        <Style x:Key="Chip" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource CanvasBrush}"/>
-            <Setter Property="CornerRadius" Value="8"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-
-        <!-- Шапка категории: кликом раскрывается список товаров -->
-        <Style x:Key="CategoryHeader" TargetType="ToggleButton">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border x:Name="Bd"
-                                Background="{TemplateBinding Background}"
-                                CornerRadius="12"
-                                Padding="14,12">
-                            <ContentPresenter/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="StockBar" TargetType="ProgressBar">
-            <Setter Property="Height" Value="5"/>
-            <Setter Property="Minimum" Value="0"/>
-            <Setter Property="Maximum" Value="1"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Background" Value="{StaticResource CanvasBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource BrandBrush}"/>
-        </Style>
-
-        <!-- ============ Товар внутри категории ============ -->
-        <DataTemplate DataType="{x:Type vm:ProductStatItem}">
-            <Grid Margin="14,7">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                    <TextBlock Text="{Binding Name}"
-                               FontSize="13"
-                               Foreground="{StaticResource TextPrimaryBrush}"
-                               TextTrimming="CharacterEllipsis"/>
-
-                    <TextBlock Text="{Binding BarcodeText}"
-                               FontSize="11"
-                               Margin="0,2,0,0"
-                               Foreground="{StaticResource TextSecondaryBrush}"
-                               TextTrimming="CharacterEllipsis"/>
-                </StackPanel>
-
-                <TextBlock Grid.Column="1"
-                           Text="{Binding StockRatio}"
-                           FontSize="13"
-                           FontWeight="SemiBold"
-                           VerticalAlignment="Center"
-                           Foreground="{StaticResource TextPrimaryBrush}"/>
-            </Grid>
-        </DataTemplate>
-
-        <!-- ============ Категория ============ -->
-        <DataTemplate DataType="{x:Type vm:CategoryStatItem}">
-            <Border Style="{StaticResource Card}" Margin="0,0,0,10">
-                <StackPanel>
-
-                    <ToggleButton Style="{StaticResource CategoryHeader}"
-                                  IsChecked="{Binding IsExpanded, Mode=TwoWay}">
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <materialDesign:PackIcon Grid.Column="0"
-                                                     Width="20"
-                                                     Height="20"
-                                                     VerticalAlignment="Center"
-                                                     Foreground="{StaticResource TextSecondaryBrush}">
-                                <materialDesign:PackIcon.Style>
-                                    <Style TargetType="materialDesign:PackIcon">
-                                        <Setter Property="Kind" Value="ChevronRight"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
-                                                <Setter Property="Kind" Value="ChevronDown"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </materialDesign:PackIcon.Style>
-                            </materialDesign:PackIcon>
-
-                            <StackPanel Grid.Column="1" Margin="10,0,12,0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Name}"
-                                           FontSize="14"
-                                           FontWeight="SemiBold"
-                                           Foreground="{StaticResource TextPrimaryBrush}"
-                                           TextTrimming="CharacterEllipsis"/>
-
-                                <TextBlock Text="{Binding ProductsCountText}"
-                                           Style="{StaticResource Muted}"
-                                           FontSize="11"
-                                           Margin="0,2,0,0"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Center">
-
-                                <ProgressBar Style="{StaticResource StockBar}"
-                                             Width="120"
-                                             Margin="0,0,14,0"
-                                             VerticalAlignment="Center"
-                                             Value="{Binding StockShare, Mode=OneWay}"/>
-
-                                <Border Style="{StaticResource Chip}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding StockRatio}"
-                                                   FontSize="13"
-                                                   FontWeight="SemiBold"
-                                                   Foreground="{StaticResource TextPrimaryBrush}"/>
-
-                                        <TextBlock Text="шт."
-                                                   FontSize="11"
-                                                   Margin="5,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   Foreground="{StaticResource TextSecondaryBrush}"/>
-                                    </StackPanel>
-                                </Border>
-                            </StackPanel>
-                        </Grid>
-                    </ToggleButton>
-
-                    <Border BorderBrush="{StaticResource LineBrush}"
-                            BorderThickness="0,1,0,0"
-                            Padding="0,6,0,10"
-                            Visibility="{Binding IsExpanded, Converter={StaticResource BoolToVisibility}}">
-
-                        <ItemsControl ItemsSource="{Binding Products}"/>
-                    </Border>
-
-                </StackPanel>
-            </Border>
-        </DataTemplate>
-
         <!-- ============ Строка сканирования ============ -->
         <DataTemplate DataType="{x:Type vm:ScannedProductItem}">
             <Border Margin="0,0,0,6"
@@ -182,12 +26,13 @@
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Barcode"/>
                         <ColumnDefinition Width="*" MinWidth="150"/>
                         <ColumnDefinition Width="215"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Qty"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="Remove"/>
                     </Grid.ColumnDefinitions>
 
                     <!-- Штрихкод -->
@@ -347,7 +192,7 @@
                                  TextAlignment="Center"
                                  FontWeight="SemiBold"
                                  KeyDown="OnScanFieldKeyDown"
-                                 Text="{Binding Quantity, UpdateSourceTrigger=LostFocus}"/>
+                                 Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <Button Style="{StaticResource MiniIconButton}"
                                 Command="{Binding IncreaseCommand}"
@@ -360,13 +205,24 @@
                     <TextBox Grid.Column="4"
                              Style="{StaticResource Field}"
                              Height="32"
-                             Margin="10,0"
+                             Margin="10,0,6,0"
                              TextAlignment="Right"
                              KeyDown="OnScanFieldKeyDown"
                              ToolTip="Цена закупки за штуку"
-                             Text="{Binding Cost, UpdateSourceTrigger=LostFocus, StringFormat={}{0:0.##}}"/>
+                             Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <Button Grid.Column="5"
+                    <!-- Цена продажи: уедет в карточку товара и на кассу -->
+                    <TextBox Grid.Column="5"
+                             Style="{StaticResource Field}"
+                             Height="32"
+                             Margin="0,0,10,0"
+                             TextAlignment="Right"
+                             FontWeight="SemiBold"
+                             KeyDown="OnScanFieldKeyDown"
+                             ToolTip="Цена продажи за штуку — подставится на кассе"
+                             Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Grid.Column="6"
                             Style="{StaticResource MiniIconButton}"
                             VerticalAlignment="Center"
                             ToolTip="Убрать из списка"
@@ -381,275 +237,194 @@
 
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <!-- ============ Приход по штрихкоду ============ -->
+    <Border Style="{StaticResource Card}" Padding="16,14">
 
-        <!-- ============ Фильтр по датам ============ -->
-        <Border Grid.Row="0"
-                Style="{StaticResource Card}"
-                Padding="16,14"
-                Margin="0,0,0,14">
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-            <Grid>
+            <!-- Заголовок панели -->
+            <Grid Grid.Row="0" Margin="0,0,0,12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Остатки по категориям" Style="{StaticResource SectionTitle}"/>
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="BarcodeScan"
+                                             Width="20"
+                                             Height="20"
+                                             VerticalAlignment="Center"
+                                             Foreground="{StaticResource BrandBrush}"/>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                        <TextBlock Style="{StaticResource Muted}" Text="Период:"/>
-                        <TextBlock Style="{StaticResource Muted}"
-                                   Margin="5,0,0,0"
-                                   FontWeight="SemiBold"
-                                   Text="{Binding PeriodText}"/>
+                    <TextBlock Text="Приход по штрихкоду"
+                               Style="{StaticResource SectionTitle}"
+                               Margin="8,0,0,0"
+                               VerticalAlignment="Center"/>
 
-                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="·"/>
-
-                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="На складе:"/>
-                        <TextBlock Style="{StaticResource Muted}"
-                                   Margin="5,0,0,0"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                   Text="{Binding TotalInStock}"/>
-
-                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="Поступило:"/>
-                        <TextBlock Style="{StaticResource Muted}"
-                                   Margin="5,0,0,0"
-                                   FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                   Text="{Binding TotalReceived}"/>
-                    </StackPanel>
+                    <TextBlock Style="{StaticResource Muted}"
+                               Margin="12,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="{Binding ScannedSummary}"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Text="Поставщик"
+                               Style="{StaticResource Muted}"
+                               Margin="0,0,8,0"
+                               VerticalAlignment="Center"/>
 
-                    <StackPanel Margin="0,0,10,0">
-                        <TextBlock Text="ОТ" Style="{StaticResource FieldCaption}"/>
-                        <DatePicker Style="{StaticResource FieldDate}"
-                                    Width="140"
-                                    SelectedDate="{Binding From, Mode=TwoWay}"/>
-                    </StackPanel>
-
-                    <StackPanel Margin="0,0,10,0">
-                        <TextBlock Text="ДО" Style="{StaticResource FieldCaption}"/>
-                        <DatePicker Style="{StaticResource FieldDate}"
-                                    Width="140"
-                                    SelectedDate="{Binding To, Mode=TwoWay}"/>
-                    </StackPanel>
-
-                    <Button Style="{StaticResource PrimaryButton}"
-                            Margin="0,17,8,0"
-                            Content="Показать"
-                            Command="{Binding RefreshCommand}"/>
-
-                    <Button Style="{StaticResource SecondaryButton}"
-                            Margin="0,17,0,0"
-                            Content="Сбросить"
-                            Command="{Binding ResetPeriodCommand}"/>
+                    <TextBox Style="{StaticResource Field}"
+                             Width="220"
+                             Height="32"
+                             Text="{Binding SupplierName, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </Grid>
-        </Border>
 
-        <!-- ============ Статистика ============ -->
-        <Grid Grid.Row="1">
+            <!-- Поле сканера -->
+            <Grid Grid.Row="1" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          Padding="0,0,8,0">
+                <Grid Grid.Column="0">
+                    <TextBox x:Name="BarcodeBox"
+                             Style="{StaticResource Field}"
+                             FontSize="14"
+                             Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.InputBindings>
+                            <KeyBinding Key="Enter" Command="{Binding ScanCommand}"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
 
-                <ItemsControl ItemsSource="{Binding Stats}"/>
-            </ScrollViewer>
-
-            <!-- Пусто -->
-            <StackPanel VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVisibility}}">
-
-                <materialDesign:PackIcon Kind="PackageVariantClosed"
-                                         Width="46"
-                                         Height="46"
-                                         HorizontalAlignment="Center"
-                                         Foreground="{StaticResource LineBrush}"/>
-
-                <TextBlock Text="За этот период товаров нет"
-                           Margin="0,10,0,0"
-                           FontSize="14"
-                           Foreground="{StaticResource TextSecondaryBrush}"/>
-            </StackPanel>
-
-            <!-- Загрузка -->
-            <Border Background="#B3F1F5F9"
-                    Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
-
-                <TextBlock Text="Загрузка…"
-                           FontSize="14"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Foreground="{StaticResource TextSecondaryBrush}"/>
-            </Border>
-        </Grid>
-
-        <!-- ============ Приход по штрихкоду ============ -->
-        <Border Grid.Row="2"
-                Style="{StaticResource Card}"
-                Padding="16,14"
-                Margin="0,14,0,0">
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!-- Заголовок панели -->
-                <Grid Grid.Row="0" Margin="0,0,0,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <materialDesign:PackIcon Kind="BarcodeScan"
-                                                 Width="20"
-                                                 Height="20"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{StaticResource BrandBrush}"/>
-
-                        <TextBlock Text="Приход по штрихкоду"
-                                   Style="{StaticResource SectionTitle}"
-                                   Margin="8,0,0,0"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBlock Style="{StaticResource Muted}"
-                                   Margin="12,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Text="{Binding ScannedSummary}"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <TextBlock Text="Поставщик"
-                                   Style="{StaticResource Muted}"
-                                   Margin="0,0,8,0"
-                                   VerticalAlignment="Center"/>
-
-                        <TextBox Style="{StaticResource Field}"
-                                 Width="190"
-                                 Height="32"
-                                 Text="{Binding SupplierName, UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
+                    <TextBlock Text="Отсканируйте штрихкод — товар добавится в список"
+                               Margin="13,0,0,0"
+                               FontSize="13"
+                               IsHitTestVisible="False"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource TextSecondaryBrush}"
+                               Visibility="{Binding BarcodeInput, Converter={StaticResource EmptyToVisibility}}"/>
                 </Grid>
 
-                <!-- Поле сканера -->
-                <Grid Grid.Row="1" Margin="0,0,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <Button Grid.Column="1"
+                        Style="{StaticResource SecondaryButton}"
+                        Margin="8,0,0,0"
+                        Content="Считать"
+                        Click="OnReturnFocusToScanner"
+                        Command="{Binding ScanCommand}"/>
+            </Grid>
 
-                    <Grid Grid.Column="0">
-                        <TextBox x:Name="BarcodeBox"
-                                 Style="{StaticResource Field}"
-                                 FontSize="14"
-                                 Text="{Binding BarcodeInput, UpdateSourceTrigger=PropertyChanged}">
-                            <TextBox.InputBindings>
-                                <KeyBinding Key="Enter" Command="{Binding ScanCommand}"/>
-                            </TextBox.InputBindings>
-                        </TextBox>
+            <!-- Шапка списка -->
+            <Grid Grid.Row="2"
+                  Margin="10,2,10,4"
+                  Visibility="{Binding HasScanned, Converter={StaticResource BoolToVisibility}}">
 
-                        <TextBlock Text="Отсканируйте штрихкод — товар добавится в список"
-                                   Margin="13,0,0,0"
-                                   FontSize="13"
-                                   IsHitTestVisible="False"
-                                   VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
-                                   Visibility="{Binding BarcodeInput, Converter={StaticResource EmptyToVisibility}}"/>
-                    </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Barcode"/>
+                    <ColumnDefinition Width="*" MinWidth="150"/>
+                    <ColumnDefinition Width="215"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Qty"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="Remove"/>
+                </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="1"
-                            Style="{StaticResource SecondaryButton}"
-                            Margin="8,0,0,0"
-                            Content="Считать"
-                            Click="OnReturnFocusToScanner"
-                            Command="{Binding ScanCommand}"/>
-                </Grid>
+                <TextBlock Grid.Column="1" Text="ТОВАР" Style="{StaticResource FieldCaption}" Margin="10,0,0,5"/>
+                <TextBlock Grid.Column="2" Text="КАТЕГОРИЯ" Style="{StaticResource FieldCaption}" Margin="0,0,0,5"/>
+                <TextBlock Grid.Column="3" Text="КОЛ-ВО" Style="{StaticResource FieldCaption}" TextAlignment="Center" Margin="0,0,0,5"/>
+                <TextBlock Grid.Column="4" Text="ЗАКУПКА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="10,0,6,5"/>
+                <TextBlock Grid.Column="5" Text="ПРОДАЖА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+            </Grid>
 
-                <!-- Список считанных -->
-                <ScrollViewer Grid.Row="2"
-                              MaxHeight="230"
-                              VerticalScrollBarVisibility="Auto"
+            <!-- Список считанных -->
+            <Grid Grid.Row="3">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,6,0"
-                              Visibility="{Binding HasScanned, Converter={StaticResource BoolToVisibility}}">
+                              Padding="0,0,6,0">
 
                     <ItemsControl ItemsSource="{Binding Scanned}"/>
                 </ScrollViewer>
 
-                <!-- Подвал панели -->
-                <Grid Grid.Row="3" Margin="0,8,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Visibility="{Binding HasScanned, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
 
-                    <TextBlock Grid.Column="0"
-                               VerticalAlignment="Center"
-                               Margin="0,0,12,0"
-                               FontSize="12"
-                               TextTrimming="CharacterEllipsis"
-                               Text="{Binding StatusMessage}"
-                               Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibility}}">
+                    <materialDesign:PackIcon Kind="BarcodeScan"
+                                             Width="44"
+                                             Height="44"
+                                             HorizontalAlignment="Center"
+                                             Foreground="{StaticResource LineBrush}"/>
 
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding StatusIsError}" Value="True">
-                                        <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
-                                        <Setter Property="FontWeight" Value="SemiBold"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Style="{StaticResource SecondaryButton}"
-                                Margin="0,0,8,0"
-                                Content="Очистить"
-                                IsEnabled="{Binding HasScanned}"
-                                Click="OnReturnFocusToScanner"
-                                Command="{Binding ClearScannedCommand}"/>
-
-                        <Button Style="{StaticResource PrimaryButton}"
-                                IsEnabled="{Binding CanSave}"
-                                Click="OnReturnFocusToScanner"
-                                Command="{Binding SaveCommand}">
-
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ContentSaveOutline"
-                                                         Width="17"
-                                                         Height="17"
-                                                         VerticalAlignment="Center"/>
-
-                                <TextBlock Text="Добавить товары"
-                                           Margin="8,0,0,0"
-                                           VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Grid>
-
+                    <TextBlock Text="Отсканируйте товары — они появятся здесь"
+                               Margin="0,10,0,0"
+                               FontSize="14"
+                               HorizontalAlignment="Center"
+                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                </StackPanel>
             </Grid>
-        </Border>
 
-    </Grid>
+            <!-- Подвал панели -->
+            <Grid Grid.Row="4" Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="0,0,12,0"
+                           FontSize="12"
+                           TextTrimming="CharacterEllipsis"
+                           Text="{Binding StatusMessage}"
+                           Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibility}}">
+
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding StatusIsError}" Value="True">
+                                    <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Style="{StaticResource SecondaryButton}"
+                            Margin="0,0,8,0"
+                            Content="Очистить"
+                            IsEnabled="{Binding HasScanned}"
+                            Click="OnReturnFocusToScanner"
+                            Command="{Binding ClearScannedCommand}"/>
+
+                    <Button Style="{StaticResource PrimaryButton}"
+                            IsEnabled="{Binding CanSave}"
+                            Click="OnReturnFocusToScanner"
+                            Command="{Binding SaveCommand}">
+
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ContentSaveOutline"
+                                                     Width="17"
+                                                     Height="17"
+                                                     VerticalAlignment="Center"/>
+
+                            <TextBlock Text="Добавить товары"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
 </UserControl>

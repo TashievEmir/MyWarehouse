@@ -1,6 +1,6 @@
 using Application.DTOs.Products;
 
-namespace Wpf.ViewModels.Products;
+namespace Wpf.ViewModels.Statistics;
 
 /// <summary>Строка товара в статистике: «есть / поступило за период».</summary>
 public class ProductStatItem

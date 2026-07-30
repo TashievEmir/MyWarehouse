@@ -12,8 +12,8 @@ public class SaleLineItem : ViewModelBase
     public string Name { get; }
     public string Barcode { get; }
 
-    /// <summary>Остаток на складе на момент сканирования.</summary>
-    public int InStock { get; }
+    /// <summary>Остаток на складе на момент последнего сканирования этого товара.</summary>
+    public int InStock { get; private set; }
 
     private decimal _price;
     /// <summary>Цена берётся из карточки товара, но кассир может её поправить.</summary>
@@ -61,6 +61,22 @@ public class SaleLineItem : ViewModelBase
 
         IncreaseCommand = new RelayCommand(() => Quantity++);
         DecreaseCommand = new RelayCommand(() => Quantity--, () => Quantity > 1);
+    }
+
+    /// <summary>
+    /// Остаток мог измениться после того, как строка попала в чек — например,
+    /// товар приняли на складе. Обновляем при повторном сканировании.
+    /// </summary>
+    public void UpdateStock(int inStock)
+    {
+        if (InStock == inStock)
+            return;
+
+        InStock = inStock;
+
+        OnPropertyChanged(nameof(InStock));
+        OnPropertyChanged(nameof(StockText));
+        OnPropertyChanged(nameof(ExceedsStock));
     }
 
     public SaleLineRequest ToRequest() => new()

@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using Application.DTOs.Products;
 using Wpf.Common;
 
-namespace Wpf.ViewModels.Products;
+namespace Wpf.ViewModels.Statistics;
 
 /// <summary>Категория в статистике: сводка и раскрывающийся список товаров.</summary>
 public class CategoryStatItem : ViewModelBase

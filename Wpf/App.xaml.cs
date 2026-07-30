@@ -11,6 +11,7 @@ using Wpf.ViewModels;
 using Wpf.ViewModels.Login;
 using Wpf.ViewModels.Products;
 using Wpf.ViewModels.Sales;
+using Wpf.ViewModels.Statistics;
 using Wpf.Views.Login;
 using Wpf.Views.Products;
 
@@ -61,6 +62,7 @@ namespace Wpf
             services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<ProductsViewModel>();
+            services.AddTransient<StatisticsViewModel>();
 
             // Касса живёт всё время работы приложения: открытые чеки
             // не должны теряться при переходе на другую страницу

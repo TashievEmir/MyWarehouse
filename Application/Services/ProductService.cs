@@ -118,15 +118,23 @@ namespace Application.Services
                     if (item.Quantity <= 0)
                         throw new DomainException("Количество должно быть больше нуля");
 
-                    if (item.Cost < 0)
+                    if (item.Cost < 0 || item.Price < 0)
                         throw new DomainException("Цена не может быть отрицательной");
 
-                    var productId = await ResolveProductIdAsync(item, ct);
+                    var product = await ResolveProductAsync(item, ct);
 
-                    if (lines.TryGetValue(productId, out var line))
-                        lines[productId] = (line.Quantity + item.Quantity, line.Cost > 0 ? line.Cost : item.Cost);
+                    // Приход обновляет карточку: цена продажи уходит на кассу,
+                    // закупочная нужна для расчёта прибыли. Ноль — «не менять».
+                    if (item.Price > 0)
+                        product.PricePerUnit = item.Price;
+
+                    if (item.Cost > 0)
+                        product.CostPerUnit = item.Cost;
+
+                    if (lines.TryGetValue(product.Id, out var line))
+                        lines[product.Id] = (line.Quantity + item.Quantity, line.Cost > 0 ? line.Cost : item.Cost);
                     else
-                        lines[productId] = (item.Quantity, item.Cost);
+                        lines[product.Id] = (item.Quantity, item.Cost);
                 }
 
                 var supplier = string.IsNullOrWhiteSpace(request.SupplierName)
@@ -169,30 +177,23 @@ namespace Application.Services
         /// Находит товар позиции или заводит новый — тогда он сразу сохраняется,
         /// чтобы получить Id для остатка и позиции покупки.
         /// </summary>
-        private async Task<long> ResolveProductIdAsync(ReceiveItemRequest item, CancellationToken ct)
+        private async Task<Product> ResolveProductAsync(ReceiveItemRequest item, CancellationToken ct)
         {
             var barcode = string.IsNullOrWhiteSpace(item.Barcode) ? null : item.Barcode.Trim();
 
             if (item.ProductId is > 0)
             {
-                var exists = await _db.Products.AnyAsync(p => p.Id == item.ProductId, ct);
-
-                if (!exists)
-                    throw new DomainException("Товар не найден");
-
-                return item.ProductId.Value;
+                return await _db.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId, ct)
+                    ?? throw new DomainException("Товар не найден");
             }
 
             // Товар мог появиться уже после сканирования — не заводим дубль
             if (barcode is not null)
             {
-                var existingId = await _db.Products
-                    .Where(p => p.Barcode == barcode)
-                    .Select(p => p.Id)
-                    .FirstOrDefaultAsync(ct);
+                var existing = await _db.Products.FirstOrDefaultAsync(p => p.Barcode == barcode, ct);
 
-                if (existingId != 0)
-                    return existingId;
+                if (existing is not null)
+                    return existing;
             }
 
             var name = (item.Name ?? "").Trim();
@@ -202,6 +203,10 @@ namespace Application.Services
 
             if (item.CategoryId is not > 0)
                 throw new DomainException($"У нового товара «{name}» не выбрана категория");
+
+            // Без цены продажи товар нельзя пробить на кассе
+            if (item.Price <= 0)
+                throw new DomainException($"У нового товара «{name}» не указана цена продажи");
 
             var categoryExists = await _db.Categories.AnyAsync(c => c.Id == item.CategoryId, ct);
 
@@ -214,7 +219,7 @@ namespace Application.Services
                 SKU = barcode ?? $"SKU-{Guid.NewGuid():N}"[..12],
                 Barcode = barcode,
                 CategoryId = item.CategoryId.Value,
-                PricePerUnit = 0,
+                PricePerUnit = item.Price,
                 CostPerUnit = item.Cost,
                 CreatedAt = DateTimeOffset.UtcNow
             };
@@ -222,7 +227,7 @@ namespace Application.Services
             _db.Products.Add(product);
             await _db.SaveChangesAsync(ct);
 
-            return product.Id;
+            return product;
         }
 
         private async Task<Dictionary<long, int>> GetReceivedByProductAsync(

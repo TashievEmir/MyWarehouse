@@ -113,6 +113,7 @@ public class SaleTabViewModel : ViewModelBase
             }
             else
             {
+                line.UpdateStock(found.InStock);
                 line.Quantity++;
             }
 

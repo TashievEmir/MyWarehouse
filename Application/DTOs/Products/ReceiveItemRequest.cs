@@ -17,6 +17,14 @@ namespace Application.DTOs.Products
         public long? CategoryId { get; set; }
 
         public int Quantity { get; set; }
+
+        /// <summary>Цена закупки за штуку.</summary>
         public decimal Cost { get; set; }
+
+        /// <summary>
+        /// Цена продажи за штуку — уходит в карточку товара и подставляется на кассе.
+        /// Ноль у существующего товара означает «оставить прежнюю цену».
+        /// </summary>
+        public decimal Price { get; set; }
     }
 }

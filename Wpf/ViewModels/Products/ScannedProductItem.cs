@@ -84,6 +84,7 @@ public class ScannedProductItem : ViewModelBase
     }
 
     private decimal _cost;
+    /// <summary>Цена закупки за штуку.</summary>
     public decimal Cost
     {
         get => _cost;
@@ -94,22 +95,53 @@ public class ScannedProductItem : ViewModelBase
         }
     }
 
+    private decimal _price;
+    /// <summary>Цена продажи: уходит в карточку товара и подставляется на кассе.</summary>
+    public decimal Price
+    {
+        get => _price;
+        set
+        {
+            if (SetProperty(ref _price, value < 0 ? 0 : value))
+                OnPropertyChanged(nameof(IsValid));
+        }
+    }
+
     public decimal TotalCost => Quantity * Cost;
 
-    /// <summary>Новый товар нельзя сохранить без названия и категории.</summary>
-    public bool IsValid => !IsNew || (!string.IsNullOrWhiteSpace(Name) && SelectedCategory?.Category is not null);
+    /// <summary>
+    /// Новый товар нельзя сохранить без названия, категории и цены продажи —
+    /// иначе его не пробить на кассе.
+    /// </summary>
+    public bool IsValid => !IsNew ||
+                           (!string.IsNullOrWhiteSpace(Name) && SelectedCategory?.Category is not null && Price > 0);
+
+    /// <summary>Чего именно не хватает в строке — для понятного сообщения.</summary>
+    public string? ValidationHint
+    {
+        get
+        {
+            if (!IsNew) return null;
+            if (string.IsNullOrWhiteSpace(Name)) return "укажите название";
+            if (SelectedCategory?.Category is null) return "выберите категорию";
+            if (Price <= 0) return "укажите цену продажи";
+
+            return null;
+        }
+    }
 
     public ICommand IncreaseCommand { get; }
     public ICommand DecreaseCommand { get; }
     public ICommand CancelNewCategoryCommand { get; }
 
-    private ScannedProductItem(long? productId, string barcode, string name, CategoryOption? category, int inStockBefore, decimal cost)
+    private ScannedProductItem(long? productId, string barcode, string name, CategoryOption? category, int inStockBefore, decimal cost, decimal price)
     {
         ProductId = productId;
         Barcode = barcode;
         _name = name;
         _selectedCategory = category;
         _cost = cost;
+        _price = price;
         InStockBefore = inStockBefore;
 
         IncreaseCommand = new RelayCommand(() => Quantity++);
@@ -117,7 +149,9 @@ public class ScannedProductItem : ViewModelBase
         CancelNewCategoryCommand = new RelayCommand(() => IsCreatingCategory = false);
     }
 
-    /// <summary>Товар найден в базе — правим только количество и цену.</summary>
+    /// <summary>
+    /// Товар найден в базе: подставляем его цены, их можно обновить этой поставкой.
+    /// </summary>
     public static ScannedProductItem Known(ProductLookupResponse product, CategoryOption? category)
         => new(
             product.ProductId,
@@ -125,11 +159,12 @@ public class ScannedProductItem : ViewModelBase
             product.Name,
             category,
             product.InStock,
-            product.CostPerUnit ?? 0m);
+            product.CostPerUnit ?? 0m,
+            product.PricePerUnit);
 
-    /// <summary>Штрихкод неизвестен — пользователь вводит название и категорию.</summary>
+    /// <summary>Штрихкод неизвестен — пользователь вводит название, категорию и цены.</summary>
     public static ScannedProductItem New(string barcode)
-        => new(null, barcode, "", null, 0, 0m);
+        => new(null, barcode, "", null, 0, 0m, 0m);
 
     /// <summary>Подставляет категорию, созданную из этой же строки.</summary>
     public void ApplyCategory(CategoryOption category)
@@ -147,6 +182,7 @@ public class ScannedProductItem : ViewModelBase
         Name = Name,
         CategoryId = SelectedCategory?.Category?.Id,
         Quantity = Quantity,
-        Cost = Cost
+        Cost = Cost,
+        Price = Price
     };
 }
