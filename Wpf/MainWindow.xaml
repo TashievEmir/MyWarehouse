@@ -260,8 +260,8 @@
                                 Command="{Binding ShowPurchasesCommand}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Долги"
-                                common:Nav.Icon="CreditCardClockOutline"
+                                Content="Статистика"
+                                common:Nav.Icon="ChartLine"
                                 common:Nav.PageKey="Debts"
                                 Command="{Binding ShowDebtsCommand}"/>
 

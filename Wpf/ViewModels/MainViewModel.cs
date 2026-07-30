@@ -95,7 +95,7 @@ public class MainViewModel : ViewModelBase
 
     private void ShowDebts()
     {
-        Navigate(new Views.Debts.DebtsView(), "Debts", "Долги", "Задолженности контрагентов");
+        Navigate(new Views.Debts.DebtsView(), "Debts", "Статистика", "Показатели продаж и склада");
     }
 
     private void Navigate(object view, string pageKey, string title, string subtitle)

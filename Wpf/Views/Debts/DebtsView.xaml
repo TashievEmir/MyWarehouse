@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Background="Transparent">
-        <TextBlock Text="Debts"
+        <TextBlock Text="Статистика"
                    FontSize="24"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"/>
