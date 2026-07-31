@@ -254,12 +254,6 @@
                                 Command="{Binding ShowSalesCommand}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Покупки"
-                                common:Nav.Icon="CartOutline"
-                                common:Nav.PageKey="Purchases"
-                                Command="{Binding ShowPurchasesCommand}"/>
-
-                        <Button Style="{StaticResource NavButton}"
                                 Content="Статистика"
                                 common:Nav.Icon="ChartLine"
                                 common:Nav.PageKey="Statistics"

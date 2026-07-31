@@ -44,7 +44,6 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowDashboardCommand { get; }
     public ICommand ShowProductsCommand { get; }
     public ICommand ShowSalesCommand { get; }
-    public ICommand ShowPurchasesCommand { get; }
     public ICommand ShowStatisticsCommand { get; }
 
     public MainViewModel(NavigationService navigation, SessionService session)
@@ -67,7 +66,6 @@ public class MainViewModel : ViewModelBase
         ShowDashboardCommand = new RelayCommand(ShowDashboard);
         ShowProductsCommand = new RelayCommand(ShowProducts);
         ShowSalesCommand = new RelayCommand(ShowSales);
-        ShowPurchasesCommand = new RelayCommand(ShowPurchases);
         ShowStatisticsCommand = new RelayCommand(ShowStatistics);
 
         ShowDashboard();
@@ -88,14 +86,9 @@ public class MainViewModel : ViewModelBase
         Navigate(new Views.Sales.SalesView(), "Sales", "Продажи", "Касса: чеки, скидки и оплата");
     }
 
-    private void ShowPurchases()
-    {
-        Navigate(new Views.Purchases.PurchasesView(), "Purchases", "Покупки", "Поставки и закупки товара");
-    }
-
     private void ShowStatistics()
     {
-        Navigate(new Views.Statistics.StatisticsView(), "Statistics", "Статистика", "Остатки по категориям за период");
+        Navigate(new Views.Statistics.StatisticsView(), "Statistics", "Статистика", "Остатки, долги клиентов и закупки");
     }
 
     private void Navigate(object view, string pageKey, string title, string subtitle)

@@ -9,6 +9,6 @@ public partial class StatisticsView : UserControl
     public StatisticsView()
     {
         InitializeComponent();
-        DataContext = App.Services.GetRequiredService<StatisticsViewModel>();
+        DataContext = App.Services.GetRequiredService<StatisticsPageViewModel>();
     }
 }

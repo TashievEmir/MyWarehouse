@@ -9,7 +9,7 @@ namespace Wpf.ViewModels.Statistics;
 /// Остатки по категориям за период: сколько товара есть сейчас
 /// и сколько его поступило с даты «от» по дату «до».
 /// </summary>
-public class StatisticsViewModel : ViewModelBase
+public class StockStatisticsViewModel : ViewModelBase
 {
     private readonly IProductService _products;
 
@@ -18,7 +18,7 @@ public class StatisticsViewModel : ViewModelBase
     public ICommand RefreshCommand { get; }
     public ICommand ResetPeriodCommand { get; }
 
-    public StatisticsViewModel(IProductService products)
+    public StockStatisticsViewModel(IProductService products)
     {
         _products = products;
 
@@ -109,7 +109,7 @@ public class StatisticsViewModel : ViewModelBase
 
     // ===================== Загрузка =====================
 
-    private async Task LoadAsync()
+    public async Task LoadAsync()
     {
         IsLoading = true;
 

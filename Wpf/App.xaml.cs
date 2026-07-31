@@ -64,7 +64,10 @@ namespace Wpf
             services.AddTransient<ProductsPageViewModel>();
             services.AddTransient<ProductCatalogViewModel>();
             services.AddTransient<ReceivingViewModel>();
-            services.AddTransient<StatisticsViewModel>();
+            services.AddTransient<StatisticsPageViewModel>();
+            services.AddTransient<StockStatisticsViewModel>();
+            services.AddTransient<DebtsViewModel>();
+            services.AddTransient<PurchaseLogViewModel>();
 
             // Касса живёт всё время работы приложения: открытые чеки
             // не должны теряться при переходе на другую страницу
