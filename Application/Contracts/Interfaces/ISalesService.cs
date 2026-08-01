@@ -9,6 +9,19 @@ namespace Application.Contracts.Interfaces
     {
         Task<long> CreateSaleAsync(CreateSaleRequest request, CancellationToken ct);
 
+        /// <summary>
+        /// Чеки за период [from; toExclusive). Поиск — по номеру чека, кассиру,
+        /// клиенту и товарам внутри чека.
+        /// </summary>
+        Task<List<ReceiptListItemResponse>> GetReceiptsAsync(
+            DateTimeOffset? from,
+            DateTimeOffset? toExclusive,
+            string? search,
+            CancellationToken ct);
+
+        /// <summary>Чек целиком: позиции и итоги.</summary>
+        Task<ReceiptDetailsResponse?> GetReceiptAsync(long saleId, CancellationToken ct);
+
         /// <summary>Незакрытые долги клиентов: продажи, оплаченные не полностью.</summary>
         Task<List<DebtResponse>> GetDebtsAsync(string? search, CancellationToken ct);
 

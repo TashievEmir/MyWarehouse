@@ -144,6 +144,93 @@ namespace Application.Services
             .ToListAsync(ct);
         }
 
+        public async Task<List<ReceiptListItemResponse>> GetReceiptsAsync(
+            DateTimeOffset? from,
+            DateTimeOffset? toExclusive,
+            string? search,
+            CancellationToken ct)
+        {
+            var receipts = await _db.Sales
+                .AsNoTracking()
+                .Select(s => new
+                {
+                    Item = new ReceiptListItemResponse
+                    {
+                        SaleId         = s.Id,
+                        SaleDate       = s.SaleDate,
+                        CashierName    = _db.Users
+                            .Where(u => u.Id == s.UserId)
+                            .Select(u => (u.LastName + " " + u.FirstName).Trim())
+                            .FirstOrDefault() ?? "—",
+                        CustomerName   = _db.Customers
+                            .Where(c => c.Id == s.CustomerId)
+                            .Select(c => c.Name)
+                            .FirstOrDefault(),
+                        PositionsCount = s.SaleItems.Count,
+                        ItemsCount     = s.SaleItems.Sum(i => i.Quantity),
+                        PaymentMethod  = s.PaymentMethod,
+                        TotalAmount    = s.TotalAmount,
+                        PaidAmount     = s.PaidAmount,
+                    },
+                    Products = s.SaleItems.Select(i => i.Product.Name).ToList(),
+                })
+                .ToListAsync(ct);
+
+            // По датам и поиску отбираем в памяти: SQLite не сравнивает
+            // DateTimeOffset в SQL, а LIKE не знает регистра кириллицы
+            var term = search?.Trim();
+
+            return receipts
+                .Where(r => from is null || r.Item.SaleDate >= from.Value)
+                .Where(r => toExclusive is null || r.Item.SaleDate < toExclusive.Value)
+                .Where(r => string.IsNullOrWhiteSpace(term)
+                            || r.Item.SaleId.ToString().Contains(term)
+                            || Contains(r.Item.CashierName, term)
+                            || Contains(r.Item.CustomerName, term)
+                            || r.Products.Any(p => Contains(p, term)))
+                .Select(r => r.Item)
+                .OrderByDescending(r => r.SaleDate)
+                .ToList();
+        }
+
+        public async Task<ReceiptDetailsResponse?> GetReceiptAsync(long saleId, CancellationToken ct)
+        {
+            return await _db.Sales
+                .AsNoTracking()
+                .Where(s => s.Id == saleId)
+                .Select(s => new ReceiptDetailsResponse
+                {
+                    SaleId         = s.Id,
+                    SaleDate       = s.SaleDate,
+                    CashierName    = _db.Users
+                        .Where(u => u.Id == s.UserId)
+                        .Select(u => (u.LastName + " " + u.FirstName).Trim())
+                        .FirstOrDefault() ?? "—",
+                    CustomerName   = _db.Customers
+                        .Where(c => c.Id == s.CustomerId)
+                        .Select(c => c.Name)
+                        .FirstOrDefault(),
+                    Subtotal       = s.Subtotal,
+                    DiscountAmount = s.DiscountAmount,
+                    TotalAmount    = s.TotalAmount,
+                    PaidAmount     = s.PaidAmount,
+                    PaymentMethod  = s.PaymentMethod,
+                    Lines = s.SaleItems
+                        .Select(i => new ReceiptLineResponse
+                        {
+                            ProductName = i.Product.Name,
+                            Barcode     = i.Product.Barcode,
+                            Quantity    = i.Quantity,
+                            Price       = i.PriceAtSale,
+                        })
+                        .ToList(),
+                })
+                .FirstOrDefaultAsync(ct);
+        }
+
+        private static bool Contains(string? value, string term)
+            => value is not null && value.Contains(term, StringComparison.CurrentCultureIgnoreCase);
+
         public async Task<List<DebtResponse>> GetDebtsAsync(string? search, CancellationToken ct)
         {
             // Даты платежей забираем списком и берём последнюю в памяти:

@@ -152,7 +152,12 @@ public class MainViewModel : ViewModelBase
     }
 
     private void ShowReceipts()
-        => Navigate(new Views.Common.ComingSoonView(), "receipts", "Список чеков", "Поиск чека, копия и возврат");
+    {
+        // Список перечитывается при каждом заходе: чеки пробивают прямо сейчас
+        _ = App.Services.GetRequiredService<ViewModels.Receipts.ReceiptsListViewModel>().LoadAsync();
+
+        Navigate(new Views.Receipts.ReceiptsListView(), "receipts", "Список чеков", "Чеки за период и их состав");
+    }
 
     private void ShowReceiptTemplate()
         => Navigate(new Views.Common.ComingSoonView(), "editor", "Редактор чека", "Что печатается на чеке и в каком порядке");

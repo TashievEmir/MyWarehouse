@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Windows;
+using System.Windows.Markup;
 using Application.Contracts.Interfaces;
 using Application.Contracts.Persistence;
 using Application.Services;
@@ -31,6 +33,8 @@ namespace Wpf
         protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
+            ApplyRussianCulture();
 
             var services = new ServiceCollection();
 
@@ -70,6 +74,7 @@ namespace Wpf
             services.AddSingleton<ProductCatalogViewModel>();
             services.AddSingleton<ReceivingViewModel>();
             services.AddTransient<DashboardViewModel>();
+            services.AddSingleton<ViewModels.Receipts.ReceiptsListViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();
@@ -96,6 +101,25 @@ namespace Wpf
             // поэтому без входа работать нельзя
             var login = Services.GetRequiredService<LoginView>();
             login.Show();
+        }
+
+        /// <summary>
+        /// Интерфейс русский: без этого даты в DatePicker показывались как 8/1/2026,
+        /// а суммы — по инвариантной культуре.
+        /// </summary>
+        private static void ApplyRussianCulture()
+        {
+            var culture = new CultureInfo("ru-RU");
+
+            CultureInfo.DefaultThreadCurrentCulture   = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+            Thread.CurrentThread.CurrentCulture   = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(culture.IetfLanguageTag)));
         }
     }
 }
