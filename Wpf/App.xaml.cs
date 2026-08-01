@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Services;
 using Wpf.ViewModels;
+using Wpf.ViewModels.Dashboard;
 using Wpf.ViewModels.Login;
 using Wpf.ViewModels.Products;
 using Wpf.ViewModels.Sales;
@@ -50,6 +51,7 @@ namespace Wpf
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
 
@@ -64,6 +66,7 @@ namespace Wpf
             services.AddTransient<ProductsPageViewModel>();
             services.AddTransient<ProductCatalogViewModel>();
             services.AddTransient<ReceivingViewModel>();
+            services.AddTransient<DashboardViewModel>();
             services.AddTransient<StatisticsPageViewModel>();
             services.AddTransient<StockStatisticsViewModel>();
             services.AddTransient<DebtsViewModel>();

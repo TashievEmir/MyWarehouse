@@ -73,7 +73,7 @@ public class MainViewModel : ViewModelBase
 
     private void ShowDashboard()
     {
-        Navigate(new Views.Dashboard.DashboardView(), "Dashboard", "Главная", "Общее состояние склада");
+        Navigate(new Views.Dashboard.DashboardView(), "Dashboard", "Главная", "Сводка дня: касса, склад и долги");
     }
 
     private void ShowProducts()
