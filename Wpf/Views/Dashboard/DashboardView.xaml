@@ -17,20 +17,20 @@
         <Style x:Key="KpiCaption" TargetType="TextBlock">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
         </Style>
 
         <Style x:Key="KpiValue" TargetType="TextBlock">
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="0,6,0,0"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
         </Style>
 
         <Style x:Key="KpiHint" TargetType="TextBlock">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="Margin" Value="0,4,0,0"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
         </Style>
 
         <!-- ============ Столбик графика ============ -->
@@ -46,12 +46,12 @@
                                FontSize="10"
                                Margin="0,0,0,4"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                               Foreground="{DynamicResource TextSecondaryBrush}"/>
 
                     <Border x:Name="Bar"
                             Height="{Binding BarHeight}"
                             CornerRadius="6,6,0,0"
-                            Background="{StaticResource BrandLightBrush}"/>
+                            Background="{DynamicResource BrandLightBrush}"/>
                 </StackPanel>
 
                 <TextBlock Grid.Row="1"
@@ -59,12 +59,12 @@
                            FontSize="10"
                            Margin="0,6,0,0"
                            HorizontalAlignment="Center"
-                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                           Foreground="{DynamicResource TextSecondaryBrush}"/>
             </Grid>
 
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsToday}" Value="True">
-                    <Setter TargetName="Bar" Property="Background" Value="{StaticResource BrandBrush}"/>
+                    <Setter TargetName="Bar" Property="Background" Value="{DynamicResource BrandBrush}"/>
                 </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
@@ -81,7 +81,7 @@
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <TextBlock Text="{Binding Name}"
                                    FontSize="13"
-                                   Foreground="{StaticResource TextPrimaryBrush}"/>
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                         <TextBlock Text="{Binding ReceiptsLabel}"
                                    Style="{StaticResource Muted}"
@@ -93,7 +93,7 @@
                                Text="{Binding Amount, StringFormat={}{0:N2}}"
                                FontSize="13"
                                FontWeight="SemiBold"
-                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
                 </Grid>
 
                 <ProgressBar Height="5"
@@ -101,8 +101,8 @@
                              Minimum="0"
                              Maximum="100"
                              BorderThickness="0"
-                             Background="{StaticResource CanvasBrush}"
-                             Foreground="{StaticResource BrandBrush}"
+                             Background="{DynamicResource CanvasBrush}"
+                             Foreground="{DynamicResource BrandBrush}"
                              Value="{Binding SharePercent, Mode=OneWay}"/>
             </StackPanel>
         </DataTemplate>
@@ -118,7 +118,7 @@
                 <StackPanel Grid.Column="0" Margin="0,0,10,0">
                     <TextBlock Text="{Binding Name}"
                                FontSize="13"
-                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
                                TextTrimming="CharacterEllipsis"/>
 
                     <TextBlock Text="{Binding CategoryName}"
@@ -131,17 +131,17 @@
                         CornerRadius="8"
                         Padding="9,4"
                         VerticalAlignment="Center"
-                        Background="{StaticResource CanvasBrush}">
+                        Background="{DynamicResource CanvasBrush}">
 
                     <TextBlock Text="{Binding StockLabel}"
                                FontSize="12"
                                FontWeight="SemiBold">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsOut}" Value="True">
-                                        <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource DangerBrush}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -165,20 +165,20 @@
                         Height="24"
                         CornerRadius="12"
                         VerticalAlignment="Center"
-                        Background="{StaticResource BrandSoftBrush}">
+                        Background="{DynamicResource BrandSoftBrush}">
 
                     <TextBlock Text="{Binding Position}"
                                FontSize="12"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               Foreground="{StaticResource BrandBrush}"/>
+                               Foreground="{DynamicResource BrandBrush}"/>
                 </Border>
 
                 <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
                     <TextBlock Text="{Binding Name}"
                                FontSize="13"
-                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
                                TextTrimming="CharacterEllipsis"/>
 
                     <TextBlock Text="{Binding QuantityLabel}"
@@ -192,7 +192,7 @@
                            FontSize="13"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center"
-                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                           Foreground="{DynamicResource TextPrimaryBrush}"/>
             </Grid>
         </DataTemplate>
 
@@ -212,7 +212,7 @@
                     <TextBlock Text="{Binding Greeting}"
                                FontSize="20"
                                FontWeight="SemiBold"
-                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                     <TextBlock Text="{Binding TodayLabel}"
                                Style="{StaticResource Muted}"
@@ -235,7 +235,7 @@
             <Border Style="{StaticResource Card}"
                     Padding="14,10"
                     Margin="0,0,0,14"
-                    BorderBrush="{StaticResource DangerBrush}"
+                    BorderBrush="{DynamicResource DangerBrush}"
                     Visibility="{Binding HasPriceWarning, Converter={StaticResource BoolToVisibility}}">
 
                 <StackPanel Orientation="Horizontal">
@@ -243,14 +243,14 @@
                                              Width="19"
                                              Height="19"
                                              VerticalAlignment="Center"
-                                             Foreground="{StaticResource DangerBrush}"/>
+                                             Foreground="{DynamicResource DangerBrush}"/>
 
                     <TextBlock Text="{Binding PriceWarningText}"
                                Margin="10,0,0,0"
                                FontSize="13"
                                VerticalAlignment="Center"
                                TextWrapping="Wrap"
-                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
                 </StackPanel>
             </Border>
 
@@ -258,7 +258,7 @@
                        FontSize="12"
                        FontWeight="SemiBold"
                        TextWrapping="Wrap"
-                       Foreground="{StaticResource DangerBrush}"
+                       Foreground="{DynamicResource DangerBrush}"
                        Text="{Binding ErrorMessage}"
                        Visibility="{Binding HasError, Converter={StaticResource BoolToVisibility}}"/>
 
@@ -290,10 +290,10 @@
                         <TextBlock Text="{Binding TodayProfit, StringFormat={}{0:N2}}">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock" BasedOn="{StaticResource KpiValue}">
-                                    <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsProfitPositive}" Value="False">
-                                            <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource DangerBrush}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -311,7 +311,7 @@
 
                         <TextBlock Text="{Binding TotalDebt, StringFormat={}{0:N2}}"
                                    Style="{StaticResource KpiValue}"
-                                   Foreground="{StaticResource DangerBrush}"/>
+                                   Foreground="{DynamicResource DangerBrush}"/>
 
                         <TextBlock Style="{StaticResource KpiHint}" Text="{Binding DebtorsLabel}"/>
                     </StackPanel>

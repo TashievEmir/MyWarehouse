@@ -5,7 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Palette.xaml"/>
+                <!-- Первым обязан идти словарь темы: ThemeService подменяет именно его -->
+                <ResourceDictionary Source="Resources/Theme.Light.xaml"/>
                 <ResourceDictionary Source="Resources/Controls.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

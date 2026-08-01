@@ -1,4 +1,4 @@
-﻿<Window x:Class="Wpf.MainWindow"
+<Window x:Class="Wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -6,12 +6,12 @@
         Title="Мой склад"
         WindowState="Maximized"
         ResizeMode="CanResize"
-        MinWidth="880"
-        MinHeight="560"
+        MinWidth="1000"
+        MinHeight="620"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         FontFamily="Segoe UI"
-        Background="{StaticResource CanvasBrush}">
+        Background="{DynamicResource BgBrush}">
 
     <Window.Resources>
 
@@ -20,14 +20,14 @@
         <common:EqualsConverter x:Key="Equals"/>
         <common:InitialsConverter x:Key="Initials"/>
 
-        <!-- Пункт бокового меню: иконка задаётся через common:Nav.Icon,
-             активное состояние — через common:Nav.PageKey + MainViewModel.CurrentPage -->
+        <!-- Пункт верхнего уровня: иконка через common:Nav.Icon,
+             активное состояние — common:Nav.PageKey + MainViewModel.CurrentPage -->
         <Style x:Key="NavButton" TargetType="Button">
-            <Setter Property="Height" Value="44"/>
+            <Setter Property="Height" Value="48"/>
             <Setter Property="Margin" Value="12,2"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource TextMutedOnDarkBrush}"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavTextBrush}"/>
+            <Setter Property="FontSize" Value="15"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="ToolTip" Value="{Binding Content, RelativeSource={RelativeSource Self}}"/>
@@ -35,9 +35,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Border x:Name="Bg"
-                                    Background="{TemplateBinding Background}"
-                                    CornerRadius="10"/>
+                            <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="11"/>
 
                             <Border x:Name="ActiveBar"
                                     Width="3"
@@ -45,40 +43,44 @@
                                     Margin="-8,0,0,0"
                                     HorizontalAlignment="Left"
                                     CornerRadius="2"
-                                    Background="{StaticResource BrandLightBrush}"
+                                    Background="{DynamicResource PrimaryBrush}"
                                     Visibility="Collapsed"/>
 
                             <Grid x:Name="Row" Margin="14,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <materialDesign:PackIcon x:Name="Icon"
                                                          Grid.Column="0"
-                                                         Width="21"
-                                                         Height="21"
+                                                         Width="22"
+                                                         Height="22"
                                                          VerticalAlignment="Center"
                                                          Foreground="{TemplateBinding Foreground}"
                                                          Kind="{Binding (common:Nav.Icon), RelativeSource={RelativeSource TemplatedParent}}"/>
 
                                 <TextBlock x:Name="Label"
                                            Grid.Column="1"
-                                           Margin="14,0,0,0"
+                                           Margin="15,0,0,0"
                                            VerticalAlignment="Center"
                                            TextTrimming="CharacterEllipsis"
                                            Text="{TemplateBinding Content}"/>
+
+                                <ContentPresenter Grid.Column="2"
+                                                  x:Name="Badge"
+                                                  VerticalAlignment="Center"
+                                                  Content="{Binding (common:Nav.Badge), RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Grid>
                         </Grid>
 
                         <ControlTemplate.Triggers>
-
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bg" Property="Background" Value="{StaticResource NavHoverBrush}"/>
-                                <Setter Property="Foreground" Value="{StaticResource TextOnDarkBrush}"/>
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
                             </Trigger>
 
-                            <!-- Активная страница -->
                             <DataTrigger Value="True">
                                 <DataTrigger.Binding>
                                     <MultiBinding Converter="{StaticResource Equals}">
@@ -87,32 +89,105 @@
                                     </MultiBinding>
                                 </DataTrigger.Binding>
 
-                                <Setter TargetName="Bg" Property="Background" Value="{StaticResource NavActiveBrush}"/>
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
                                 <Setter TargetName="ActiveBar" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="Icon" Property="Foreground" Value="{StaticResource BrandLightBrush}"/>
+                                <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
                                 <Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
                             </DataTrigger>
 
-                            <!-- Свёрнутое меню: прячем подпись и центрируем иконку -->
                             <DataTrigger Binding="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
                                 <Setter TargetName="Label" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="Badge" Property="Visibility" Value="Collapsed"/>
                                 <Setter TargetName="Row" Property="Margin" Value="0"/>
                                 <Setter TargetName="Row" Property="HorizontalAlignment" Value="Center"/>
                             </DataTrigger>
-
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Заголовок группы пунктов (виден только в развёрнутом меню) -->
+        <!-- Заголовок группы с подпунктами: не кликается -->
+        <Style x:Key="NavGroup" TargetType="Border">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Margin" Value="12,6,12,0"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Пункт субменю -->
+        <Style x:Key="NavSubButton" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="12,1"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavTextBrush}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="11">
+                            <Grid Margin="14,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="37"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse x:Name="Marker"
+                                         Grid.Column="0"
+                                         Width="5"
+                                         Height="5"
+                                         HorizontalAlignment="Left"
+                                         Margin="9,0,0,0"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource NavCaptionBrush}"/>
+
+                                <TextBlock x:Name="Label"
+                                           Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{TemplateBinding Content}"/>
+
+                                <ContentPresenter Grid.Column="2"
+                                                  VerticalAlignment="Center"
+                                                  Content="{Binding (common:Nav.Badge), RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource Equals}">
+                                        <Binding Path="(common:Nav.PageKey)" RelativeSource="{RelativeSource TemplatedParent}"/>
+                                        <Binding Path="DataContext.CurrentPage" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter TargetName="Marker" Property="Fill" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Заголовок раздела меню -->
         <Style x:Key="NavCaption" TargetType="TextBlock">
-            <Setter Property="Margin" Value="26,18,26,8"/>
-            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Margin" Value="26,20,26,8"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource SidebarCaptionBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavCaptionBrush}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -120,11 +195,11 @@
             </Style.Triggers>
         </Style>
 
-        <!-- ...а в свёрнутом вместо него — разделитель -->
+        <!-- ...а в свёрнутом меню вместо него разделитель -->
         <Style x:Key="NavCaptionRule" TargetType="Border">
             <Setter Property="Height" Value="1"/>
             <Setter Property="Margin" Value="20,18,20,14"/>
-            <Setter Property="Background" Value="{StaticResource SidebarLineBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource NavLineBrush}"/>
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
@@ -133,27 +208,35 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Подпункты и заголовки групп прячутся в свёрнутом меню -->
+        <Style x:Key="NavSubGroup" TargetType="StackPanel">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <!-- Круглая кнопка-иконка в хедере -->
         <Style x:Key="HeaderIconButton" TargetType="Button">
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="42"/>
+            <Setter Property="Height" Value="42"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="Bg"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="10"
+                                CornerRadius="12"
                                 SnapsToDevicePixels="True">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bg" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
-                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource Surface2Brush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -161,18 +244,54 @@
             </Setter>
         </Style>
 
+        <!-- Кнопка темы в подвале сайдбара -->
+        <Style x:Key="ThemeButton" TargetType="Button">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavTextBrush}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg"
+                                CornerRadius="9"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource NavLineBrush}"
+                                BorderThickness="1"
+                                Padding="{TemplateBinding Padding}">
+
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Бейдж количества у пункта меню -->
+        <Style x:Key="NavBadge" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="7,2"/>
+            <Setter Property="Background" Value="{DynamicResource DangerBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="SidebarColumn" Width="240"/>
+            <ColumnDefinition x:Name="SidebarColumn" Width="268"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- ============ Боковое меню ============ -->
-        <Border Grid.Column="0"
-                Background="{StaticResource SidebarBrush}"
-                ClipToBounds="True">
+        <Border Grid.Column="0" Background="{DynamicResource NavBgBrush}" ClipToBounds="True">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -182,25 +301,24 @@
                 </Grid.RowDefinitions>
 
                 <!-- Логотип -->
-                <Grid Grid.Row="0" Height="72" Margin="20,0">
+                <Grid Grid.Row="0" Height="84" Margin="20,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="0"
-                            Width="36"
-                            Height="36"
-                            CornerRadius="10"
+                            Width="42"
+                            Height="42"
+                            CornerRadius="13"
                             VerticalAlignment="Center"
-                            Background="{StaticResource BrandGradientBrush}">
+                            Background="{DynamicResource BrandGradientBrush}">
 
-                        <materialDesign:PackIcon Kind="Warehouse"
-                                                 Width="20"
-                                                 Height="20"
-                                                 Foreground="White"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalAlignment="Center"/>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Rectangle Width="20" Height="4" RadiusX="2" RadiusY="2" Fill="#FFFFFF"/>
+                            <Rectangle Width="14" Height="4" RadiusX="2" RadiusY="2" Fill="#FFFFFF" Opacity="0.7" Margin="0,3"/>
+                            <Rectangle Width="20" Height="4" RadiusX="2" RadiusY="2" Fill="#FFFFFF"/>
+                        </StackPanel>
                     </Border>
 
                     <StackPanel Grid.Column="1"
@@ -208,16 +326,16 @@
                                 VerticalAlignment="Center"
                                 Visibility="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
 
-                        <TextBlock Text="MyWarehouse"
-                                   FontSize="15"
+                        <TextBlock Text="Мой склад"
+                                   FontSize="17"
                                    FontWeight="SemiBold"
-                                   Foreground="White"
+                                   Foreground="#FFFFFF"
                                    TextTrimming="CharacterEllipsis"/>
 
-                        <TextBlock Text="Управление складом"
-                                   FontSize="11"
+                        <TextBlock Text="Складкы башкаруу"
+                                   FontSize="12"
                                    Margin="0,1,0,0"
-                                   Foreground="{StaticResource SidebarCaptionBrush}"
+                                   Foreground="{DynamicResource NavCaptionBrush}"
                                    TextTrimming="CharacterEllipsis"/>
                     </StackPanel>
                 </Grid>
@@ -235,29 +353,145 @@
                         <Button Style="{StaticResource NavButton}"
                                 Content="Главная"
                                 common:Nav.Icon="ViewDashboardOutline"
-                                common:Nav.PageKey="Dashboard"
+                                common:Nav.PageKey="dashboard"
                                 Command="{Binding ShowDashboardCommand}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Товары"
-                                common:Nav.Icon="PackageVariantClosed"
-                                common:Nav.PageKey="Products"
-                                Command="{Binding ShowProductsCommand}"/>
+                                Content="Касса"
+                                common:Nav.Icon="CashRegister"
+                                common:Nav.PageKey="sales"
+                                Command="{Binding ShowSalesCommand}"/>
 
-                        <TextBlock Style="{StaticResource NavCaption}" Text="ОПЕРАЦИИ"/>
+                        <TextBlock Style="{StaticResource NavCaption}" Text="СКЛАД"/>
+                        <Border Style="{StaticResource NavCaptionRule}"/>
+
+                        <!-- Товары -->
+                        <Border Style="{StaticResource NavGroup}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="PackageVariantClosed"
+                                                         Width="22"
+                                                         Height="22"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{DynamicResource NavTextBrush}"/>
+
+                                <TextBlock Text="Товары"
+                                           Margin="15,0,0,0"
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource NavTextBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Style="{StaticResource NavSubGroup}">
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Каталог"
+                                    common:Nav.PageKey="catalog"
+                                    Command="{Binding ShowCatalogCommand}"/>
+
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Приёмка"
+                                    common:Nav.PageKey="receiving"
+                                    Command="{Binding ShowReceivingCommand}"/>
+                        </StackPanel>
+
+                        <!-- Чеки -->
+                        <Border Style="{StaticResource NavGroup}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ReceiptTextOutline"
+                                                         Width="22"
+                                                         Height="22"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{DynamicResource NavTextBrush}"/>
+
+                                <TextBlock Text="Чеки"
+                                           Margin="15,0,0,0"
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource NavTextBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Style="{StaticResource NavSubGroup}">
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Список чеков"
+                                    common:Nav.PageKey="receipts"
+                                    Command="{Binding ShowReceiptsCommand}"/>
+
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Редактор чека"
+                                    common:Nav.PageKey="editor"
+                                    Command="{Binding ShowReceiptTemplateCommand}"
+                                    Visibility="{Binding CanEditReceiptTemplate, Converter={StaticResource BoolToVisibility}}">
+
+                                <common:Nav.Badge>
+                                    <Border CornerRadius="7"
+                                            Padding="6,1"
+                                            BorderBrush="{DynamicResource NavLineBrush}"
+                                            BorderThickness="1">
+
+                                        <TextBlock Text="АДМИН"
+                                                   FontSize="10"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource NavCaptionBrush}"/>
+                                    </Border>
+                                </common:Nav.Badge>
+                            </Button>
+                        </StackPanel>
+
+                        <TextBlock Style="{StaticResource NavCaption}" Text="АНАЛИТИКА"/>
                         <Border Style="{StaticResource NavCaptionRule}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Продажи"
-                                common:Nav.Icon="CashMultiple"
-                                common:Nav.PageKey="Sales"
-                                Command="{Binding ShowSalesCommand}"/>
+                                Content="История действий"
+                                common:Nav.Icon="History"
+                                common:Nav.PageKey="history"
+                                Command="{Binding ShowActivityLogCommand}"/>
 
-                        <Button Style="{StaticResource NavButton}"
-                                Content="Статистика"
-                                common:Nav.Icon="ChartLine"
-                                common:Nav.PageKey="Statistics"
-                                Command="{Binding ShowStatisticsCommand}"/>
+                        <!-- Статистика -->
+                        <Border Style="{StaticResource NavGroup}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ChartLine"
+                                                         Width="22"
+                                                         Height="22"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{DynamicResource NavTextBrush}"/>
+
+                                <TextBlock Text="Статистика"
+                                           Margin="15,0,0,0"
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource NavTextBrush}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Style="{StaticResource NavSubGroup}">
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Остатки"
+                                    common:Nav.PageKey="stock"
+                                    Command="{Binding ShowStockCommand}"/>
+
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Долги"
+                                    common:Nav.PageKey="debts"
+                                    Command="{Binding ShowDebtsCommand}">
+
+                                <common:Nav.Badge>
+                                    <Border Style="{StaticResource NavBadge}"
+                                            Visibility="{Binding DataContext.HasDebts, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}}">
+
+                                        <TextBlock Text="{Binding DataContext.DebtsCount, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#FFFFFF"/>
+                                    </Border>
+                                </common:Nav.Badge>
+                            </Button>
+
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="Закупки"
+                                    common:Nav.PageKey="purchases"
+                                    Command="{Binding ShowPurchasesCommand}"/>
+                        </StackPanel>
 
                     </StackPanel>
                 </ScrollViewer>
@@ -265,14 +499,36 @@
                 <!-- Подвал -->
                 <Border Grid.Row="2"
                         BorderThickness="0,1,0,0"
-                        BorderBrush="{StaticResource SidebarLineBrush}"
+                        BorderBrush="{DynamicResource NavLineBrush}"
                         Padding="20,14">
 
-                    <TextBlock Foreground="{StaticResource SidebarCaptionBrush}"
-                               FontSize="11"
-                               HorizontalAlignment="Center"
-                               TextTrimming="CharacterEllipsis"
-                               Text="v1.0"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Text="v2.0"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource NavCaptionBrush}"/>
+
+                        <Button Grid.Column="1"
+                                Style="{StaticResource ThemeButton}"
+                                Command="{Binding ToggleThemeCommand}"
+                                ToolTip="Переключить тему">
+
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ThemeLightDark" Width="16" Height="16" VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding ThemeLabel}"
+                                           Margin="7,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Visibility="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </Border>
 
             </Grid>
@@ -282,112 +538,106 @@
         <Grid Grid.Column="1">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="64"/>
+                <RowDefinition Height="76"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- Хедер -->
             <Border Grid.Row="0"
-                    Background="{StaticResource SurfaceBrush}"
-                    BorderBrush="{StaticResource LineBrush}"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource LineBrush}"
                     BorderThickness="0,0,0,1">
 
-                <Grid Margin="12,0,20,0">
+                <Grid Margin="12,0,24,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Кнопка сворачивания меню -->
                     <Button Grid.Column="0"
                             Style="{StaticResource HeaderIconButton}"
                             Click="ToggleSidebar"
                             ToolTip="Свернуть / развернуть меню">
 
-                        <materialDesign:PackIcon x:Name="ToggleIcon"
-                                                 Kind="Backburger"
-                                                 Width="22"
-                                                 Height="22"/>
+                        <materialDesign:PackIcon x:Name="ToggleIcon" Kind="Backburger" Width="22" Height="22"/>
                     </Button>
 
-                    <!-- Заголовок страницы -->
                     <StackPanel Grid.Column="1"
-                                Margin="14,0,16,0"
+                                Margin="16,0,16,0"
                                 VerticalAlignment="Center">
 
                         <TextBlock Text="{Binding PageTitle}"
-                                   FontSize="17"
+                                   FontSize="20"
                                    FontWeight="SemiBold"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextBrush}"
                                    TextTrimming="CharacterEllipsis"/>
 
                         <TextBlock Text="{Binding PageSubtitle}"
-                                   FontSize="12"
-                                   Margin="0,1,0,0"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   FontSize="13"
+                                   Margin="0,2,0,0"
+                                   Foreground="{DynamicResource MutedBrush}"
                                    TextTrimming="CharacterEllipsis"
-                                   Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1000}"/>
+                                   Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1100}"/>
                     </StackPanel>
 
-                    <!-- Дата + пользователь -->
                     <StackPanel Grid.Column="2"
                                 Orientation="Horizontal"
                                 VerticalAlignment="Center">
 
-                        <Border CornerRadius="8"
-                                Padding="10,6"
-                                Background="{StaticResource CanvasBrush}"
+                        <Border CornerRadius="10"
+                                Padding="12,7"
+                                Background="{DynamicResource Surface2Brush}"
                                 VerticalAlignment="Center"
-                                Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1080}">
+                                Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1180}">
 
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="CalendarBlankOutline"
-                                                         Width="16"
-                                                         Height="16"
+                                                         Width="17"
+                                                         Height="17"
                                                          VerticalAlignment="Center"
-                                                         Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                         Foreground="{DynamicResource MutedBrush}"/>
 
                                 <TextBlock Text="{Binding Today}"
                                            Margin="8,0,0,0"
-                                           FontSize="12"
+                                           FontSize="13"
                                            VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                           Foreground="{DynamicResource MutedBrush}"/>
                             </StackPanel>
                         </Border>
 
                         <Border Width="1"
-                                Height="26"
-                                Margin="14,0"
-                                Background="{StaticResource LineBrush}"
-                                Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1080}"/>
+                                Height="28"
+                                Margin="16,0"
+                                Background="{DynamicResource LineBrush}"
+                                Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1180}"/>
 
-                        <Border Width="36"
-                                Height="36"
-                                CornerRadius="18"
-                                Background="{StaticResource BrandGradientBrush}">
+                        <Border Width="40"
+                                Height="40"
+                                CornerRadius="20"
+                                Background="{DynamicResource BrandGradientBrush}">
 
                             <TextBlock Text="{Binding UserName, Converter={StaticResource Initials}}"
                                        Foreground="White"
-                                       FontSize="13"
+                                       FontSize="14"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"/>
                         </Border>
 
-                        <StackPanel Margin="10,0,0,0"
+                        <StackPanel Margin="11,0,0,0"
                                     VerticalAlignment="Center"
-                                    Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=920}">
+                                    Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1000}">
 
                             <TextBlock Text="{Binding UserName}"
-                                       FontSize="13"
+                                       FontSize="14"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       Foreground="{DynamicResource TextBrush}"
                                        TextTrimming="CharacterEllipsis"/>
 
                             <TextBlock Text="{Binding UserRole}"
-                                       FontSize="11"
-                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource MutedBrush}"
                                        TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
 
@@ -397,7 +647,7 @@
 
             <!-- Контент -->
             <Border Grid.Row="1"
-                    Background="{StaticResource CanvasBrush}"
+                    Background="{DynamicResource BgBrush}"
                     Padding="24">
 
                 <ContentControl Content="{Binding CurrentView}"/>

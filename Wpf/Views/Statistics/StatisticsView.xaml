@@ -12,41 +12,7 @@
 
     <UserControl.Resources>
 
-        <!-- Раздел статистики -->
-        <Style x:Key="SectionTab" TargetType="RadioButton">
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Border x:Name="Bd"
-                                Height="34"
-                                Padding="16,0"
-                                CornerRadius="9"
-                                Background="Transparent"
-                                SnapsToDevicePixels="True">
-
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource BrandSoftBrush}"/>
-                                <Setter Property="Foreground" Value="{StaticResource BrandBrush}"/>
-                                <Setter Property="FontWeight" Value="SemiBold"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Каждому разделу — свой экран -->
+        <!-- Каждому разделу — свой экран; сам раздел выбирается в субменю навбара -->
         <DataTemplate DataType="{x:Type vm:StockStatisticsViewModel}">
             <local:StockStatisticsView/>
         </DataTemplate>
@@ -61,52 +27,6 @@
 
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <!-- ============ Разделы ============ -->
-        <Border Grid.Row="0"
-                Style="{StaticResource Card}"
-                Padding="6,4"
-                Margin="0,0,0,14"
-                HorizontalAlignment="Left">
-
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Style="{StaticResource SectionTab}"
-                             IsChecked="{Binding IsStockSelected, Mode=TwoWay}">
-
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="PackageVariantClosed" Width="17" Height="17" VerticalAlignment="Center"/>
-                        <TextBlock Text="Остатки" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </RadioButton>
-
-                <RadioButton Style="{StaticResource SectionTab}"
-                             Margin="4,0,0,0"
-                             IsChecked="{Binding IsDebtsSelected, Mode=TwoWay}">
-
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CreditCardClockOutline" Width="17" Height="17" VerticalAlignment="Center"/>
-                        <TextBlock Text="Долги" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </RadioButton>
-
-                <RadioButton Style="{StaticResource SectionTab}"
-                             Margin="4,0,0,0"
-                             IsChecked="{Binding IsPurchasesSelected, Mode=TwoWay}">
-
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="CartOutline" Width="17" Height="17" VerticalAlignment="Center"/>
-                        <TextBlock Text="Закупки" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </RadioButton>
-            </StackPanel>
-        </Border>
-
-        <!-- ============ Активный раздел ============ -->
-        <ContentControl Grid.Row="1" Content="{Binding Current}"/>
-    </Grid>
+    <!-- ============ Активный раздел ============ -->
+    <ContentControl Content="{Binding Current}"/>
 </UserControl>

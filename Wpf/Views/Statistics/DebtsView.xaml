@@ -26,8 +26,8 @@
                                 Margin="0,0,0,6"
                                 Padding="12,10"
                                 CornerRadius="10"
-                                Background="{StaticResource SurfaceBrush}"
-                                BorderBrush="{StaticResource LineBrush}"
+                                Background="{DynamicResource SurfaceBrush}"
+                                BorderBrush="{DynamicResource LineBrush}"
                                 BorderThickness="1"
                                 SnapsToDevicePixels="True">
 
@@ -35,7 +35,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -60,7 +60,7 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0">
                         <TextBlock Text="{Binding ContactText}"
                                    FontSize="13"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
                                    TextTrimming="CharacterEllipsis"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
@@ -88,12 +88,12 @@
                             Padding="10,5"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Background="{StaticResource CanvasBrush}">
+                            Background="{DynamicResource CanvasBrush}">
 
                         <TextBlock Text="{Binding Debt, StringFormat={}{0:N2}}"
                                    FontSize="13"
                                    FontWeight="SemiBold"
-                                   Foreground="{StaticResource DangerBrush}"/>
+                                   Foreground="{DynamicResource DangerBrush}"/>
                     </Border>
                 </Grid>
             </Button>
@@ -131,7 +131,7 @@
                             <TextBlock Style="{StaticResource Muted}"
                                        Margin="5,0,0,0"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource DangerBrush}"
+                                       Foreground="{DynamicResource DangerBrush}"
                                        Text="{Binding TotalDebt, StringFormat={}{0:N2}}"/>
 
                             <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="·"/>
@@ -146,10 +146,10 @@
 
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding StatusIsError}" Value="True">
-                                            <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                            <Setter Property="Foreground" Value="{DynamicResource DangerBrush}"/>
                                             <Setter Property="FontWeight" Value="SemiBold"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -167,7 +167,7 @@
                                    FontSize="13"
                                    IsHitTestVisible="False"
                                    VerticalAlignment="Center"
-                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                    Visibility="{Binding SearchText, Converter={StaticResource EmptyToVisibility}}"/>
 
                         <Button Style="{StaticResource MiniIconButton}"
@@ -214,12 +214,12 @@
                                                  Width="46"
                                                  Height="46"
                                                  HorizontalAlignment="Center"
-                                                 Foreground="{StaticResource LineBrush}"/>
+                                                 Foreground="{DynamicResource LineBrush}"/>
 
                         <TextBlock Text="Непогашенных долгов нет"
                                    Margin="0,10,0,0"
                                    FontSize="14"
-                                   Foreground="{StaticResource TextSecondaryBrush}"/>
+                                   Foreground="{DynamicResource TextSecondaryBrush}"/>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -263,7 +263,7 @@
                     </Button>
                 </Grid>
 
-                <Border Height="1" Margin="0,14" Background="{StaticResource LineBrush}"/>
+                <Border Height="1" Margin="0,14" Background="{DynamicResource LineBrush}"/>
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -274,7 +274,7 @@
                     <TextBlock Grid.Column="0" Text="Сумма чека" Style="{StaticResource Muted}" FontSize="13"/>
                     <TextBlock Grid.Column="1"
                                FontSize="13"
-                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
                                Text="{Binding TotalAmount, StringFormat={}{0:N2}}"/>
                 </Grid>
 
@@ -287,7 +287,7 @@
                     <TextBlock Grid.Column="0" Text="Уже оплачено" Style="{StaticResource Muted}" FontSize="13"/>
                     <TextBlock Grid.Column="1"
                                FontSize="13"
-                               Foreground="{StaticResource SuccessBrush}"
+                               Foreground="{DynamicResource SuccessBrush}"
                                Text="{Binding PaidAmount, StringFormat={}{0:N2}}"/>
                 </Grid>
 
@@ -302,12 +302,12 @@
                                FontSize="15"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
-                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                     <TextBlock Grid.Column="1"
                                FontSize="24"
                                FontWeight="Bold"
-                               Foreground="{StaticResource DangerBrush}"
+                               Foreground="{DynamicResource DangerBrush}"
                                Text="{Binding Debt, StringFormat={}{0:N2}}"/>
                 </Grid>
 

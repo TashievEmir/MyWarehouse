@@ -12,11 +12,11 @@ namespace Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const double ExpandedWidth = 240;
-        private const double CollapsedWidth = 72;
+        private const double ExpandedWidth = 268;
+        private const double CollapsedWidth = 76;
 
         /// <summary>Ниже этой ширины окна меню сворачивается автоматически.</summary>
-        private const double AutoCollapseWidth = 1100;
+        private const double AutoCollapseWidth = 1220;
 
         private bool? _isNarrow;
 

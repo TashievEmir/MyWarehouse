@@ -22,6 +22,20 @@ public static class Nav
     public static void SetIcon(DependencyObject element, PackIconKind value)
         => element.SetValue(IconProperty, value);
 
+    /// <summary>Плашка справа от пункта: счётчик долгов, отметка «АДМИН».</summary>
+    public static readonly DependencyProperty BadgeProperty =
+        DependencyProperty.RegisterAttached(
+            "Badge",
+            typeof(object),
+            typeof(Nav),
+            new PropertyMetadata(null));
+
+    public static object? GetBadge(DependencyObject element)
+        => element.GetValue(BadgeProperty);
+
+    public static void SetBadge(DependencyObject element, object? value)
+        => element.SetValue(BadgeProperty, value);
+
     public static readonly DependencyProperty PageKeyProperty =
         DependencyProperty.RegisterAttached(
             "PageKey",

@@ -35,15 +35,15 @@
         <Style x:Key="PaymentOption" TargetType="RadioButton">
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Margin" Value="0,0,8,8"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
                         <Border x:Name="Bd"
                                 Height="58"
                                 CornerRadius="10"
-                                Background="{StaticResource SurfaceBrush}"
-                                BorderBrush="{StaticResource LineBrush}"
+                                Background="{DynamicResource SurfaceBrush}"
+                                BorderBrush="{DynamicResource LineBrush}"
                                 BorderThickness="1"
                                 SnapsToDevicePixels="True">
 
@@ -53,12 +53,12 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SurfaceHoverBrush}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SurfaceHoverBrush}"/>
                             </Trigger>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource BrandSoftBrush}"/>
-                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource BrandBrush}"/>
-                                <Setter Property="Foreground" Value="{StaticResource BrandBrush}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource BrandSoftBrush}"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource BrandBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource BrandBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -71,7 +71,7 @@
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Width" Value="44"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -87,9 +87,9 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SurfaceBrush}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SurfaceBrush}"/>
                                 <Setter Property="FontWeight" Value="SemiBold"/>
-                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -111,18 +111,18 @@
             <Border Margin="0,0,0,6"
                     Padding="10,8"
                     CornerRadius="10"
-                    Background="{StaticResource SurfaceBrush}"
+                    Background="{DynamicResource SurfaceBrush}"
                     BorderThickness="1">
 
                 <Border.Style>
                     <Style TargetType="Border">
-                        <Setter Property="BorderBrush" Value="{StaticResource LineBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource LineBrush}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ExceedsStock}" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding HasNoPrice}" Value="True">
-                                <Setter Property="BorderBrush" Value="{StaticResource DangerBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource DangerBrush}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -141,7 +141,7 @@
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0">
                         <TextBlock Text="{Binding Name}"
                                    FontSize="13"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
                                    TextTrimming="CharacterEllipsis"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
@@ -159,14 +159,14 @@
                                        FontSize="11"
                                        Margin="10,0,0,0"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource DangerBrush}"
+                                       Foreground="{DynamicResource DangerBrush}"
                                        Visibility="{Binding HasNoPrice, Converter={StaticResource BoolToVisibility}}"/>
 
                             <TextBlock Text="больше, чем на складе"
                                        FontSize="11"
                                        Margin="10,0,0,0"
                                        FontWeight="SemiBold"
-                                       Foreground="{StaticResource DangerBrush}"
+                                       Foreground="{DynamicResource DangerBrush}"
                                        Visibility="{Binding ExceedsStock, Converter={StaticResource BoolToVisibility}}"/>
                         </StackPanel>
                     </StackPanel>
@@ -214,7 +214,7 @@
                                FontWeight="SemiBold"
                                TextAlignment="Right"
                                VerticalAlignment="Center"
-                               Foreground="{StaticResource TextPrimaryBrush}"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
                                Text="{Binding Sum, StringFormat={}{0:N2}}"/>
 
                     <Button Grid.Column="4"
@@ -274,7 +274,7 @@
                                            FontSize="13"
                                            IsHitTestVisible="False"
                                            VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextSecondaryBrush}"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
                                            Visibility="{Binding BarcodeInput, Converter={StaticResource EmptyToVisibility}}"/>
                             </Grid>
 
@@ -319,13 +319,13 @@
                                                          Width="44"
                                                          Height="44"
                                                          HorizontalAlignment="Center"
-                                                         Foreground="{StaticResource LineBrush}"/>
+                                                         Foreground="{DynamicResource LineBrush}"/>
 
                                 <TextBlock Text="Чек пуст — отсканируйте товар"
                                            Margin="0,10,0,0"
                                            FontSize="14"
                                            HorizontalAlignment="Center"
-                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                           Foreground="{DynamicResource TextSecondaryBrush}"/>
                             </StackPanel>
                         </Grid>
 
@@ -372,7 +372,7 @@
                                 <TextBlock Grid.Column="0" Text="Сумма" Style="{StaticResource Muted}" FontSize="13"/>
                                 <TextBlock Grid.Column="1"
                                            FontSize="13"
-                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"
                                            Text="{Binding Subtotal, StringFormat={}{0:N2}}"/>
                             </Grid>
 
@@ -388,7 +388,7 @@
                                 <Border Grid.Column="0"
                                         CornerRadius="9"
                                         Padding="3"
-                                        Background="{StaticResource CanvasBrush}">
+                                        Background="{DynamicResource CanvasBrush}">
 
                                     <StackPanel Orientation="Horizontal">
                                         <RadioButton Style="{StaticResource SegmentOption}"
@@ -426,11 +426,11 @@
                                 <TextBlock Grid.Column="1"
                                            FontSize="13"
                                            FontWeight="SemiBold"
-                                           Foreground="{StaticResource DangerBrush}"
+                                           Foreground="{DynamicResource DangerBrush}"
                                            Text="{Binding DiscountAmount, StringFormat=− {0:N2}}"/>
                             </Grid>
 
-                            <Border Height="1" Margin="0,14" Background="{StaticResource LineBrush}"/>
+                            <Border Height="1" Margin="0,14" Background="{DynamicResource LineBrush}"/>
 
                             <!-- Итог -->
                             <Grid>
@@ -444,12 +444,12 @@
                                            FontSize="15"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"
-                                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                                 <TextBlock Grid.Column="1"
                                            FontSize="26"
                                            FontWeight="Bold"
-                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"
                                            Text="{Binding Total, StringFormat={}{0:N2}}"/>
                             </Grid>
 
@@ -505,7 +505,7 @@
                                     <TextBlock Grid.Column="1"
                                                FontSize="15"
                                                FontWeight="SemiBold"
-                                               Foreground="{StaticResource SuccessBrush}"
+                                               Foreground="{DynamicResource SuccessBrush}"
                                                Text="{Binding Change, StringFormat={}{0:N2}}"/>
                                 </Grid>
                             </StackPanel>
@@ -559,7 +559,7 @@
                                                    Margin="12,0,0,0"
                                                    IsHitTestVisible="False"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                                    Visibility="{Binding NewCustomerName, Converter={StaticResource EmptyToVisibility}}"/>
                                     </Grid>
 
@@ -577,7 +577,7 @@
                                                    Margin="12,0,0,0"
                                                    IsHitTestVisible="False"
                                                    VerticalAlignment="Center"
-                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"
                                                    Visibility="{Binding NewCustomerPhone, Converter={StaticResource EmptyToVisibility}}"/>
                                     </Grid>
 
@@ -617,7 +617,7 @@
                                     <TextBlock Grid.Column="1"
                                                FontSize="15"
                                                FontWeight="SemiBold"
-                                               Foreground="{StaticResource DangerBrush}"
+                                               Foreground="{DynamicResource DangerBrush}"
                                                Text="{Binding DebtAmount, StringFormat={}{0:N2}}"/>
                                 </Grid>
                             </StackPanel>
@@ -645,10 +645,10 @@
 
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="{StaticResource SuccessBrush}"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource SuccessBrush}"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding StatusIsError}" Value="True">
-                                                <Setter Property="Foreground" Value="{StaticResource DangerBrush}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource DangerBrush}"/>
                                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -705,13 +705,13 @@
                                                                          Width="17"
                                                                          Height="17"
                                                                          VerticalAlignment="Center"
-                                                                         Foreground="{StaticResource TextSecondaryBrush}"/>
+                                                                         Foreground="{DynamicResource TextSecondaryBrush}"/>
 
                                                 <TextBlock Text="{Binding Title}"
                                                            Margin="8,0,0,0"
                                                            FontSize="13"
                                                            VerticalAlignment="Center"
-                                                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                           Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                                                 <TextBlock Text="{Binding CartSummary}"
                                                            Style="{StaticResource Muted}"
@@ -745,7 +745,7 @@
                                             </MultiBinding>
                                         </DataTrigger.Binding>
 
-                                        <Setter TargetName="TabBd" Property="Background" Value="{StaticResource BrandSoftBrush}"/>
+                                        <Setter TargetName="TabBd" Property="Background" Value="{DynamicResource BrandSoftBrush}"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>

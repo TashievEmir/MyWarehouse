@@ -54,6 +54,7 @@ namespace Wpf
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
+            services.AddSingleton<ThemeService>();
 
             // Views
             services.AddTransient<LoginView>();
@@ -63,14 +64,16 @@ namespace Wpf
             // ViewModels
             services.AddTransient<LoginViewModel>();
             services.AddTransient<MainViewModel>();
-            services.AddTransient<ProductsPageViewModel>();
-            services.AddTransient<ProductCatalogViewModel>();
-            services.AddTransient<ReceivingViewModel>();
+            // Страницы с разделами — синглтоны: раздел выбирает навигация,
+            // и состояние не теряется при переходах
+            services.AddSingleton<ProductsPageViewModel>();
+            services.AddSingleton<ProductCatalogViewModel>();
+            services.AddSingleton<ReceivingViewModel>();
             services.AddTransient<DashboardViewModel>();
-            services.AddTransient<StatisticsPageViewModel>();
-            services.AddTransient<StockStatisticsViewModel>();
-            services.AddTransient<DebtsViewModel>();
-            services.AddTransient<PurchaseLogViewModel>();
+            services.AddSingleton<StatisticsPageViewModel>();
+            services.AddSingleton<StockStatisticsViewModel>();
+            services.AddSingleton<DebtsViewModel>();
+            services.AddSingleton<PurchaseLogViewModel>();
 
             // Касса живёт всё время работы приложения: открытые чеки
             // не должны теряться при переходе на другую страницу
@@ -78,6 +81,9 @@ namespace Wpf
 
             _services = services.BuildServiceProvider();
             Services = _services;
+
+            // Тема ставится до первого окна, иначе оно мигнёт светлым
+            Services.GetRequiredService<ThemeService>().Apply();
 
             // 🔥 migrate + seed
             using var scope = _services.CreateScope();
