@@ -4,6 +4,8 @@ using Application.Contracts.Interfaces;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Statistics;
 
 /// <summary>
@@ -35,6 +37,8 @@ public class DebtsViewModel : ViewModelBase
         PayFullCommand = new RelayCommand(() => PaymentAmount = Selected?.Debt ?? 0m);
         PayCommand = new AsyncRelayCommand(PayAsync);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
+    
+        WatchLanguage();
     }
 
     // ===================== Список =====================
@@ -76,7 +80,7 @@ public class DebtsViewModel : ViewModelBase
         private set => SetProperty(ref _totalDebt, value);
     }
 
-    public string CountText => Debts.Count == 0 ? "" : $"{Debts.Count} долг(ов)";
+    public string CountText => Debts.Count == 0 ? "" : Loc.F("Debts_Count", Debts.Count);
 
     public async Task LoadAsync()
     {
@@ -109,7 +113,7 @@ public class DebtsViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ShowError($"Не удалось загрузить долги: {ex.Message}");
+            ShowError(Loc.F("Debts_LoadFailed", ex.Message));
         }
         finally
         {
@@ -162,19 +166,19 @@ public class DebtsViewModel : ViewModelBase
 
         if (PaymentAmount <= 0)
         {
-            ShowError("Укажите сумму платежа");
+            ShowError(Loc.T("Debts_NeedAmount"));
             return;
         }
 
         if (PaymentAmount > Selected.Debt)
         {
-            ShowError($"Долг составляет {Selected.Debt:N2} — принять больше нельзя");
+            ShowError(Loc.F("Debts_TooMuch", Selected.Debt.ToString("N2", Loc.Instance.Culture)));
             return;
         }
 
         if (_session.User is null)
         {
-            ShowError("Оплату нельзя принять: не выполнен вход в систему");
+            ShowError(Loc.T("Debts_NoLogin"));
             return;
         }
 
@@ -193,11 +197,11 @@ public class DebtsViewModel : ViewModelBase
             if (rest <= 0)
             {
                 CloseSelection();
-                ShowInfo($"Долг по чеку №{saleId} закрыт");
+                ShowInfo(Loc.F("Debts_Closed", saleId));
             }
             else
             {
-                ShowInfo($"Принято {amount:N2} · остаток долга {rest:N2}");
+                ShowInfo(Loc.F("Debts_Accepted", amount.ToString("N2", Loc.Instance.Culture), rest.ToString("N2", Loc.Instance.Culture)));
             }
         }
         catch (Exception ex)
@@ -249,5 +253,15 @@ public class DebtsViewModel : ViewModelBase
     {
         StatusIsError = true;
         StatusMessage = message;
+    }
+
+    /// <summary>Страница живёт синглтоном: после смены языка перечитываем её строки.</summary>
+    private void WatchLanguage()
+    {
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+            _ = LoadAsync();
+        };
     }
 }

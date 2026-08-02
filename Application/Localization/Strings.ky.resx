@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Title" xml:space="preserve">
+    <value>Менин кампам</value>
+  </data>
+  <data name="App_Tagline" xml:space="preserve">
+    <value>Складкы башкаруу</value>
+  </data>
+  <data name="App_LoginTitle" xml:space="preserve">
+    <value>Менин кампам — кирүү</value>
+  </data>
+  <data name="App_Version" xml:space="preserve">
+    <value>v2.0</value>
+  </data>
+  <data name="Common_Show" xml:space="preserve">
+    <value>Көрсөтүү</value>
+  </data>
+  <data name="Common_Reset" xml:space="preserve">
+    <value>Тазалоо</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Жокко чыгаруу</value>
+  </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>Кошуу</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Жабуу</value>
+  </data>
+  <data name="Common_Clear" xml:space="preserve">
+    <value>Тазалоо</value>
+  </data>
+  <data name="Common_ClearSearch" xml:space="preserve">
+    <value>Издөөнү тазалоо</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>Жүктөлүүдө…</value>
+  </data>
+  <data name="Common_Search" xml:space="preserve">
+    <value>ИЗДӨӨ</value>
+  </data>
+  <data name="Common_DateFrom" xml:space="preserve">
+    <value>КҮНДӨН</value>
+  </data>
+  <data name="Common_DateTo" xml:space="preserve">
+    <value>КҮНГӨ ЧЕЙИН</value>
+  </data>
+  <data name="Common_From" xml:space="preserve">
+    <value>БАШТАП</value>
+  </data>
+  <data name="Common_To" xml:space="preserve">
+    <value>ЧЕЙИН</value>
+  </data>
+  <data name="Common_Period" xml:space="preserve">
+    <value>Мезгил:</value>
+  </data>
+  <data name="Common_Pcs" xml:space="preserve">
+    <value>даана</value>
+  </data>
+  <data name="Nav_Group_Overview" xml:space="preserve">
+    <value>СЕРЕП</value>
+  </data>
+  <data name="Nav_Group_Warehouse" xml:space="preserve">
+    <value>КАМПА</value>
+  </data>
+  <data name="Nav_Group_Analytics" xml:space="preserve">
+    <value>АНАЛИТИКА</value>
+  </data>
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>Башкы бет</value>
+  </data>
+  <data name="Nav_Sales" xml:space="preserve">
+    <value>Касса</value>
+  </data>
+  <data name="Nav_Products" xml:space="preserve">
+    <value>Товарлар</value>
+  </data>
+  <data name="Nav_Catalog" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="Nav_Receiving" xml:space="preserve">
+    <value>Кабыл алуу</value>
+  </data>
+  <data name="Nav_Receipts" xml:space="preserve">
+    <value>Чектер</value>
+  </data>
+  <data name="Nav_ReceiptsList" xml:space="preserve">
+    <value>Чектердин тизмеси</value>
+  </data>
+  <data name="Nav_ReceiptEditor" xml:space="preserve">
+    <value>Чек редактору</value>
+  </data>
+  <data name="Nav_Badge_Admin" xml:space="preserve">
+    <value>АДМИН</value>
+  </data>
+  <data name="Nav_History" xml:space="preserve">
+    <value>Аракеттер тарыхы</value>
+  </data>
+  <data name="Nav_Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="Nav_Stock" xml:space="preserve">
+    <value>Калдыктар</value>
+  </data>
+  <data name="Nav_Debts" xml:space="preserve">
+    <value>Карыздар</value>
+  </data>
+  <data name="Nav_Purchases" xml:space="preserve">
+    <value>Сатып алуулар</value>
+  </data>
+  <data name="Tip_ToggleSidebar" xml:space="preserve">
+    <value>Менюну жыйноо / жайуу</value>
+  </data>
+  <data name="Tip_ToggleTheme" xml:space="preserve">
+    <value>Теманы алмаштыруу</value>
+  </data>
+  <data name="Tip_ToggleLanguage" xml:space="preserve">
+    <value>Тилди алмаштыруу · Сменить язык</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Ачык тема</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Караңгы тема</value>
+  </data>
+  <data name="Page_Dashboard_Title" xml:space="preserve">
+    <value>Башкы бет</value>
+  </data>
+  <data name="Page_Dashboard_Sub" xml:space="preserve">
+    <value>Күндүн жыйынтыгы: касса, кампа жана карыздар</value>
+  </data>
+  <data name="Page_Sales_Title" xml:space="preserve">
+    <value>Касса</value>
+  </data>
+  <data name="Page_Sales_Sub" xml:space="preserve">
+    <value>Чектер, арзандатуулар жана төлөм</value>
+  </data>
+  <data name="Page_Catalog_Title" xml:space="preserve">
+    <value>Товарлар каталогу</value>
+  </data>
+  <data name="Page_Catalog_Sub" xml:space="preserve">
+    <value>Карточкалар, баалар, эсептен чыгаруу жана өчүрүү</value>
+  </data>
+  <data name="Page_Receiving_Title" xml:space="preserve">
+    <value>Кабыл алуу</value>
+  </data>
+  <data name="Page_Receiving_Sub" xml:space="preserve">
+    <value>Товарды штрихкод боюнча кабыл алуу</value>
+  </data>
+  <data name="Page_Receipts_Title" xml:space="preserve">
+    <value>Чектердин тизмеси</value>
+  </data>
+  <data name="Page_Receipts_Sub" xml:space="preserve">
+    <value>Мезгил ичиндеги чектер жана алардын курамы</value>
+  </data>
+  <data name="Page_Editor_Title" xml:space="preserve">
+    <value>Чек редактору</value>
+  </data>
+  <data name="Page_Editor_Sub" xml:space="preserve">
+    <value>Чекте эмне жана кандай тартипте басылат</value>
+  </data>
+  <data name="Page_History_Title" xml:space="preserve">
+    <value>Аракеттер тарыхы</value>
+  </data>
+  <data name="Page_History_Sub" xml:space="preserve">
+    <value>Ким эмне кылды жана качан</value>
+  </data>
+  <data name="Page_Stock_Title" xml:space="preserve">
+    <value>Калдыктар</value>
+  </data>
+  <data name="Page_Stock_Sub" xml:space="preserve">
+    <value>Мезгил ичиндеги категориялар боюнча калдыктар</value>
+  </data>
+  <data name="Page_Debts_Title" xml:space="preserve">
+    <value>Кардарлардын карыздары</value>
+  </data>
+  <data name="Page_Debts_Sub" xml:space="preserve">
+    <value>Жабылбаган чектер жана төлөм кабыл алуу</value>
+  </data>
+  <data name="Page_Purchases_Title" xml:space="preserve">
+    <value>Сатып алуулар</value>
+  </data>
+  <data name="Page_Purchases_Sub" xml:space="preserve">
+    <value>Мезгил ичиндеги жеткирүүлөр журналы</value>
+  </data>
+  <data name="Session_Guest" xml:space="preserve">
+    <value>Конок</value>
+  </data>
+  <data name="Session_NotAuthorized" xml:space="preserve">
+    <value>Кирген жок</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Системага кирүү</value>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Сатуулар кассирге байланат, ошондуктан кирүүдөн баштаңыз</value>
+  </data>
+  <data name="Login_UsernameCaption" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Login_UsernameHint" xml:space="preserve">
+    <value>Мисалы, admin</value>
+  </data>
+  <data name="Login_PasswordCaption" xml:space="preserve">
+    <value>СЫРСӨЗ</value>
+  </data>
+  <data name="Login_Submit" xml:space="preserve">
+    <value>Кирүү</value>
+  </data>
+  <data name="Login_ShowPassword" xml:space="preserve">
+    <value>Сырсөздү көрсөтүү</value>
+  </data>
+  <data name="Catalog_SearchHint" xml:space="preserve">
+    <value>Аталышы, штрихкоду же категориясы боюнча издөө</value>
+  </data>
+  <data name="Catalog_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Catalog_Col_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Catalog_Col_Price" xml:space="preserve">
+    <value>САТУУ</value>
+  </data>
+  <data name="Catalog_Col_Cost" xml:space="preserve">
+    <value>САТЫП АЛУУ</value>
+  </data>
+  <data name="Catalog_Col_Stock" xml:space="preserve">
+    <value>КАЛДЫК</value>
+  </data>
+  <data name="Catalog_Empty" xml:space="preserve">
+    <value>Товарлар табылган жок</value>
+  </data>
+  <data name="Catalog_Count" xml:space="preserve">
+    <value>{0} поз.</value>
+  </data>
+  <data name="Catalog_LoadFailed" xml:space="preserve">
+    <value>Каталогду жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Editor_InStock" xml:space="preserve">
+    <value>кампада: {0} даана</value>
+  </data>
+  <data name="Editor_Name" xml:space="preserve">
+    <value>АТАЛЫШЫ</value>
+  </data>
+  <data name="Editor_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Editor_CategoryHint" xml:space="preserve">
+    <value>Категорияны тандаңыз</value>
+  </data>
+  <data name="Editor_Price" xml:space="preserve">
+    <value>САТУУ БААСЫ</value>
+  </data>
+  <data name="Editor_Cost" xml:space="preserve">
+    <value>САТЫП АЛУУ БААСЫ</value>
+  </data>
+  <data name="Editor_Barcode" xml:space="preserve">
+    <value>ШТРИХКОД</value>
+  </data>
+  <data name="Editor_Sku" xml:space="preserve">
+    <value>АРТИКУЛ</value>
+  </data>
+  <data name="Editor_Description" xml:space="preserve">
+    <value>СҮРӨТТӨМӨ</value>
+  </data>
+  <data name="Editor_Save" xml:space="preserve">
+    <value>Карточканы сактоо</value>
+  </data>
+  <data name="Editor_WriteOffTitle" xml:space="preserve">
+    <value>Кампадан эсептен чыгаруу</value>
+  </data>
+  <data name="Editor_Quantity" xml:space="preserve">
+    <value>САНЫ</value>
+  </data>
+  <data name="Editor_Reason" xml:space="preserve">
+    <value>СЕБЕБИ</value>
+  </data>
+  <data name="Editor_CommentHint" xml:space="preserve">
+    <value>Комментарий (милдеттүү эмес)</value>
+  </data>
+  <data name="Editor_WriteOff" xml:space="preserve">
+    <value>Эсептен чыгаруу</value>
+  </data>
+  <data name="Editor_Delete" xml:space="preserve">
+    <value>Товарды өчүрүү</value>
+  </data>
+  <data name="Editor_DeleteBlocked" xml:space="preserve">
+    <value>Товар боюнча кыймыл бар — өчүрүүнүн ордуна калдыкты эсептен чыгарыңыз</value>
+  </data>
+  <data name="Editor_DeleteAllowed" xml:space="preserve">
+    <value>Кыймылы жок товарды толугу менен өчүрсө болот</value>
+  </data>
+  <data name="Editor_NeedName" xml:space="preserve">
+    <value>Товардын аталышын жазыңыз</value>
+  </data>
+  <data name="Editor_NeedCategory" xml:space="preserve">
+    <value>Категорияны тандаңыз</value>
+  </data>
+  <data name="Editor_NeedPrice" xml:space="preserve">
+    <value>Сатуу баасын жазыңыз</value>
+  </data>
+  <data name="Editor_Saved" xml:space="preserve">
+    <value>Карточка сакталды</value>
+  </data>
+  <data name="Editor_WriteOffTooMuch" xml:space="preserve">
+    <value>Кампада {0} даана — андан көбүн эсептен чыгарууга болбойт</value>
+  </data>
+  <data name="Editor_WriteOffNoLogin" xml:space="preserve">
+    <value>Эсептен чыгарууга болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Editor_WriteOffConfirm" xml:space="preserve">
+    <value>«{1}» товарынан {0} даана эсептен чыгарылсынбы?
+Себеби: {2}</value>
+  </data>
+  <data name="Editor_WriteOffConfirmTitle" xml:space="preserve">
+    <value>Товарды эсептен чыгаруу</value>
+  </data>
+  <data name="Editor_WriteOffDone" xml:space="preserve">
+    <value>{0} даана эсептен чыгарылды · калды {1}</value>
+  </data>
+  <data name="Editor_DeleteConfirm" xml:space="preserve">
+    <value>«{0}» карточкасы толугу менен өчүрүлсүнбү?</value>
+  </data>
+  <data name="Editor_DeleteConfirmTitle" xml:space="preserve">
+    <value>Товарды өчүрүү</value>
+  </data>
+  <data name="WriteOff_Damage" xml:space="preserve">
+    <value>Бузулуу</value>
+  </data>
+  <data name="WriteOff_Shortage" xml:space="preserve">
+    <value>Жетишпөөчүлүк</value>
+  </data>
+  <data name="WriteOff_ReturnToSupplier" xml:space="preserve">
+    <value>Жеткирүүчүгө кайтаруу</value>
+  </data>
+  <data name="WriteOff_Other" xml:space="preserve">
+    <value>Башка</value>
+  </data>
+  <data name="Category_CreateNew" xml:space="preserve">
+    <value>+ Жаңы категория…</value>
+  </data>
+  <data name="Product_StockPcs" xml:space="preserve">
+    <value>{0} даана</value>
+  </data>
+  <data name="Receiving_Title" xml:space="preserve">
+    <value>Штрихкод боюнча кабыл алуу</value>
+  </data>
+  <data name="Receiving_Supplier" xml:space="preserve">
+    <value>Жеткирүүчү</value>
+  </data>
+  <data name="Receiving_ScanHint" xml:space="preserve">
+    <value>Штрихкодду скандаңыз — товар тизмеге кошулат</value>
+  </data>
+  <data name="Receiving_ScanButton" xml:space="preserve">
+    <value>Окуу</value>
+  </data>
+  <data name="Receiving_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Receiving_Col_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Receiving_Col_Quantity" xml:space="preserve">
+    <value>САНЫ</value>
+  </data>
+  <data name="Receiving_Col_Cost" xml:space="preserve">
+    <value>САТЫП АЛУУ</value>
+  </data>
+  <data name="Receiving_Col_Price" xml:space="preserve">
+    <value>САТУУ</value>
+  </data>
+  <data name="Receiving_Empty" xml:space="preserve">
+    <value>Товарларды скандаңыз — алар ушул жерде чыгат</value>
+  </data>
+  <data name="Receiving_Save" xml:space="preserve">
+    <value>Товарларды кошуу</value>
+  </data>
+  <data name="Receiving_NewProductHint" xml:space="preserve">
+    <value>Жаңы товардын аталышы</value>
+  </data>
+  <data name="Receiving_CategoryTag" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="Receiving_NewCategoryHint" xml:space="preserve">
+    <value>Категориянын аталышы</value>
+  </data>
+  <data name="Receiving_CreateCategory" xml:space="preserve">
+    <value>Категория түзүү</value>
+  </data>
+  <data name="Receiving_CancelTip" xml:space="preserve">
+    <value>Жокко чыгаруу</value>
+  </data>
+  <data name="Receiving_Decrease" xml:space="preserve">
+    <value>Азайтуу</value>
+  </data>
+  <data name="Receiving_Increase" xml:space="preserve">
+    <value>Көбөйтүү</value>
+  </data>
+  <data name="Receiving_CostTip" xml:space="preserve">
+    <value>Бир даананын сатып алуу баасы</value>
+  </data>
+  <data name="Receiving_PriceTip" xml:space="preserve">
+    <value>Бир даананын сатуу баасы — кассада коюлат</value>
+  </data>
+  <data name="Receiving_RemoveTip" xml:space="preserve">
+    <value>Тизмеден алып салуу</value>
+  </data>
+  <data name="Receiving_EmptySummary" xml:space="preserve">
+    <value>Тизме бош — штрихкоддорду скандаңыз</value>
+  </data>
+  <data name="Receiving_Summary" xml:space="preserve">
+    <value>{0} поз. · {1} даана</value>
+  </data>
+  <data name="Receiving_CategoriesFailed" xml:space="preserve">
+    <value>Категорияларды жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Receiving_NeedCategoryName" xml:space="preserve">
+    <value>Категориянын аталышын жазыңыз</value>
+  </data>
+  <data name="Receiving_CategoryExists" xml:space="preserve">
+    <value>«{0}» категориясы бар — ошол тандалды</value>
+  </data>
+  <data name="Receiving_CategoryCreateFailed" xml:space="preserve">
+    <value>Категория түзүлбөй калды</value>
+  </data>
+  <data name="Receiving_CategoryAdded" xml:space="preserve">
+    <value>«{0}» категориясы кошулду</value>
+  </data>
+  <data name="Receiving_CategoryCreateError" xml:space="preserve">
+    <value>Категория түзүлбөй калды: {0}</value>
+  </data>
+  <data name="Receiving_ScannedExisting" xml:space="preserve">
+    <value>{0} — {1} даана</value>
+  </data>
+  <data name="Receiving_ScannedNew" xml:space="preserve">
+    <value>Жаңы штрихкод {0} — аталышын, категориясын жана сатуу баасын жазыңыз</value>
+  </data>
+  <data name="Receiving_ScannedFound" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
+  <data name="Receiving_ScanError" xml:space="preserve">
+    <value>Скандоодо ката: {0}</value>
+  </data>
+  <data name="Receiving_ListEmpty" xml:space="preserve">
+    <value>Тизме бош — адегенде товарларды скандаңыз</value>
+  </data>
+  <data name="Receiving_Invalid" xml:space="preserve">
+    <value>Штрихкод {0}: {1}</value>
+  </data>
+  <data name="Receiving_Saved" xml:space="preserve">
+    <value>{0} поз. · {1} даана кошулду — калдыктар «Статистикада» көрүнөт</value>
+  </data>
+  <data name="Scanned_NoCategory" xml:space="preserve">
+    <value>Категориясыз</value>
+  </data>
+  <data name="Scanned_NeedName" xml:space="preserve">
+    <value>аталышын жазыңыз</value>
+  </data>
+  <data name="Scanned_NeedCategory" xml:space="preserve">
+    <value>категорияны тандаңыз</value>
+  </data>
+  <data name="Scanned_NeedPrice" xml:space="preserve">
+    <value>сатуу баасын жазыңыз</value>
+  </data>
+  <data name="Scanned_InStockBefore" xml:space="preserve">
+    <value>кампада: {0}</value>
+  </data>
+  <data name="Sales_ScanHint" xml:space="preserve">
+    <value>Товарды скандаңыз — ал чекке түшөт</value>
+  </data>
+  <data name="Sales_ScanButton" xml:space="preserve">
+    <value>Өткөрүү</value>
+  </data>
+  <data name="Sales_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Sales_Col_Price" xml:space="preserve">
+    <value>БААСЫ</value>
+  </data>
+  <data name="Sales_Col_Quantity" xml:space="preserve">
+    <value>САНЫ</value>
+  </data>
+  <data name="Sales_Col_Sum" xml:space="preserve">
+    <value>СУММА</value>
+  </data>
+  <data name="Sales_Empty" xml:space="preserve">
+    <value>Чек бош — товарды скандаңыз</value>
+  </data>
+  <data name="Sales_ClearCart" xml:space="preserve">
+    <value>Чекти тазалоо</value>
+  </data>
+  <data name="Sales_Payment" xml:space="preserve">
+    <value>Төлөм</value>
+  </data>
+  <data name="Sales_Subtotal" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Sales_DiscountCaption" xml:space="preserve">
+    <value>АРЗАНДАТУУ</value>
+  </data>
+  <data name="Sales_DiscountAmountTip" xml:space="preserve">
+    <value>Арзандатуунун өлчөмү</value>
+  </data>
+  <data name="Sales_Discount" xml:space="preserve">
+    <value>Арзандатуу</value>
+  </data>
+  <data name="Sales_Total" xml:space="preserve">
+    <value>Жалпы</value>
+  </data>
+  <data name="Sales_PaymentMethod" xml:space="preserve">
+    <value>ТӨЛӨМ ЫКМАСЫ</value>
+  </data>
+  <data name="Sales_CashReceived" xml:space="preserve">
+    <value>КАРДАРДАН АЛЫНДЫ</value>
+  </data>
+  <data name="Sales_Change" xml:space="preserve">
+    <value>Кайтарым</value>
+  </data>
+  <data name="Sales_Customer" xml:space="preserve">
+    <value>КАРДАР</value>
+  </data>
+  <data name="Sales_CustomerHint" xml:space="preserve">
+    <value>Кардарды тандаңыз</value>
+  </data>
+  <data name="Sales_NewCustomer" xml:space="preserve">
+    <value>Жаңы кардар</value>
+  </data>
+  <data name="Sales_CustomerNameHint" xml:space="preserve">
+    <value>Кардардын аты</value>
+  </data>
+  <data name="Sales_CustomerPhoneHint" xml:space="preserve">
+    <value>Телефон (милдеттүү эмес)</value>
+  </data>
+  <data name="Sales_Prepaid" xml:space="preserve">
+    <value>АЗЫР ТӨЛӨНДҮ</value>
+  </data>
+  <data name="Sales_DebtLeft" xml:space="preserve">
+    <value>Карыз калат</value>
+  </data>
+  <data name="Sales_CloseDeal" xml:space="preserve">
+    <value>Сатууну жабуу</value>
+  </data>
+  <data name="Sales_PriceTip" xml:space="preserve">
+    <value>Бир даананын сатуу баасы</value>
+  </data>
+  <data name="Sales_RemoveLine" xml:space="preserve">
+    <value>Чектен алып салуу</value>
+  </data>
+  <data name="Sales_NoPrice" xml:space="preserve">
+    <value>баасын жазыңыз</value>
+  </data>
+  <data name="Sales_ExceedsStock" xml:space="preserve">
+    <value>кампадагыдан көп</value>
+  </data>
+  <data name="Sales_NewTab" xml:space="preserve">
+    <value>Жаңы чек</value>
+  </data>
+  <data name="Sales_NewTabTip" xml:space="preserve">
+    <value>Учурдагы кардарды кийинкиге калтырып, жаңы чек ачуу</value>
+  </data>
+  <data name="Sales_CloseTab" xml:space="preserve">
+    <value>Кыстырманы жабуу</value>
+  </data>
+  <data name="Sales_Som" xml:space="preserve">
+    <value>сом</value>
+  </data>
+  <data name="Sales_TabTitle" xml:space="preserve">
+    <value>Чек {0}</value>
+  </data>
+  <data name="Sales_CloseTabConfirm" xml:space="preserve">
+    <value>«{0}» ичинде {1} калды. Кыстырма жабылып, чек жоголсунбу?</value>
+  </data>
+  <data name="Sales_CloseTabConfirmTitle" xml:space="preserve">
+    <value>Кыстырманы жабуу</value>
+  </data>
+  <data name="Sales_BarcodeNotFound" xml:space="preserve">
+    <value>Штрихкод {0} табылган жок — товар киргизилген эмес</value>
+  </data>
+  <data name="Sales_OnlyInStock" xml:space="preserve">
+    <value>{0}: кампада болгону {1} даана</value>
+  </data>
+  <data name="Sales_LineNoPrice" xml:space="preserve">
+    <value>{0}: баасы жазылган эмес — сапта жазыңыз</value>
+  </data>
+  <data name="Sales_LineAdded" xml:space="preserve">
+    <value>{0} · {1} даана</value>
+  </data>
+  <data name="Sales_CartEmpty" xml:space="preserve">
+    <value>Чек бош</value>
+  </data>
+  <data name="Sales_CartSummary" xml:space="preserve">
+    <value>{0} поз. · {1} даана</value>
+  </data>
+  <data name="Sales_NeedCustomerName" xml:space="preserve">
+    <value>Кардардын атын жазыңыз</value>
+  </data>
+  <data name="Sales_CustomerExists" xml:space="preserve">
+    <value>«{0}» кардары бар — ошол тандалды</value>
+  </data>
+  <data name="Sales_CustomerCreateFailed" xml:space="preserve">
+    <value>Кардар түзүлбөй калды</value>
+  </data>
+  <data name="Sales_CustomerAdded" xml:space="preserve">
+    <value>«{0}» кардары кошулду</value>
+  </data>
+  <data name="Sales_CustomerCreateError" xml:space="preserve">
+    <value>Кардар түзүлбөй калды: {0}</value>
+  </data>
+  <data name="Sales_CartEmptyScan" xml:space="preserve">
+    <value>Чек бош — товарларды скандаңыз</value>
+  </data>
+  <data name="Sales_NoLogin" xml:space="preserve">
+    <value>Сатууну жабууга болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Sales_ProductNoPrice" xml:space="preserve">
+    <value>«{0}»: баасын жазыңыз</value>
+  </data>
+  <data name="Sales_ProductNoStock" xml:space="preserve">
+    <value>«{0}»: кампада болгону {1} даана</value>
+  </data>
+  <data name="Sales_CashTooLittle" xml:space="preserve">
+    <value>{0} алынды — чектин суммасынан ({1}) аз</value>
+  </data>
+  <data name="Sales_CreditNeedCustomer" xml:space="preserve">
+    <value>Карызга сатуу үчүн кардарды тандаңыз</value>
+  </data>
+  <data name="Sales_Closed" xml:space="preserve">
+    <value>№{0} чек жабылды</value>
+  </data>
+  <data name="Sales_ClosedChange" xml:space="preserve">
+    <value> · кайтарым {0}</value>
+  </data>
+  <data name="Sales_ClosedDebt" xml:space="preserve">
+    <value> · карыз {0}</value>
+  </data>
+  <data name="Sales_StockText" xml:space="preserve">
+    <value>кампада: {0}</value>
+  </data>
+  <data name="Payment_Cash" xml:space="preserve">
+    <value>Накталай</value>
+  </data>
+  <data name="Payment_Card" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Payment_Transfer" xml:space="preserve">
+    <value>Которуу</value>
+  </data>
+  <data name="Payment_Credit" xml:space="preserve">
+    <value>Карызга</value>
+  </data>
+  <data name="Payment_Unknown" xml:space="preserve">
+    <value>Көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Receipts_SearchHint" xml:space="preserve">
+    <value>Чектин номери, кассир, кардар же товар</value>
+  </data>
+  <data name="Receipts_Today" xml:space="preserve">
+    <value>Бүгүн</value>
+  </data>
+  <data name="Receipts_Week" xml:space="preserve">
+    <value>Жума</value>
+  </data>
+  <data name="Receipts_Month" xml:space="preserve">
+    <value>Ай</value>
+  </data>
+  <data name="Receipts_Col_Number" xml:space="preserve">
+    <value>ЧЕК</value>
+  </data>
+  <data name="Receipts_Col_Time" xml:space="preserve">
+    <value>УБАКЫТ</value>
+  </data>
+  <data name="Receipts_Col_Cashier" xml:space="preserve">
+    <value>КАССИР / КАРДАР</value>
+  </data>
+  <data name="Receipts_Col_Positions" xml:space="preserve">
+    <value>ПОЗИЦИЯ</value>
+  </data>
+  <data name="Receipts_Col_Payment" xml:space="preserve">
+    <value>ТӨЛӨМ</value>
+  </data>
+  <data name="Receipts_Col_Total" xml:space="preserve">
+    <value>СУММА</value>
+  </data>
+  <data name="Receipts_Empty" xml:space="preserve">
+    <value>Бул мезгилде чектер жок</value>
+  </data>
+  <data name="Receipts_Copy" xml:space="preserve">
+    <value>Чектин көчүрмөсү</value>
+  </data>
+  <data name="Receipts_Return" xml:space="preserve">
+    <value>Кайтаруу</value>
+  </data>
+  <data name="Receipts_Returned" xml:space="preserve">
+    <value>ЧЕК КАЙТАРЫЛДЫ</value>
+  </data>
+  <data name="Receipts_ThankYou" xml:space="preserve">
+    <value>Рахмат! Сатып алганыңыз үчүн ыраазыбыз</value>
+  </data>
+  <data name="Receipts_ShopAddress" xml:space="preserve">
+    <value>Бишкек ш. · ИНН 01234567890123</value>
+  </data>
+  <data name="Receipts_Number" xml:space="preserve">
+    <value>Чек №{0}</value>
+  </data>
+  <data name="Receipts_Positions" xml:space="preserve">
+    <value>{0} поз. · {1} даана</value>
+  </data>
+  <data name="Receipts_NoCustomer" xml:space="preserve">
+    <value>кардарсыз</value>
+  </data>
+  <data name="Receipts_LineQuantity" xml:space="preserve">
+    <value>{0} × {1:N2}</value>
+  </data>
+  <data name="Receipts_None" xml:space="preserve">
+    <value>чектер жок</value>
+  </data>
+  <data name="Receipts_Summary" xml:space="preserve">
+    <value>{0} чек · {1}</value>
+  </data>
+  <data name="Receipts_LoadFailed" xml:space="preserve">
+    <value>Чектерди жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Receipts_Copied" xml:space="preserve">
+    <value>№{0} чек алмашуу буферине көчүрүлдү</value>
+  </data>
+  <data name="Receipts_CopyFailed" xml:space="preserve">
+    <value>Чекти көчүрүү мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Receipts_ReturnDenied" xml:space="preserve">
+    <value>Кайтаруу менеджерге жана админге гана жеткиликтүү</value>
+  </data>
+  <data name="Receipts_ReturnNoLogin" xml:space="preserve">
+    <value>Кайтарууну жасоого болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Receipts_ReturnConfirm" xml:space="preserve">
+    <value>№{0} чек боюнча {1} суммасына кайтаруу жасалсынбы?
+Товар кампага кайтат.</value>
+  </data>
+  <data name="Receipts_ReturnConfirmTitle" xml:space="preserve">
+    <value>Чекти кайтаруу</value>
+  </data>
+  <data name="Receipts_ReturnDone" xml:space="preserve">
+    <value>№{0} чек кайтарылды, товар кампада</value>
+  </data>
+  <data name="Receipts_OpenFailed" xml:space="preserve">
+    <value>Чекти ачуу мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Receipts_DiscountLabel" xml:space="preserve">
+    <value>Арзандатуу</value>
+  </data>
+  <data name="Receipts_DiscountPercent" xml:space="preserve">
+    <value>Арзандатуу {0} %</value>
+  </data>
+  <data name="Receipts_DebtLine" xml:space="preserve">
+    <value>Карыз · {0}</value>
+  </data>
+  <data name="Receipt_Copy_Subtotal" xml:space="preserve">
+    <value>Сумма: {0}</value>
+  </data>
+  <data name="Receipt_Copy_Discount" xml:space="preserve">
+    <value>{0}: −{1}</value>
+  </data>
+  <data name="Receipt_Copy_Total" xml:space="preserve">
+    <value>Жалпы: {0}</value>
+  </data>
+  <data name="Receipt_Copy_Debt" xml:space="preserve">
+    <value>Карыз: {0}</value>
+  </data>
+  <data name="Template_Title" xml:space="preserve">
+    <value>Чектин үлгүсү</value>
+  </data>
+  <data name="Template_Subtitle" xml:space="preserve">
+    <value>Чекте эмне жана кандай тартипте басылат. Менеджерге жана админге жеткиликтүү.</value>
+  </data>
+  <data name="Template_Header" xml:space="preserve">
+    <value>БАШЫ</value>
+  </data>
+  <data name="Template_ShopName" xml:space="preserve">
+    <value>Дүкөндүн аталышы</value>
+  </data>
+  <data name="Template_Tin" xml:space="preserve">
+    <value>ИНН</value>
+  </data>
+  <data name="Template_Address" xml:space="preserve">
+    <value>Дарек</value>
+  </data>
+  <data name="Template_Blocks" xml:space="preserve">
+    <value>ЧЕКТИН БЛОКТОРУ</value>
+  </data>
+  <data name="Template_Footer" xml:space="preserve">
+    <value>АЯГЫ</value>
+  </data>
+  <data name="Template_Save" xml:space="preserve">
+    <value>Үлгүнү сактоо</value>
+  </data>
+  <data name="Template_TestPrint" xml:space="preserve">
+    <value>Сынама басып чыгаруу</value>
+  </data>
+  <data name="Template_Preview" xml:space="preserve">
+    <value>Алдын ала көрүү</value>
+  </data>
+  <data name="Template_PreviewHint" xml:space="preserve">
+    <value>80 мм тасма</value>
+  </data>
+  <data name="Template_MoveUp" xml:space="preserve">
+    <value>Жогору</value>
+  </data>
+  <data name="Template_MoveDown" xml:space="preserve">
+    <value>Төмөн</value>
+  </data>
+  <data name="Template_Role_Admin" xml:space="preserve">
+    <value>Укугу: админ</value>
+  </data>
+  <data name="Template_Role_Manager" xml:space="preserve">
+    <value>Укугу: менеджер</value>
+  </data>
+  <data name="Template_Role_Viewer" xml:space="preserve">
+    <value>Укугу: көрүү гана</value>
+  </data>
+  <data name="Template_TestPrintInfo" xml:space="preserve">
+    <value>Сынама басып чыгаруу: оң жактагы көрүнүш тасмага чыгат</value>
+  </data>
+  <data name="Template_LoadFailed" xml:space="preserve">
+    <value>Үлгүнү жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Template_NeedShopName" xml:space="preserve">
+    <value>Дүкөндүн аталышын жазыңыз</value>
+  </data>
+  <data name="Template_NoLogin" xml:space="preserve">
+    <value>Үлгүнү сактоого болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Template_Saved" xml:space="preserve">
+    <value>Үлгү сакталды</value>
+  </data>
+  <data name="Template_Preview_Tin" xml:space="preserve">
+    <value>ИНН {0}</value>
+  </data>
+  <data name="Template_Preview_Number" xml:space="preserve">
+    <value>ЧЕК №1042        {0}</value>
+  </data>
+  <data name="Template_Preview_Cashier" xml:space="preserve">
+    <value>Кассир: Иманова А.</value>
+  </data>
+  <data name="Template_Preview_Item1" xml:space="preserve">
+    <value>Кофе «Арабика» 250 г</value>
+  </data>
+  <data name="Template_Preview_Item2" xml:space="preserve">
+    <value>Суу 1 л</value>
+  </data>
+  <data name="Template_Preview_Sum" xml:space="preserve">
+    <value>СУММА                  1 005,00</value>
+  </data>
+  <data name="Template_Preview_Discount" xml:space="preserve">
+    <value>АРЗАНДАТУУ 5%            -50,25</value>
+  </data>
+  <data name="Template_Preview_Total" xml:space="preserve">
+    <value>ЖАЛПЫ                    954,75</value>
+  </data>
+  <data name="Template_Preview_Cash" xml:space="preserve">
+    <value>НАКТАЛАЙ               1 000,00</value>
+  </data>
+  <data name="Template_Preview_Change" xml:space="preserve">
+    <value>КАЙТАРЫМ                  45,25</value>
+  </data>
+  <data name="Template_Preview_Customer" xml:space="preserve">
+    <value>Кардар: Айбек</value>
+  </data>
+  <data name="Template_Preview_Debt" xml:space="preserve">
+    <value>Карыздын калдыгы: 0,00</value>
+  </data>
+  <data name="Template_Preview_Qr" xml:space="preserve">
+    <value>[Чекти текшерүү үчүн QR-код]</value>
+  </data>
+  <data name="Template_DefaultShopName" xml:space="preserve">
+    <value>Менин кампам</value>
+  </data>
+  <data name="Template_DefaultFooter" xml:space="preserve">
+    <value>Рахмат! Сатып алганыңыз үчүн ыраазыбыз</value>
+  </data>
+  <data name="Block_Logo_Name" xml:space="preserve">
+    <value>Логотип жана дүкөндүн аталышы</value>
+  </data>
+  <data name="Block_Logo_Hint" xml:space="preserve">
+    <value>Чектин биринчи сабы</value>
+  </data>
+  <data name="Block_Address_Name" xml:space="preserve">
+    <value>Дарек жана ИНН</value>
+  </data>
+  <data name="Block_Address_Hint" xml:space="preserve">
+    <value>Аталыштын астында басылат</value>
+  </data>
+  <data name="Block_Number_Name" xml:space="preserve">
+    <value>Чектин номери, күнү жана убактысы</value>
+  </data>
+  <data name="Block_Number_Hint" xml:space="preserve">
+    <value>Милдеттүү блок</value>
+  </data>
+  <data name="Block_Cashier_Name" xml:space="preserve">
+    <value>Кассирдин аты</value>
+  </data>
+  <data name="Block_Cashier_Hint" xml:space="preserve">
+    <value>Чекти ким өткөрдү</value>
+  </data>
+  <data name="Block_Barcode_Name" xml:space="preserve">
+    <value>Ар бир позициянын штрихкоду</value>
+  </data>
+  <data name="Block_Barcode_Hint" xml:space="preserve">
+    <value>Чекти узартат</value>
+  </data>
+  <data name="Block_Customer_Name" xml:space="preserve">
+    <value>Кардар жана карыздын калдыгы</value>
+  </data>
+  <data name="Block_Customer_Hint" xml:space="preserve">
+    <value>Карызга сатуу үчүн гана</value>
+  </data>
+  <data name="Block_Qr_Name" xml:space="preserve">
+    <value>Чекти текшерүү үчүн QR-код</value>
+  </data>
+  <data name="Block_Qr_Hint" xml:space="preserve">
+    <value>Аягында басылат</value>
+  </data>
+  <data name="Activity_SearchHint" xml:space="preserve">
+    <value>Колдонуучу, аракет же объект</value>
+  </data>
+  <data name="Activity_User" xml:space="preserve">
+    <value>КОЛДОНУУЧУ</value>
+  </data>
+  <data name="Activity_AllUsers" xml:space="preserve">
+    <value>Бардык колдонуучулар</value>
+  </data>
+  <data name="Activity_Empty" xml:space="preserve">
+    <value>Бул мезгилде аракеттер жок</value>
+  </data>
+  <data name="Activity_PeriodAll" xml:space="preserve">
+    <value>Бардык убакыттагы аракеттер</value>
+  </data>
+  <data name="Activity_PeriodDay" xml:space="preserve">
+    <value>{0} күнүндөгү аракеттер</value>
+  </data>
+  <data name="Activity_PeriodRange" xml:space="preserve">
+    <value>{0} — {1} аралыгындагы аракеттер</value>
+  </data>
+  <data name="Activity_PeriodFrom" xml:space="preserve">
+    <value>{0} күнүнөн бери аракеттер</value>
+  </data>
+  <data name="Activity_PeriodTo" xml:space="preserve">
+    <value>{0} күнүнө чейинки аракеттер</value>
+  </data>
+  <data name="Activity_Count" xml:space="preserve">
+    <value>жазуулар: {0}</value>
+  </data>
+  <data name="Activity_LoadFailed" xml:space="preserve">
+    <value>Тарыхты жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Stock_Title" xml:space="preserve">
+    <value>Категориялар боюнча калдыктар</value>
+  </data>
+  <data name="Stock_InStock" xml:space="preserve">
+    <value>Кампада:</value>
+  </data>
+  <data name="Stock_Received" xml:space="preserve">
+    <value>Келди:</value>
+  </data>
+  <data name="Stock_Empty" xml:space="preserve">
+    <value>Бул мезгилде товарлар жок</value>
+  </data>
+  <data name="Stock_LoadFailed" xml:space="preserve">
+    <value>Статистиканы жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Period_All" xml:space="preserve">
+    <value>бардык убакытта</value>
+  </data>
+  <data name="Period_From" xml:space="preserve">
+    <value>{0} баштап</value>
+  </data>
+  <data name="Period_To" xml:space="preserve">
+    <value>{0} чейин</value>
+  </data>
+  <data name="Period_Range" xml:space="preserve">
+    <value>{0} — {1}</value>
+  </data>
+  <data name="Stat_Positions" xml:space="preserve">
+    <value>{0} поз.</value>
+  </data>
+  <data name="Debts_Title" xml:space="preserve">
+    <value>Кардарлардын карыздары</value>
+  </data>
+  <data name="Debts_TotalLabel" xml:space="preserve">
+    <value>Жалпы карыз:</value>
+  </data>
+  <data name="Debts_SearchHint" xml:space="preserve">
+    <value>Кардар, телефон же чек боюнча издөө</value>
+  </data>
+  <data name="Debts_Col_Customer" xml:space="preserve">
+    <value>КАРДАР</value>
+  </data>
+  <data name="Debts_Col_Paid" xml:space="preserve">
+    <value>ТӨЛӨНДҮ</value>
+  </data>
+  <data name="Debts_Col_Payments" xml:space="preserve">
+    <value>ТӨЛӨМДӨР</value>
+  </data>
+  <data name="Debts_Col_Debt" xml:space="preserve">
+    <value>КАРЫЗ</value>
+  </data>
+  <data name="Debts_Empty" xml:space="preserve">
+    <value>Жабылбаган карыздар жок</value>
+  </data>
+  <data name="Debts_SaleTotal" xml:space="preserve">
+    <value>Чектин суммасы</value>
+  </data>
+  <data name="Debts_AlreadyPaid" xml:space="preserve">
+    <value>Мурда төлөнгөн</value>
+  </data>
+  <data name="Debts_Rest" xml:space="preserve">
+    <value>Карыздын калдыгы</value>
+  </data>
+  <data name="Debts_TakePayment" xml:space="preserve">
+    <value>ТӨЛӨМ КАБЫЛ АЛУУ</value>
+  </data>
+  <data name="Debts_PaymentTip" xml:space="preserve">
+    <value>Төлөмдүн суммасы</value>
+  </data>
+  <data name="Debts_PayFull" xml:space="preserve">
+    <value>Бүт карыз</value>
+  </data>
+  <data name="Debts_Pay" xml:space="preserve">
+    <value>Төлөмдү кабыл алуу</value>
+  </data>
+  <data name="Debts_Count" xml:space="preserve">
+    <value>{0} карыз</value>
+  </data>
+  <data name="Debts_LoadFailed" xml:space="preserve">
+    <value>Карыздарды жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Debts_NeedAmount" xml:space="preserve">
+    <value>Төлөмдүн суммасын жазыңыз</value>
+  </data>
+  <data name="Debts_TooMuch" xml:space="preserve">
+    <value>Карыз {0} — андан көбүн кабыл алууга болбойт</value>
+  </data>
+  <data name="Debts_NoLogin" xml:space="preserve">
+    <value>Төлөмдү кабыл алууга болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Debts_Closed" xml:space="preserve">
+    <value>№{0} чек боюнча карыз жабылды</value>
+  </data>
+  <data name="Debts_Accepted" xml:space="preserve">
+    <value>{0} кабыл алынды · карыздын калдыгы {1}</value>
+  </data>
+  <data name="Debt_Progress" xml:space="preserve">
+    <value>{1} суммасынан {0} төлөндү</value>
+  </data>
+  <data name="Debt_NoPayments" xml:space="preserve">
+    <value>төлөмдөр болгон жок</value>
+  </data>
+  <data name="Debt_Payments" xml:space="preserve">
+    <value>төлөмдөр: {0}, акыркысы {1}</value>
+  </data>
+  <data name="Purchases_Title" xml:space="preserve">
+    <value>Сатып алуулар журналы</value>
+  </data>
+  <data name="Purchases_Spent" xml:space="preserve">
+    <value>Жумшалды:</value>
+  </data>
+  <data name="Purchases_Received" xml:space="preserve">
+    <value>Кабыл алынды:</value>
+  </data>
+  <data name="Purchases_SearchHint" xml:space="preserve">
+    <value>Жеткирүүчү же товар</value>
+  </data>
+  <data name="Purchases_Empty" xml:space="preserve">
+    <value>Бул мезгилде жеткирүүлөр болгон жок</value>
+  </data>
+  <data name="Purchases_Count" xml:space="preserve">
+    <value>{0} жеткирүү</value>
+  </data>
+  <data name="Purchases_LoadFailed" xml:space="preserve">
+    <value>Сатып алуулар журналын жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Purchase_Number" xml:space="preserve">
+    <value>Жеткирүү №{0}</value>
+  </data>
+  <data name="Purchase_Summary" xml:space="preserve">
+    <value>{0} поз. · {1} даана</value>
+  </data>
+  <data name="Purchase_LineQuantity" xml:space="preserve">
+    <value>{0} даана × {1:N2}</value>
+  </data>
+  <data name="Purchases_ItemsCount" xml:space="preserve">
+    <value>{0} даана</value>
+  </data>
+  <data name="Dash_Refresh" xml:space="preserve">
+    <value>Жаңылоо</value>
+  </data>
+  <data name="Dash_Kpi_Revenue" xml:space="preserve">
+    <value>БҮГҮНКҮ ТҮШКӨН АКЧА</value>
+  </data>
+  <data name="Dash_Kpi_Average" xml:space="preserve">
+    <value>ОРТОЧО ЧЕК</value>
+  </data>
+  <data name="Dash_Kpi_Profit" xml:space="preserve">
+    <value>БҮГҮНКҮ ПАЙДА</value>
+  </data>
+  <data name="Dash_Kpi_Debt" xml:space="preserve">
+    <value>КАРДАРЛАРДЫН КАРЫЗЫ</value>
+  </data>
+  <data name="Dash_Receipts" xml:space="preserve">
+    <value>чектер: {0}</value>
+  </data>
+  <data name="Dash_WrittenOff" xml:space="preserve">
+    <value>бүгүн эсептен чыгарылды: {0} даана</value>
+  </data>
+  <data name="Dash_Purchased" xml:space="preserve">
+    <value>сатып алынды: {0:N2}</value>
+  </data>
+  <data name="Dash_Payments" xml:space="preserve">
+    <value>Бүгүнкү төлөмдөр</value>
+  </data>
+  <data name="Dash_NoSales" xml:space="preserve">
+    <value>Бүгүн азырынча сатуу болгон жок</value>
+  </data>
+  <data name="Dash_OutOfStock" xml:space="preserve">
+    <value>түгөнгөн: {0}</value>
+  </data>
+  <data name="Dash_AllStocked" xml:space="preserve">
+    <value>Баары жетиштүү</value>
+  </data>
+  <data name="Dash_NoTop" xml:space="preserve">
+    <value>Бул мезгилде сатуу болгон жок</value>
+  </data>
+  <data name="Dash_Greeting_Morning" xml:space="preserve">
+    <value>Кайырлуу таң</value>
+  </data>
+  <data name="Dash_Greeting_Day" xml:space="preserve">
+    <value>Кайырлуу күн</value>
+  </data>
+  <data name="Dash_Greeting_Evening" xml:space="preserve">
+    <value>Кайырлуу кеч</value>
+  </data>
+  <data name="Dash_Greeting_Night" xml:space="preserve">
+    <value>Кайырлуу түн</value>
+  </data>
+  <data name="Dash_RevenuePeriod" xml:space="preserve">
+    <value>{0} күндүк түшкөн акча</value>
+  </data>
+  <data name="Dash_TopPeriod" xml:space="preserve">
+    <value>{0} күндүк эң көп сатылган товарлар</value>
+  </data>
+  <data name="Dash_LowStock" xml:space="preserve">
+    <value>Түгөнүп баратат (≤ {0} даана)</value>
+  </data>
+  <data name="Dash_NoDebts" xml:space="preserve">
+    <value>карыздар жок</value>
+  </data>
+  <data name="Dash_Debtors" xml:space="preserve">
+    <value>{0} жабылбаган чек</value>
+  </data>
+  <data name="Dash_PriceWarning" xml:space="preserve">
+    <value>{0} товардын сатуу баасы жок — аларды кассадан өткөрүүгө болбойт. Баасын «Товарлар → Каталог» бөлүмүндө коюңуз</value>
+  </data>
+  <data name="Dash_LoadFailed" xml:space="preserve">
+    <value>Жыйынтыкты жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Dash_BarTooltip" xml:space="preserve">
+    <value>{0}: {1:N2} · чектер {2}</value>
+  </data>
+  <data name="Dash_ReceiptsLabel" xml:space="preserve">
+    <value>{0} чек</value>
+  </data>
+  <data name="Dash_StockOut" xml:space="preserve">
+    <value>жок</value>
+  </data>
+  <data name="Soon_Title" xml:space="preserve">
+    <value>Экран иштелип жатат</value>
+  </data>
+  <data name="Soon_Text" xml:space="preserve">
+    <value>Бул бөлүм v2 макетинде бар, кийинки кадамда колдонмодо пайда болот.</value>
+  </data>
+  <data name="Err_InvalidCredentials" xml:space="preserve">
+    <value>Логин же сырсөз туура эмес</value>
+  </data>
+  <data name="Err_UsernameTaken" xml:space="preserve">
+    <value>Мындай логин бар</value>
+  </data>
+  <data name="Err_ProductNotFound" xml:space="preserve">
+    <value>Товар табылган жок</value>
+  </data>
+  <data name="Err_NeedProductName" xml:space="preserve">
+    <value>Товардын аталышын жазыңыз</value>
+  </data>
+  <data name="Err_NeedSalePrice" xml:space="preserve">
+    <value>Сатуу баасын жазыңыз</value>
+  </data>
+  <data name="Err_CostNegative" xml:space="preserve">
+    <value>Сатып алуу баасы терс боло албайт</value>
+  </data>
+  <data name="Err_CategoryNotFound" xml:space="preserve">
+    <value>Категория табылган жок</value>
+  </data>
+  <data name="Err_BarcodeTaken" xml:space="preserve">
+    <value>{0} штрихкоду башка товарга таандык</value>
+  </data>
+  <data name="Err_QuantityPositive" xml:space="preserve">
+    <value>Саны нөлдөн чоң болушу керек</value>
+  </data>
+  <data name="Err_NoEmployee" xml:space="preserve">
+    <value>Кызматкер көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Err_NoInventory" xml:space="preserve">
+    <value>Товар боюнча калдык жок</value>
+  </data>
+  <data name="Err_WriteOffTooMuch" xml:space="preserve">
+    <value>«{0}»: кампада {1} даана, {2} эсептен чыгарууга болбойт</value>
+  </data>
+  <data name="Err_DeleteSold" xml:space="preserve">
+    <value>«{0}» сатылган — өчүрсө сатуу тарыхы жоголот. Өчүрүүнүн ордуна калдыкты эсептен чыгарыңыз</value>
+  </data>
+  <data name="Err_DeletePurchased" xml:space="preserve">
+    <value>«{0}» жеткирүүлөрдө бар — өчүрсө кириш тарыхы жоголот. Өчүрүүнүн ордуна калдыкты эсептен чыгарыңыз</value>
+  </data>
+  <data name="Err_DeleteWrittenOff" xml:space="preserve">
+    <value>«{0}» боюнча эсептен чыгаруулар болгон — карточканы өчүрүүгө болбойт</value>
+  </data>
+  <data name="Err_ProductListEmpty" xml:space="preserve">
+    <value>Товарлардын тизмеси бош</value>
+  </data>
+  <data name="Err_PriceNegative" xml:space="preserve">
+    <value>Баа терс боло албайт</value>
+  </data>
+  <data name="Err_NewProductNoName" xml:space="preserve">
+    <value>{0} жаңы товардын аталышы жазылган эмес</value>
+  </data>
+  <data name="Err_NewProductNoCategory" xml:space="preserve">
+    <value>«{0}» жаңы товарынын категориясы тандалган эмес</value>
+  </data>
+  <data name="Err_NewProductNoPrice" xml:space="preserve">
+    <value>«{0}» жаңы товарынын сатуу баасы жазылган эмес</value>
+  </data>
+  <data name="Err_NeedShopName" xml:space="preserve">
+    <value>Дүкөндүн аталышын жазыңыз</value>
+  </data>
+  <data name="Err_ShopNameRequired" xml:space="preserve">
+    <value>Дүкөндүн аталышы милдеттүү</value>
+  </data>
+  <data name="Err_CartEmpty" xml:space="preserve">
+    <value>Чек бош</value>
+  </data>
+  <data name="Err_NoSeller" xml:space="preserve">
+    <value>Сатуучу көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Err_CreditNeedCustomer" xml:space="preserve">
+    <value>Карызга сатуу үчүн кардарды тандоо керек</value>
+  </data>
+  <data name="Err_CustomerNotFound" xml:space="preserve">
+    <value>Кардар табылган жок</value>
+  </data>
+  <data name="Err_DiscountNegative" xml:space="preserve">
+    <value>Арзандатуу терс боло албайт</value>
+  </data>
+  <data name="Err_DiscountTooBig" xml:space="preserve">
+    <value>Арзандатуу {0} чектин суммасынан ({1}) чоң</value>
+  </data>
+  <data name="Err_ProductNotInStock" xml:space="preserve">
+    <value>Товар кампадан табылган жок</value>
+  </data>
+  <data name="Err_NotEnoughStock" xml:space="preserve">
+    <value>«{0}»: кампада {1} даана, ал эми чекте {2}</value>
+  </data>
+  <data name="Err_PrepaidNegative" xml:space="preserve">
+    <value>Алдын ала төлөм терс боло албайт</value>
+  </data>
+  <data name="Err_PrepaidTooBig" xml:space="preserve">
+    <value>Алдын ала төлөм чектин суммасынан чоң</value>
+  </data>
+  <data name="Err_PaymentTooSmall" xml:space="preserve">
+    <value>Төлөм чектин суммасынан аз</value>
+  </data>
+  <data name="Err_ReceiptNotFound" xml:space="preserve">
+    <value>Чек табылган жок</value>
+  </data>
+  <data name="Err_AlreadyReturned" xml:space="preserve">
+    <value>№{0} чек мурун кайтарылган</value>
+  </data>
+  <data name="Err_SaleAlreadyReturned" xml:space="preserve">
+    <value>Чек мурун кайтарылган</value>
+  </data>
+  <data name="Err_PaymentPositive" xml:space="preserve">
+    <value>Төлөмдүн суммасы нөлдөн чоң болушу керек</value>
+  </data>
+  <data name="Err_SaleNotFound" xml:space="preserve">
+    <value>Сатуу табылган жок</value>
+  </data>
+  <data name="Err_DebtAlreadyClosed" xml:space="preserve">
+    <value>Бул сатуу боюнча карыз жабылган</value>
+  </data>
+  <data name="Err_DebtTooMuch" xml:space="preserve">
+    <value>Карыз {0} — андан көбүн кабыл алууга болбойт</value>
+  </data>
+  <data name="Log_LoggedIn" xml:space="preserve">
+    <value>Системага кирүү</value>
+  </data>
+  <data name="Log_Role" xml:space="preserve">
+    <value>Ролу: {0}</value>
+  </data>
+  <data name="Log_PriceChanged" xml:space="preserve">
+    <value>Товардын баасы өзгөрдү</value>
+  </data>
+  <data name="Log_ProductChanged" xml:space="preserve">
+    <value>Товардын карточкасы өзгөрдү</value>
+  </data>
+  <data name="Log_WriteOff" xml:space="preserve">
+    <value>Кампадан эсептен чыгаруу</value>
+  </data>
+  <data name="Log_ProductCreated" xml:space="preserve">
+    <value>Товар түзүлдү</value>
+  </data>
+  <data name="Log_PurchaseSaved" xml:space="preserve">
+    <value>Кириш сакталды</value>
+  </data>
+  <data name="Log_TemplateSaved" xml:space="preserve">
+    <value>Чектин үлгүсү сакталды</value>
+  </data>
+  <data name="Log_TemplateDetails" xml:space="preserve">
+    <value>{0} · күйгүзүлгөн блоктор: {2}дан {1}</value>
+  </data>
+  <data name="Log_SaleClosed" xml:space="preserve">
+    <value>Чек жабылды</value>
+  </data>
+  <data name="Log_SaleCredit" xml:space="preserve">
+    <value>Карызга сатуу</value>
+  </data>
+  <data name="Log_SaleReturned" xml:space="preserve">
+    <value>Чекти кайтаруу</value>
+  </data>
+  <data name="Log_ReturnDetails" xml:space="preserve">
+    <value>№{0} чек · {1} даана кампага кайтарылды · {2}</value>
+  </data>
+  <data name="Log_DebtPaid" xml:space="preserve">
+    <value>Карыздын төлөмү кабыл алынды</value>
+  </data>
+  <data name="Log_Unknown" xml:space="preserve">
+    <value>—</value>
+  </data>
+  <data name="Log_NoSupplier" xml:space="preserve">
+    <value>Жеткирүүчүсүз</value>
+  </data>
+  <data name="Log_NoCustomer" xml:space="preserve">
+    <value>Кардарсыз</value>
+  </data>
+  <data name="Reason_Damage" xml:space="preserve">
+    <value>бузулуу</value>
+  </data>
+  <data name="Reason_Shortage" xml:space="preserve">
+    <value>жетишпөөчүлүк</value>
+  </data>
+  <data name="Reason_ReturnToSupplier" xml:space="preserve">
+    <value>жеткирүүчүгө кайтаруу</value>
+  </data>
+  <data name="Reason_Other" xml:space="preserve">
+    <value>башка</value>
+  </data>
+  <data name="PaymentLower_Cash" xml:space="preserve">
+    <value>накталай</value>
+  </data>
+  <data name="PaymentLower_Card" xml:space="preserve">
+    <value>карта</value>
+  </data>
+  <data name="PaymentLower_Transfer" xml:space="preserve">
+    <value>которуу</value>
+  </data>
+  <data name="PaymentLower_Credit" xml:space="preserve">
+    <value>карызга</value>
+  </data>
+  <data name="PaymentLower_Unknown" xml:space="preserve">
+    <value>төлөм көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Common_DateMask" xml:space="preserve">
+    <value>кк.аа.жжжж</value>
+  </data>
+  <data name="Template_Preview_Item1Line" xml:space="preserve">
+    <value>  2 × 480,00              960,00</value>
+  </data>
+  <data name="Template_Preview_Item2Line" xml:space="preserve">
+    <value>  1 × 45,00                45,00</value>
+  </data>
+  <data name="Log_WriteOffDetails" xml:space="preserve">
+    <value>{0}: {1} даана · {2}</value>
+  </data>
+  <data name="Log_PurchaseDetails" xml:space="preserve">
+    <value>{0} · {1} поз. · {2} даана · {3}</value>
+  </data>
+  <data name="Log_SaleDetails" xml:space="preserve">
+    <value>{0} поз. · {1} · {2}</value>
+  </data>
+  <data name="Log_SaleDiscount" xml:space="preserve">
+    <value> · арзандатуу {0}</value>
+  </data>
+  <data name="Log_SaleDebt" xml:space="preserve">
+    <value> · карыз {0}</value>
+  </data>
+  <data name="Log_DebtPaidRest" xml:space="preserve">
+    <value>Чек №{0} · {1} · калдык {2}</value>
+  </data>
+  <data name="Log_DebtPaidClosed" xml:space="preserve">
+    <value>Чек №{0} · {1} · карыз жабылды</value>
+  </data>
+</root>

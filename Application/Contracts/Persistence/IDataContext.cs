@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -23,6 +23,8 @@ namespace Application.Contracts.Persistence
         DbSet<Role> Roles { get; }
         DbSet<DebtPayment> DebtPayments { get; }
         DbSet<StockWriteOff> StockWriteOffs { get; }
+        DbSet<ActivityLogEntry> ActivityLog { get; }
+        DbSet<ReceiptTemplate> ReceiptTemplates { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

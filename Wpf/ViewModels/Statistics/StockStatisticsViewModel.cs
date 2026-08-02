@@ -3,6 +3,8 @@ using System.Windows.Input;
 using Application.Contracts.Interfaces;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Statistics;
 
 /// <summary>
@@ -26,6 +28,8 @@ public class StockStatisticsViewModel : ViewModelBase
         ResetPeriodCommand = new RelayCommand(ResetPeriod);
 
         _ = LoadAsync();
+    
+        WatchLanguage();
     }
 
     // ===================== Период =====================
@@ -56,11 +60,13 @@ public class StockStatisticsViewModel : ViewModelBase
     {
         get
         {
-            if (From is null && To is null) return "за всё время";
-            if (From is not null && To is null) return $"с {From:dd.MM.yyyy}";
-            if (From is null && To is not null) return $"по {To:dd.MM.yyyy}";
+            if (From is null && To is null) return Loc.T("Period_All");
+            if (From is not null && To is null) return Loc.F("Period_From", From.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
+            if (From is null && To is not null) return Loc.F("Period_To", To!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
 
-            return $"{From:dd.MM.yyyy} — {To:dd.MM.yyyy}";
+            return Loc.F("Period_Range",
+                From!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture),
+                To!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
         }
     }
 
@@ -135,7 +141,7 @@ public class StockStatisticsViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось загрузить статистику: {ex.Message}";
+            ErrorMessage = Loc.F("Stock_LoadFailed", ex.Message);
         }
         finally
         {
@@ -149,5 +155,15 @@ public class StockStatisticsViewModel : ViewModelBase
         To = null;
 
         _ = LoadAsync();
+    }
+
+    /// <summary>Страница живёт синглтоном: после смены языка перечитываем её строки.</summary>
+    private void WatchLanguage()
+    {
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+            _ = LoadAsync();
+        };
     }
 }

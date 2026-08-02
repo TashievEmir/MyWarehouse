@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using Application.DTOs.Products;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Statistics;
 
 /// <summary>Категория в статистике: сводка и раскрывающийся список товаров.</summary>
@@ -18,7 +20,7 @@ public class CategoryStatItem : ViewModelBase
     /// <summary>«12 / 30» — остаток из поступившего за период.</summary>
     public string StockRatio => $"{InStock} / {Received}";
 
-    public string ProductsCountText => $"{Products.Count} поз.";
+    public string ProductsCountText => Loc.F("Stat_Positions", Products.Count);
 
     /// <summary>Доля остатка от прихода — ширина полоски прогресса.</summary>
     public double StockShare => Received > 0 ? Math.Min(1d, (double)InStock / Received) : 0d;

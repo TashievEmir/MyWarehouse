@@ -1,5 +1,7 @@
 using Application.DTOs.Products;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Products;
 
 /// <summary>Строка каталога товаров.</summary>
@@ -24,7 +26,7 @@ public class ProductListItem
 
     public string CodeText => string.IsNullOrWhiteSpace(Barcode) ? SKU : Barcode!;
 
-    public string StockText => $"{InStock} шт.";
+    public string StockText => Loc.F("Product_StockPcs", InStock);
 
     public bool IsOutOfStock => InStock <= 0;
 

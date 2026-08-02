@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Persistence;
+using Application.Contracts.Persistence;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -24,6 +24,8 @@ namespace Infrastructure.Persistence.Data
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<DebtPayment> DebtPayments => Set<DebtPayment>();
         public DbSet<StockWriteOff> StockWriteOffs => Set<StockWriteOff>();
+        public DbSet<ActivityLogEntry> ActivityLog => Set<ActivityLogEntry>();
+        public DbSet<ReceiptTemplate> ReceiptTemplates => Set<ReceiptTemplate>();
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
         => Database.BeginTransactionAsync(ct);

@@ -8,6 +8,9 @@ namespace Application.DTOs.Products
     {
         public long ProductId { get; set; }
 
+        /// <summary>Кто правит карточку — для истории действий.</summary>
+        public long UserId { get; set; }
+
         public string Name { get; set; } = "";
         public string SKU { get; set; } = "";
         public string? Barcode { get; set; }

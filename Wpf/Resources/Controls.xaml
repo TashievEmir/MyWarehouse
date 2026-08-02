@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:common="clr-namespace:Wpf.Common">
+                    xmlns:common="clr-namespace:Wpf.Common"
+                    xmlns:loc="clr-namespace:Wpf.Localization">
 
     <common:EmptyStringToVisibilityConverter x:Key="EmptyToVisibility"/>
     <common:NullToVisibilityConverter x:Key="NullToVisibility"/>
@@ -185,6 +186,47 @@
         </Setter>
     </Style>
 
+    <!-- Поле пароля: у PasswordBox свой шаблон, повторяем оформление Field -->
+    <Style x:Key="PasswordField" TargetType="PasswordBox">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Padding" Value="14,0"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="{DynamicResource FieldBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextPrimaryBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource LineBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border x:Name="Bd"
+                            CornerRadius="12"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="True">
+
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource MutedBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- ============ Выпадающий список ============ -->
 
     <Style x:Key="ComboToggle" TargetType="ToggleButton">
@@ -338,7 +380,7 @@
                                       HorizontalScrollBarVisibility="Hidden"
                                       VerticalScrollBarVisibility="Hidden"/>
 
-                        <TextBlock Text="дд.мм.гггг"
+                        <TextBlock Text="{loc:Tr Common_DateMask}"
                                    VerticalAlignment="Center"
                                    IsHitTestVisible="False"
                                    Foreground="{DynamicResource TextSecondaryBrush}"

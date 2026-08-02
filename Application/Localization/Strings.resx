@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Title" xml:space="preserve">
+    <value>Мой склад</value>
+  </data>
+  <data name="App_Tagline" xml:space="preserve">
+    <value>Складкы башкаруу</value>
+  </data>
+  <data name="App_LoginTitle" xml:space="preserve">
+    <value>Мой склад — вход</value>
+  </data>
+  <data name="App_Version" xml:space="preserve">
+    <value>v2.0</value>
+  </data>
+  <data name="Common_Show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Common_Reset" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Common_Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Common_Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Common_Clear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="Common_ClearSearch" xml:space="preserve">
+    <value>Очистить поиск</value>
+  </data>
+  <data name="Common_Loading" xml:space="preserve">
+    <value>Загрузка…</value>
+  </data>
+  <data name="Common_Search" xml:space="preserve">
+    <value>ПОИСК</value>
+  </data>
+  <data name="Common_DateFrom" xml:space="preserve">
+    <value>С ДАТЫ</value>
+  </data>
+  <data name="Common_DateTo" xml:space="preserve">
+    <value>ПО ДАТУ</value>
+  </data>
+  <data name="Common_From" xml:space="preserve">
+    <value>ОТ</value>
+  </data>
+  <data name="Common_To" xml:space="preserve">
+    <value>ДО</value>
+  </data>
+  <data name="Common_Period" xml:space="preserve">
+    <value>Период:</value>
+  </data>
+  <data name="Common_Pcs" xml:space="preserve">
+    <value>шт.</value>
+  </data>
+  <data name="Nav_Group_Overview" xml:space="preserve">
+    <value>ОБЗОР</value>
+  </data>
+  <data name="Nav_Group_Warehouse" xml:space="preserve">
+    <value>СКЛАД</value>
+  </data>
+  <data name="Nav_Group_Analytics" xml:space="preserve">
+    <value>АНАЛИТИКА</value>
+  </data>
+  <data name="Nav_Dashboard" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Nav_Sales" xml:space="preserve">
+    <value>Касса</value>
+  </data>
+  <data name="Nav_Products" xml:space="preserve">
+    <value>Товары</value>
+  </data>
+  <data name="Nav_Catalog" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="Nav_Receiving" xml:space="preserve">
+    <value>Приёмка</value>
+  </data>
+  <data name="Nav_Receipts" xml:space="preserve">
+    <value>Чеки</value>
+  </data>
+  <data name="Nav_ReceiptsList" xml:space="preserve">
+    <value>Список чеков</value>
+  </data>
+  <data name="Nav_ReceiptEditor" xml:space="preserve">
+    <value>Редактор чека</value>
+  </data>
+  <data name="Nav_Badge_Admin" xml:space="preserve">
+    <value>АДМИН</value>
+  </data>
+  <data name="Nav_History" xml:space="preserve">
+    <value>История действий</value>
+  </data>
+  <data name="Nav_Statistics" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="Nav_Stock" xml:space="preserve">
+    <value>Остатки</value>
+  </data>
+  <data name="Nav_Debts" xml:space="preserve">
+    <value>Долги</value>
+  </data>
+  <data name="Nav_Purchases" xml:space="preserve">
+    <value>Закупки</value>
+  </data>
+  <data name="Tip_ToggleSidebar" xml:space="preserve">
+    <value>Свернуть / развернуть меню</value>
+  </data>
+  <data name="Tip_ToggleTheme" xml:space="preserve">
+    <value>Переключить тему</value>
+  </data>
+  <data name="Tip_ToggleLanguage" xml:space="preserve">
+    <value>Сменить язык · Тилди алмаштыруу</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Светлая тема</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Тёмная тема</value>
+  </data>
+  <data name="Page_Dashboard_Title" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Page_Dashboard_Sub" xml:space="preserve">
+    <value>Сводка дня: касса, склад и долги</value>
+  </data>
+  <data name="Page_Sales_Title" xml:space="preserve">
+    <value>Касса</value>
+  </data>
+  <data name="Page_Sales_Sub" xml:space="preserve">
+    <value>Чеки, скидки и оплата</value>
+  </data>
+  <data name="Page_Catalog_Title" xml:space="preserve">
+    <value>Каталог товаров</value>
+  </data>
+  <data name="Page_Catalog_Sub" xml:space="preserve">
+    <value>Карточки, цены, списание и удаление</value>
+  </data>
+  <data name="Page_Receiving_Title" xml:space="preserve">
+    <value>Приёмка</value>
+  </data>
+  <data name="Page_Receiving_Sub" xml:space="preserve">
+    <value>Приход товара по штрихкоду</value>
+  </data>
+  <data name="Page_Receipts_Title" xml:space="preserve">
+    <value>Список чеков</value>
+  </data>
+  <data name="Page_Receipts_Sub" xml:space="preserve">
+    <value>Чеки за период и их состав</value>
+  </data>
+  <data name="Page_Editor_Title" xml:space="preserve">
+    <value>Редактор чека</value>
+  </data>
+  <data name="Page_Editor_Sub" xml:space="preserve">
+    <value>Что печатается на чеке и в каком порядке</value>
+  </data>
+  <data name="Page_History_Title" xml:space="preserve">
+    <value>История действий</value>
+  </data>
+  <data name="Page_History_Sub" xml:space="preserve">
+    <value>Кто что сделал и когда</value>
+  </data>
+  <data name="Page_Stock_Title" xml:space="preserve">
+    <value>Остатки</value>
+  </data>
+  <data name="Page_Stock_Sub" xml:space="preserve">
+    <value>Остатки по категориям за период</value>
+  </data>
+  <data name="Page_Debts_Title" xml:space="preserve">
+    <value>Долги клиентов</value>
+  </data>
+  <data name="Page_Debts_Sub" xml:space="preserve">
+    <value>Незакрытые чеки и приём оплаты</value>
+  </data>
+  <data name="Page_Purchases_Title" xml:space="preserve">
+    <value>Закупки</value>
+  </data>
+  <data name="Page_Purchases_Sub" xml:space="preserve">
+    <value>Журнал поставок за период</value>
+  </data>
+  <data name="Session_Guest" xml:space="preserve">
+    <value>Гость</value>
+  </data>
+  <data name="Session_NotAuthorized" xml:space="preserve">
+    <value>Не авторизован</value>
+  </data>
+  <data name="Login_Title" xml:space="preserve">
+    <value>Вход в систему</value>
+  </data>
+  <data name="Login_Subtitle" xml:space="preserve">
+    <value>Продажи привязываются к кассиру, поэтому начните со входа</value>
+  </data>
+  <data name="Login_UsernameCaption" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Login_UsernameHint" xml:space="preserve">
+    <value>Например, admin</value>
+  </data>
+  <data name="Login_PasswordCaption" xml:space="preserve">
+    <value>ПАРОЛЬ</value>
+  </data>
+  <data name="Login_Submit" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+  <data name="Login_ShowPassword" xml:space="preserve">
+    <value>Показать пароль</value>
+  </data>
+  <data name="Catalog_SearchHint" xml:space="preserve">
+    <value>Поиск по названию, штрихкоду или категории</value>
+  </data>
+  <data name="Catalog_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Catalog_Col_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Catalog_Col_Price" xml:space="preserve">
+    <value>ПРОДАЖА</value>
+  </data>
+  <data name="Catalog_Col_Cost" xml:space="preserve">
+    <value>ЗАКУПКА</value>
+  </data>
+  <data name="Catalog_Col_Stock" xml:space="preserve">
+    <value>ОСТАТОК</value>
+  </data>
+  <data name="Catalog_Empty" xml:space="preserve">
+    <value>Товары не найдены</value>
+  </data>
+  <data name="Catalog_Count" xml:space="preserve">
+    <value>{0} поз.</value>
+  </data>
+  <data name="Catalog_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить каталог: {0}</value>
+  </data>
+  <data name="Editor_InStock" xml:space="preserve">
+    <value>на складе: {0} шт.</value>
+  </data>
+  <data name="Editor_Name" xml:space="preserve">
+    <value>НАЗВАНИЕ</value>
+  </data>
+  <data name="Editor_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Editor_CategoryHint" xml:space="preserve">
+    <value>Выберите категорию</value>
+  </data>
+  <data name="Editor_Price" xml:space="preserve">
+    <value>ЦЕНА ПРОДАЖИ</value>
+  </data>
+  <data name="Editor_Cost" xml:space="preserve">
+    <value>ЦЕНА ЗАКУПКИ</value>
+  </data>
+  <data name="Editor_Barcode" xml:space="preserve">
+    <value>ШТРИХКОД</value>
+  </data>
+  <data name="Editor_Sku" xml:space="preserve">
+    <value>АРТИКУЛ</value>
+  </data>
+  <data name="Editor_Description" xml:space="preserve">
+    <value>ОПИСАНИЕ</value>
+  </data>
+  <data name="Editor_Save" xml:space="preserve">
+    <value>Сохранить карточку</value>
+  </data>
+  <data name="Editor_WriteOffTitle" xml:space="preserve">
+    <value>Списание со склада</value>
+  </data>
+  <data name="Editor_Quantity" xml:space="preserve">
+    <value>КОЛ-ВО</value>
+  </data>
+  <data name="Editor_Reason" xml:space="preserve">
+    <value>ПРИЧИНА</value>
+  </data>
+  <data name="Editor_CommentHint" xml:space="preserve">
+    <value>Комментарий (необязательно)</value>
+  </data>
+  <data name="Editor_WriteOff" xml:space="preserve">
+    <value>Списать</value>
+  </data>
+  <data name="Editor_Delete" xml:space="preserve">
+    <value>Удалить товар</value>
+  </data>
+  <data name="Editor_DeleteBlocked" xml:space="preserve">
+    <value>По товару есть движения — вместо удаления спишите остаток</value>
+  </data>
+  <data name="Editor_DeleteAllowed" xml:space="preserve">
+    <value>Товар без движений можно удалить целиком</value>
+  </data>
+  <data name="Editor_NeedName" xml:space="preserve">
+    <value>Укажите название товара</value>
+  </data>
+  <data name="Editor_NeedCategory" xml:space="preserve">
+    <value>Выберите категорию</value>
+  </data>
+  <data name="Editor_NeedPrice" xml:space="preserve">
+    <value>Укажите цену продажи</value>
+  </data>
+  <data name="Editor_Saved" xml:space="preserve">
+    <value>Карточка сохранена</value>
+  </data>
+  <data name="Editor_WriteOffTooMuch" xml:space="preserve">
+    <value>На складе {0} шт. — списать больше нельзя</value>
+  </data>
+  <data name="Editor_WriteOffNoLogin" xml:space="preserve">
+    <value>Списание нельзя провести: не выполнен вход в систему</value>
+  </data>
+  <data name="Editor_WriteOffConfirm" xml:space="preserve">
+    <value>Списать {0} шт. «{1}»?
+Причина: {2}</value>
+  </data>
+  <data name="Editor_WriteOffConfirmTitle" xml:space="preserve">
+    <value>Списание товара</value>
+  </data>
+  <data name="Editor_WriteOffDone" xml:space="preserve">
+    <value>Списано {0} шт. · осталось {1}</value>
+  </data>
+  <data name="Editor_DeleteConfirm" xml:space="preserve">
+    <value>Удалить карточку «{0}» целиком?</value>
+  </data>
+  <data name="Editor_DeleteConfirmTitle" xml:space="preserve">
+    <value>Удаление товара</value>
+  </data>
+  <data name="WriteOff_Damage" xml:space="preserve">
+    <value>Порча</value>
+  </data>
+  <data name="WriteOff_Shortage" xml:space="preserve">
+    <value>Недостача</value>
+  </data>
+  <data name="WriteOff_ReturnToSupplier" xml:space="preserve">
+    <value>Возврат поставщику</value>
+  </data>
+  <data name="WriteOff_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="Category_CreateNew" xml:space="preserve">
+    <value>+ Новая категория…</value>
+  </data>
+  <data name="Product_StockPcs" xml:space="preserve">
+    <value>{0} шт.</value>
+  </data>
+  <data name="Receiving_Title" xml:space="preserve">
+    <value>Приход по штрихкоду</value>
+  </data>
+  <data name="Receiving_Supplier" xml:space="preserve">
+    <value>Поставщик</value>
+  </data>
+  <data name="Receiving_ScanHint" xml:space="preserve">
+    <value>Отсканируйте штрихкод — товар добавится в список</value>
+  </data>
+  <data name="Receiving_ScanButton" xml:space="preserve">
+    <value>Считать</value>
+  </data>
+  <data name="Receiving_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Receiving_Col_Category" xml:space="preserve">
+    <value>КАТЕГОРИЯ</value>
+  </data>
+  <data name="Receiving_Col_Quantity" xml:space="preserve">
+    <value>КОЛ-ВО</value>
+  </data>
+  <data name="Receiving_Col_Cost" xml:space="preserve">
+    <value>ЗАКУПКА</value>
+  </data>
+  <data name="Receiving_Col_Price" xml:space="preserve">
+    <value>ПРОДАЖА</value>
+  </data>
+  <data name="Receiving_Empty" xml:space="preserve">
+    <value>Отсканируйте товары — они появятся здесь</value>
+  </data>
+  <data name="Receiving_Save" xml:space="preserve">
+    <value>Добавить товары</value>
+  </data>
+  <data name="Receiving_NewProductHint" xml:space="preserve">
+    <value>Название нового товара</value>
+  </data>
+  <data name="Receiving_CategoryTag" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="Receiving_NewCategoryHint" xml:space="preserve">
+    <value>Название категории</value>
+  </data>
+  <data name="Receiving_CreateCategory" xml:space="preserve">
+    <value>Создать категорию</value>
+  </data>
+  <data name="Receiving_CancelTip" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="Receiving_Decrease" xml:space="preserve">
+    <value>Убавить</value>
+  </data>
+  <data name="Receiving_Increase" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Receiving_CostTip" xml:space="preserve">
+    <value>Цена закупки за штуку</value>
+  </data>
+  <data name="Receiving_PriceTip" xml:space="preserve">
+    <value>Цена продажи за штуку — подставится на кассе</value>
+  </data>
+  <data name="Receiving_RemoveTip" xml:space="preserve">
+    <value>Убрать из списка</value>
+  </data>
+  <data name="Receiving_EmptySummary" xml:space="preserve">
+    <value>Список пуст — отсканируйте штрихкоды</value>
+  </data>
+  <data name="Receiving_Summary" xml:space="preserve">
+    <value>{0} поз. · {1} шт.</value>
+  </data>
+  <data name="Receiving_CategoriesFailed" xml:space="preserve">
+    <value>Не удалось загрузить категории: {0}</value>
+  </data>
+  <data name="Receiving_NeedCategoryName" xml:space="preserve">
+    <value>Введите название категории</value>
+  </data>
+  <data name="Receiving_CategoryExists" xml:space="preserve">
+    <value>Категория «{0}» уже есть — выбрана она</value>
+  </data>
+  <data name="Receiving_CategoryCreateFailed" xml:space="preserve">
+    <value>Не удалось создать категорию</value>
+  </data>
+  <data name="Receiving_CategoryAdded" xml:space="preserve">
+    <value>Категория «{0}» добавлена</value>
+  </data>
+  <data name="Receiving_CategoryCreateError" xml:space="preserve">
+    <value>Не удалось создать категорию: {0}</value>
+  </data>
+  <data name="Receiving_ScannedExisting" xml:space="preserve">
+    <value>{0} — {1} шт.</value>
+  </data>
+  <data name="Receiving_ScannedNew" xml:space="preserve">
+    <value>Новый штрихкод {0} — укажите название, категорию и цену продажи</value>
+  </data>
+  <data name="Receiving_ScannedFound" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
+  <data name="Receiving_ScanError" xml:space="preserve">
+    <value>Ошибка при сканировании: {0}</value>
+  </data>
+  <data name="Receiving_ListEmpty" xml:space="preserve">
+    <value>Список пуст — сначала отсканируйте товары</value>
+  </data>
+  <data name="Receiving_Invalid" xml:space="preserve">
+    <value>Штрихкод {0}: {1}</value>
+  </data>
+  <data name="Receiving_Saved" xml:space="preserve">
+    <value>Добавлено {0} поз. · {1} шт. — остатки видны в «Статистике»</value>
+  </data>
+  <data name="Scanned_NoCategory" xml:space="preserve">
+    <value>Без категории</value>
+  </data>
+  <data name="Scanned_NeedName" xml:space="preserve">
+    <value>укажите название</value>
+  </data>
+  <data name="Scanned_NeedCategory" xml:space="preserve">
+    <value>выберите категорию</value>
+  </data>
+  <data name="Scanned_NeedPrice" xml:space="preserve">
+    <value>укажите цену продажи</value>
+  </data>
+  <data name="Scanned_InStockBefore" xml:space="preserve">
+    <value>на складе: {0}</value>
+  </data>
+  <data name="Sales_ScanHint" xml:space="preserve">
+    <value>Отсканируйте товар — он попадёт в чек</value>
+  </data>
+  <data name="Sales_ScanButton" xml:space="preserve">
+    <value>Пробить</value>
+  </data>
+  <data name="Sales_Col_Product" xml:space="preserve">
+    <value>ТОВАР</value>
+  </data>
+  <data name="Sales_Col_Price" xml:space="preserve">
+    <value>ЦЕНА</value>
+  </data>
+  <data name="Sales_Col_Quantity" xml:space="preserve">
+    <value>КОЛ-ВО</value>
+  </data>
+  <data name="Sales_Col_Sum" xml:space="preserve">
+    <value>СУММА</value>
+  </data>
+  <data name="Sales_Empty" xml:space="preserve">
+    <value>Чек пуст — отсканируйте товар</value>
+  </data>
+  <data name="Sales_ClearCart" xml:space="preserve">
+    <value>Очистить чек</value>
+  </data>
+  <data name="Sales_Payment" xml:space="preserve">
+    <value>Оплата</value>
+  </data>
+  <data name="Sales_Subtotal" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Sales_DiscountCaption" xml:space="preserve">
+    <value>СКИДКА</value>
+  </data>
+  <data name="Sales_DiscountAmountTip" xml:space="preserve">
+    <value>Размер скидки</value>
+  </data>
+  <data name="Sales_Discount" xml:space="preserve">
+    <value>Скидка</value>
+  </data>
+  <data name="Sales_Total" xml:space="preserve">
+    <value>Итого</value>
+  </data>
+  <data name="Sales_PaymentMethod" xml:space="preserve">
+    <value>СПОСОБ ОПЛАТЫ</value>
+  </data>
+  <data name="Sales_CashReceived" xml:space="preserve">
+    <value>ПОЛУЧЕНО ОТ КЛИЕНТА</value>
+  </data>
+  <data name="Sales_Change" xml:space="preserve">
+    <value>Сдача</value>
+  </data>
+  <data name="Sales_Customer" xml:space="preserve">
+    <value>КЛИЕНТ</value>
+  </data>
+  <data name="Sales_CustomerHint" xml:space="preserve">
+    <value>Выберите клиента</value>
+  </data>
+  <data name="Sales_NewCustomer" xml:space="preserve">
+    <value>Новый клиент</value>
+  </data>
+  <data name="Sales_CustomerNameHint" xml:space="preserve">
+    <value>Имя клиента</value>
+  </data>
+  <data name="Sales_CustomerPhoneHint" xml:space="preserve">
+    <value>Телефон (необязательно)</value>
+  </data>
+  <data name="Sales_Prepaid" xml:space="preserve">
+    <value>ВНЕСЕНО СЕЙЧАС</value>
+  </data>
+  <data name="Sales_DebtLeft" xml:space="preserve">
+    <value>Останется долг</value>
+  </data>
+  <data name="Sales_CloseDeal" xml:space="preserve">
+    <value>Закрыть сделку</value>
+  </data>
+  <data name="Sales_PriceTip" xml:space="preserve">
+    <value>Цена продажи за штуку</value>
+  </data>
+  <data name="Sales_RemoveLine" xml:space="preserve">
+    <value>Убрать из чека</value>
+  </data>
+  <data name="Sales_NoPrice" xml:space="preserve">
+    <value>укажите цену</value>
+  </data>
+  <data name="Sales_ExceedsStock" xml:space="preserve">
+    <value>больше, чем на складе</value>
+  </data>
+  <data name="Sales_NewTab" xml:space="preserve">
+    <value>Новый чек</value>
+  </data>
+  <data name="Sales_NewTabTip" xml:space="preserve">
+    <value>Отложить текущего клиента и открыть новый чек</value>
+  </data>
+  <data name="Sales_CloseTab" xml:space="preserve">
+    <value>Закрыть вкладку</value>
+  </data>
+  <data name="Sales_Som" xml:space="preserve">
+    <value>сом</value>
+  </data>
+  <data name="Sales_TabTitle" xml:space="preserve">
+    <value>Чек {0}</value>
+  </data>
+  <data name="Sales_CloseTabConfirm" xml:space="preserve">
+    <value>В «{0}» осталось {1}. Закрыть вкладку и потерять чек?</value>
+  </data>
+  <data name="Sales_CloseTabConfirmTitle" xml:space="preserve">
+    <value>Закрытие вкладки</value>
+  </data>
+  <data name="Sales_BarcodeNotFound" xml:space="preserve">
+    <value>Штрихкод {0} не найден — товар не заведён</value>
+  </data>
+  <data name="Sales_OnlyInStock" xml:space="preserve">
+    <value>{0}: на складе только {1} шт.</value>
+  </data>
+  <data name="Sales_LineNoPrice" xml:space="preserve">
+    <value>{0}: не указана цена — введите её в строке</value>
+  </data>
+  <data name="Sales_LineAdded" xml:space="preserve">
+    <value>{0} · {1} шт.</value>
+  </data>
+  <data name="Sales_CartEmpty" xml:space="preserve">
+    <value>Чек пуст</value>
+  </data>
+  <data name="Sales_CartSummary" xml:space="preserve">
+    <value>{0} поз. · {1} шт.</value>
+  </data>
+  <data name="Sales_NeedCustomerName" xml:space="preserve">
+    <value>Введите имя клиента</value>
+  </data>
+  <data name="Sales_CustomerExists" xml:space="preserve">
+    <value>Клиент «{0}» уже есть — выбран он</value>
+  </data>
+  <data name="Sales_CustomerCreateFailed" xml:space="preserve">
+    <value>Не удалось создать клиента</value>
+  </data>
+  <data name="Sales_CustomerAdded" xml:space="preserve">
+    <value>Клиент «{0}» добавлен</value>
+  </data>
+  <data name="Sales_CustomerCreateError" xml:space="preserve">
+    <value>Не удалось создать клиента: {0}</value>
+  </data>
+  <data name="Sales_CartEmptyScan" xml:space="preserve">
+    <value>Чек пуст — отсканируйте товары</value>
+  </data>
+  <data name="Sales_NoLogin" xml:space="preserve">
+    <value>Продажу нельзя закрыть: не выполнен вход в систему</value>
+  </data>
+  <data name="Sales_ProductNoPrice" xml:space="preserve">
+    <value>«{0}»: укажите цену</value>
+  </data>
+  <data name="Sales_ProductNoStock" xml:space="preserve">
+    <value>«{0}»: на складе только {1} шт.</value>
+  </data>
+  <data name="Sales_CashTooLittle" xml:space="preserve">
+    <value>Получено {0} — меньше суммы чека {1}</value>
+  </data>
+  <data name="Sales_CreditNeedCustomer" xml:space="preserve">
+    <value>Для продажи в долг выберите клиента</value>
+  </data>
+  <data name="Sales_Closed" xml:space="preserve">
+    <value>Чек №{0} закрыт</value>
+  </data>
+  <data name="Sales_ClosedChange" xml:space="preserve">
+    <value> · сдача {0}</value>
+  </data>
+  <data name="Sales_ClosedDebt" xml:space="preserve">
+    <value> · долг {0}</value>
+  </data>
+  <data name="Sales_StockText" xml:space="preserve">
+    <value>на складе: {0}</value>
+  </data>
+  <data name="Payment_Cash" xml:space="preserve">
+    <value>Наличные</value>
+  </data>
+  <data name="Payment_Card" xml:space="preserve">
+    <value>Карта</value>
+  </data>
+  <data name="Payment_Transfer" xml:space="preserve">
+    <value>Перевод</value>
+  </data>
+  <data name="Payment_Credit" xml:space="preserve">
+    <value>В долг</value>
+  </data>
+  <data name="Payment_Unknown" xml:space="preserve">
+    <value>Не указан</value>
+  </data>
+  <data name="Receipts_SearchHint" xml:space="preserve">
+    <value>Номер чека, кассир, клиент или товар</value>
+  </data>
+  <data name="Receipts_Today" xml:space="preserve">
+    <value>Сегодня</value>
+  </data>
+  <data name="Receipts_Week" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="Receipts_Month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="Receipts_Col_Number" xml:space="preserve">
+    <value>ЧЕК</value>
+  </data>
+  <data name="Receipts_Col_Time" xml:space="preserve">
+    <value>ВРЕМЯ</value>
+  </data>
+  <data name="Receipts_Col_Cashier" xml:space="preserve">
+    <value>КАССИР / КЛИЕНТ</value>
+  </data>
+  <data name="Receipts_Col_Positions" xml:space="preserve">
+    <value>ПОЗИЦИЙ</value>
+  </data>
+  <data name="Receipts_Col_Payment" xml:space="preserve">
+    <value>ОПЛАТА</value>
+  </data>
+  <data name="Receipts_Col_Total" xml:space="preserve">
+    <value>СУММА</value>
+  </data>
+  <data name="Receipts_Empty" xml:space="preserve">
+    <value>За этот период чеков нет</value>
+  </data>
+  <data name="Receipts_Copy" xml:space="preserve">
+    <value>Копия чека</value>
+  </data>
+  <data name="Receipts_Return" xml:space="preserve">
+    <value>Возврат</value>
+  </data>
+  <data name="Receipts_Returned" xml:space="preserve">
+    <value>ЧЕК ВОЗВРАЩЁН</value>
+  </data>
+  <data name="Receipts_ThankYou" xml:space="preserve">
+    <value>Рахмат! Спасибо за покупку</value>
+  </data>
+  <data name="Receipts_ShopAddress" xml:space="preserve">
+    <value>г. Бишкек · ИНН 01234567890123</value>
+  </data>
+  <data name="Receipts_Number" xml:space="preserve">
+    <value>Чек №{0}</value>
+  </data>
+  <data name="Receipts_Positions" xml:space="preserve">
+    <value>{0} поз. · {1} шт.</value>
+  </data>
+  <data name="Receipts_NoCustomer" xml:space="preserve">
+    <value>без клиента</value>
+  </data>
+  <data name="Receipts_LineQuantity" xml:space="preserve">
+    <value>{0} × {1:N2}</value>
+  </data>
+  <data name="Receipts_None" xml:space="preserve">
+    <value>чеков нет</value>
+  </data>
+  <data name="Receipts_Summary" xml:space="preserve">
+    <value>{0} чек(ов) · {1}</value>
+  </data>
+  <data name="Receipts_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить чеки: {0}</value>
+  </data>
+  <data name="Receipts_Copied" xml:space="preserve">
+    <value>Чек №{0} скопирован в буфер обмена</value>
+  </data>
+  <data name="Receipts_CopyFailed" xml:space="preserve">
+    <value>Не удалось скопировать чек: {0}</value>
+  </data>
+  <data name="Receipts_ReturnDenied" xml:space="preserve">
+    <value>Возврат доступен менеджеру и админу</value>
+  </data>
+  <data name="Receipts_ReturnNoLogin" xml:space="preserve">
+    <value>Возврат нельзя провести: не выполнен вход в систему</value>
+  </data>
+  <data name="Receipts_ReturnConfirm" xml:space="preserve">
+    <value>Оформить возврат чека №{0} на {1}?
+Товар вернётся на склад.</value>
+  </data>
+  <data name="Receipts_ReturnConfirmTitle" xml:space="preserve">
+    <value>Возврат чека</value>
+  </data>
+  <data name="Receipts_ReturnDone" xml:space="preserve">
+    <value>Чек №{0} возвращён, товар на складе</value>
+  </data>
+  <data name="Receipts_OpenFailed" xml:space="preserve">
+    <value>Не удалось открыть чек: {0}</value>
+  </data>
+  <data name="Receipts_DiscountLabel" xml:space="preserve">
+    <value>Скидка</value>
+  </data>
+  <data name="Receipts_DiscountPercent" xml:space="preserve">
+    <value>Скидка {0} %</value>
+  </data>
+  <data name="Receipts_DebtLine" xml:space="preserve">
+    <value>Долг · {0}</value>
+  </data>
+  <data name="Receipt_Copy_Subtotal" xml:space="preserve">
+    <value>Сумма: {0}</value>
+  </data>
+  <data name="Receipt_Copy_Discount" xml:space="preserve">
+    <value>{0}: −{1}</value>
+  </data>
+  <data name="Receipt_Copy_Total" xml:space="preserve">
+    <value>Итого: {0}</value>
+  </data>
+  <data name="Receipt_Copy_Debt" xml:space="preserve">
+    <value>Долг: {0}</value>
+  </data>
+  <data name="Template_Title" xml:space="preserve">
+    <value>Шаблон чека</value>
+  </data>
+  <data name="Template_Subtitle" xml:space="preserve">
+    <value>Что печатается на чеке и в каком порядке. Доступно менеджеру и админу.</value>
+  </data>
+  <data name="Template_Header" xml:space="preserve">
+    <value>ШАПКА</value>
+  </data>
+  <data name="Template_ShopName" xml:space="preserve">
+    <value>Название магазина</value>
+  </data>
+  <data name="Template_Tin" xml:space="preserve">
+    <value>ИНН</value>
+  </data>
+  <data name="Template_Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Template_Blocks" xml:space="preserve">
+    <value>БЛОКИ ЧЕКА</value>
+  </data>
+  <data name="Template_Footer" xml:space="preserve">
+    <value>ПОДВАЛ</value>
+  </data>
+  <data name="Template_Save" xml:space="preserve">
+    <value>Сохранить шаблон</value>
+  </data>
+  <data name="Template_TestPrint" xml:space="preserve">
+    <value>Тестовая печать</value>
+  </data>
+  <data name="Template_Preview" xml:space="preserve">
+    <value>Предпросмотр</value>
+  </data>
+  <data name="Template_PreviewHint" xml:space="preserve">
+    <value>Лента 80 мм</value>
+  </data>
+  <data name="Template_MoveUp" xml:space="preserve">
+    <value>Выше</value>
+  </data>
+  <data name="Template_MoveDown" xml:space="preserve">
+    <value>Ниже</value>
+  </data>
+  <data name="Template_Role_Admin" xml:space="preserve">
+    <value>Права: админ</value>
+  </data>
+  <data name="Template_Role_Manager" xml:space="preserve">
+    <value>Права: менеджер</value>
+  </data>
+  <data name="Template_Role_Viewer" xml:space="preserve">
+    <value>Права: только просмотр</value>
+  </data>
+  <data name="Template_TestPrintInfo" xml:space="preserve">
+    <value>Тестовая печать: предпросмотр справа — то, что уйдёт на ленту</value>
+  </data>
+  <data name="Template_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить шаблон: {0}</value>
+  </data>
+  <data name="Template_NeedShopName" xml:space="preserve">
+    <value>Укажите название магазина</value>
+  </data>
+  <data name="Template_NoLogin" xml:space="preserve">
+    <value>Шаблон нельзя сохранить: не выполнен вход в систему</value>
+  </data>
+  <data name="Template_Saved" xml:space="preserve">
+    <value>Шаблон сохранён</value>
+  </data>
+  <data name="Template_Preview_Tin" xml:space="preserve">
+    <value>ИНН {0}</value>
+  </data>
+  <data name="Template_Preview_Number" xml:space="preserve">
+    <value>ЧЕК №1042        {0}</value>
+  </data>
+  <data name="Template_Preview_Cashier" xml:space="preserve">
+    <value>Кассир: Иманова А.</value>
+  </data>
+  <data name="Template_Preview_Item1" xml:space="preserve">
+    <value>Кофе «Арабика» 250 г</value>
+  </data>
+  <data name="Template_Preview_Item2" xml:space="preserve">
+    <value>Вода 1 л</value>
+  </data>
+  <data name="Template_Preview_Sum" xml:space="preserve">
+    <value>СУММА                  1 005,00</value>
+  </data>
+  <data name="Template_Preview_Discount" xml:space="preserve">
+    <value>СКИДКА 5%                -50,25</value>
+  </data>
+  <data name="Template_Preview_Total" xml:space="preserve">
+    <value>ИТОГО                    954,75</value>
+  </data>
+  <data name="Template_Preview_Cash" xml:space="preserve">
+    <value>НАЛИЧНЫЕ               1 000,00</value>
+  </data>
+  <data name="Template_Preview_Change" xml:space="preserve">
+    <value>СДАЧА                     45,25</value>
+  </data>
+  <data name="Template_Preview_Customer" xml:space="preserve">
+    <value>Клиент: Айбек</value>
+  </data>
+  <data name="Template_Preview_Debt" xml:space="preserve">
+    <value>Остаток долга: 0,00</value>
+  </data>
+  <data name="Template_Preview_Qr" xml:space="preserve">
+    <value>[QR-код для проверки чека]</value>
+  </data>
+  <data name="Template_DefaultShopName" xml:space="preserve">
+    <value>Мой склад</value>
+  </data>
+  <data name="Template_DefaultFooter" xml:space="preserve">
+    <value>Рахмат! Спасибо за покупку</value>
+  </data>
+  <data name="Block_Logo_Name" xml:space="preserve">
+    <value>Логотип и название магазина</value>
+  </data>
+  <data name="Block_Logo_Hint" xml:space="preserve">
+    <value>Первая строка чека</value>
+  </data>
+  <data name="Block_Address_Name" xml:space="preserve">
+    <value>Адрес и ИНН</value>
+  </data>
+  <data name="Block_Address_Hint" xml:space="preserve">
+    <value>Печатается под названием</value>
+  </data>
+  <data name="Block_Number_Name" xml:space="preserve">
+    <value>Номер чека, дата и время</value>
+  </data>
+  <data name="Block_Number_Hint" xml:space="preserve">
+    <value>Обязательный блок</value>
+  </data>
+  <data name="Block_Cashier_Name" xml:space="preserve">
+    <value>Имя кассира</value>
+  </data>
+  <data name="Block_Cashier_Hint" xml:space="preserve">
+    <value>Кто пробил чек</value>
+  </data>
+  <data name="Block_Barcode_Name" xml:space="preserve">
+    <value>Штрихкод у каждой позиции</value>
+  </data>
+  <data name="Block_Barcode_Hint" xml:space="preserve">
+    <value>Делает чек длиннее</value>
+  </data>
+  <data name="Block_Customer_Name" xml:space="preserve">
+    <value>Клиент и остаток долга</value>
+  </data>
+  <data name="Block_Customer_Hint" xml:space="preserve">
+    <value>Только для продаж в долг</value>
+  </data>
+  <data name="Block_Qr_Name" xml:space="preserve">
+    <value>QR-код для проверки чека</value>
+  </data>
+  <data name="Block_Qr_Hint" xml:space="preserve">
+    <value>Печатается в подвале</value>
+  </data>
+  <data name="Activity_SearchHint" xml:space="preserve">
+    <value>Пользователь, действие или объект</value>
+  </data>
+  <data name="Activity_User" xml:space="preserve">
+    <value>ПОЛЬЗОВАТЕЛЬ</value>
+  </data>
+  <data name="Activity_AllUsers" xml:space="preserve">
+    <value>Все пользователи</value>
+  </data>
+  <data name="Activity_Empty" xml:space="preserve">
+    <value>За этот период действий нет</value>
+  </data>
+  <data name="Activity_PeriodAll" xml:space="preserve">
+    <value>Действия за всё время</value>
+  </data>
+  <data name="Activity_PeriodDay" xml:space="preserve">
+    <value>Действия за {0}</value>
+  </data>
+  <data name="Activity_PeriodRange" xml:space="preserve">
+    <value>Действия с {0} по {1}</value>
+  </data>
+  <data name="Activity_PeriodFrom" xml:space="preserve">
+    <value>Действия с {0}</value>
+  </data>
+  <data name="Activity_PeriodTo" xml:space="preserve">
+    <value>Действия по {0}</value>
+  </data>
+  <data name="Activity_Count" xml:space="preserve">
+    <value>записей: {0}</value>
+  </data>
+  <data name="Activity_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить историю: {0}</value>
+  </data>
+  <data name="Stock_Title" xml:space="preserve">
+    <value>Остатки по категориям</value>
+  </data>
+  <data name="Stock_InStock" xml:space="preserve">
+    <value>На складе:</value>
+  </data>
+  <data name="Stock_Received" xml:space="preserve">
+    <value>Поступило:</value>
+  </data>
+  <data name="Stock_Empty" xml:space="preserve">
+    <value>За этот период товаров нет</value>
+  </data>
+  <data name="Stock_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить статистику: {0}</value>
+  </data>
+  <data name="Period_All" xml:space="preserve">
+    <value>за всё время</value>
+  </data>
+  <data name="Period_From" xml:space="preserve">
+    <value>с {0}</value>
+  </data>
+  <data name="Period_To" xml:space="preserve">
+    <value>по {0}</value>
+  </data>
+  <data name="Period_Range" xml:space="preserve">
+    <value>{0} — {1}</value>
+  </data>
+  <data name="Stat_Positions" xml:space="preserve">
+    <value>{0} поз.</value>
+  </data>
+  <data name="Debts_Title" xml:space="preserve">
+    <value>Долги клиентов</value>
+  </data>
+  <data name="Debts_TotalLabel" xml:space="preserve">
+    <value>Всего долга:</value>
+  </data>
+  <data name="Debts_SearchHint" xml:space="preserve">
+    <value>Поиск по клиенту, телефону или чеку</value>
+  </data>
+  <data name="Debts_Col_Customer" xml:space="preserve">
+    <value>КЛИЕНТ</value>
+  </data>
+  <data name="Debts_Col_Paid" xml:space="preserve">
+    <value>ОПЛАЧЕНО</value>
+  </data>
+  <data name="Debts_Col_Payments" xml:space="preserve">
+    <value>ПЛАТЕЖИ</value>
+  </data>
+  <data name="Debts_Col_Debt" xml:space="preserve">
+    <value>ДОЛГ</value>
+  </data>
+  <data name="Debts_Empty" xml:space="preserve">
+    <value>Непогашенных долгов нет</value>
+  </data>
+  <data name="Debts_SaleTotal" xml:space="preserve">
+    <value>Сумма чека</value>
+  </data>
+  <data name="Debts_AlreadyPaid" xml:space="preserve">
+    <value>Уже оплачено</value>
+  </data>
+  <data name="Debts_Rest" xml:space="preserve">
+    <value>Остаток долга</value>
+  </data>
+  <data name="Debts_TakePayment" xml:space="preserve">
+    <value>ПРИНЯТЬ ОПЛАТУ</value>
+  </data>
+  <data name="Debts_PaymentTip" xml:space="preserve">
+    <value>Сумма платежа</value>
+  </data>
+  <data name="Debts_PayFull" xml:space="preserve">
+    <value>Весь долг</value>
+  </data>
+  <data name="Debts_Pay" xml:space="preserve">
+    <value>Принять оплату</value>
+  </data>
+  <data name="Debts_Count" xml:space="preserve">
+    <value>{0} долг(ов)</value>
+  </data>
+  <data name="Debts_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить долги: {0}</value>
+  </data>
+  <data name="Debts_NeedAmount" xml:space="preserve">
+    <value>Укажите сумму платежа</value>
+  </data>
+  <data name="Debts_TooMuch" xml:space="preserve">
+    <value>Долг составляет {0} — принять больше нельзя</value>
+  </data>
+  <data name="Debts_NoLogin" xml:space="preserve">
+    <value>Оплату нельзя принять: не выполнен вход в систему</value>
+  </data>
+  <data name="Debts_Closed" xml:space="preserve">
+    <value>Долг по чеку №{0} закрыт</value>
+  </data>
+  <data name="Debts_Accepted" xml:space="preserve">
+    <value>Принято {0} · остаток долга {1}</value>
+  </data>
+  <data name="Debt_Progress" xml:space="preserve">
+    <value>оплачено {0} из {1}</value>
+  </data>
+  <data name="Debt_NoPayments" xml:space="preserve">
+    <value>платежей не было</value>
+  </data>
+  <data name="Debt_Payments" xml:space="preserve">
+    <value>платежей: {0}, последний {1}</value>
+  </data>
+  <data name="Purchases_Title" xml:space="preserve">
+    <value>Журнал закупок</value>
+  </data>
+  <data name="Purchases_Spent" xml:space="preserve">
+    <value>Потрачено:</value>
+  </data>
+  <data name="Purchases_Received" xml:space="preserve">
+    <value>Принято:</value>
+  </data>
+  <data name="Purchases_SearchHint" xml:space="preserve">
+    <value>Поставщик или товар</value>
+  </data>
+  <data name="Purchases_Empty" xml:space="preserve">
+    <value>За этот период поставок не было</value>
+  </data>
+  <data name="Purchases_Count" xml:space="preserve">
+    <value>{0} поставок</value>
+  </data>
+  <data name="Purchases_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить журнал закупок: {0}</value>
+  </data>
+  <data name="Purchase_Number" xml:space="preserve">
+    <value>Поставка №{0}</value>
+  </data>
+  <data name="Purchase_Summary" xml:space="preserve">
+    <value>{0} поз. · {1} шт.</value>
+  </data>
+  <data name="Purchase_LineQuantity" xml:space="preserve">
+    <value>{0} шт. × {1:N2}</value>
+  </data>
+  <data name="Purchases_ItemsCount" xml:space="preserve">
+    <value>{0} шт.</value>
+  </data>
+  <data name="Dash_Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Dash_Kpi_Revenue" xml:space="preserve">
+    <value>ВЫРУЧКА ЗА СЕГОДНЯ</value>
+  </data>
+  <data name="Dash_Kpi_Average" xml:space="preserve">
+    <value>СРЕДНИЙ ЧЕК</value>
+  </data>
+  <data name="Dash_Kpi_Profit" xml:space="preserve">
+    <value>ПРИБЫЛЬ ЗА СЕГОДНЯ</value>
+  </data>
+  <data name="Dash_Kpi_Debt" xml:space="preserve">
+    <value>ДОЛГ КЛИЕНТОВ</value>
+  </data>
+  <data name="Dash_Receipts" xml:space="preserve">
+    <value>чеков: {0}</value>
+  </data>
+  <data name="Dash_WrittenOff" xml:space="preserve">
+    <value>списано сегодня: {0} шт.</value>
+  </data>
+  <data name="Dash_Purchased" xml:space="preserve">
+    <value>закуплено на: {0:N2}</value>
+  </data>
+  <data name="Dash_Payments" xml:space="preserve">
+    <value>Оплаты за сегодня</value>
+  </data>
+  <data name="Dash_NoSales" xml:space="preserve">
+    <value>Сегодня продаж ещё не было</value>
+  </data>
+  <data name="Dash_OutOfStock" xml:space="preserve">
+    <value>нет в наличии: {0}</value>
+  </data>
+  <data name="Dash_AllStocked" xml:space="preserve">
+    <value>Всё в достатке</value>
+  </data>
+  <data name="Dash_NoTop" xml:space="preserve">
+    <value>Продаж за период не было</value>
+  </data>
+  <data name="Dash_Greeting_Morning" xml:space="preserve">
+    <value>Доброе утро</value>
+  </data>
+  <data name="Dash_Greeting_Day" xml:space="preserve">
+    <value>Добрый день</value>
+  </data>
+  <data name="Dash_Greeting_Evening" xml:space="preserve">
+    <value>Добрый вечер</value>
+  </data>
+  <data name="Dash_Greeting_Night" xml:space="preserve">
+    <value>Доброй ночи</value>
+  </data>
+  <data name="Dash_RevenuePeriod" xml:space="preserve">
+    <value>Выручка за {0} дней</value>
+  </data>
+  <data name="Dash_TopPeriod" xml:space="preserve">
+    <value>Топ товаров за {0} дней</value>
+  </data>
+  <data name="Dash_LowStock" xml:space="preserve">
+    <value>Заканчивается (≤ {0} шт.)</value>
+  </data>
+  <data name="Dash_NoDebts" xml:space="preserve">
+    <value>долгов нет</value>
+  </data>
+  <data name="Dash_Debtors" xml:space="preserve">
+    <value>{0} незакрытых чек(ов)</value>
+  </data>
+  <data name="Dash_PriceWarning" xml:space="preserve">
+    <value>{0} товар(ов) без цены продажи — их нельзя пробить на кассе. Проставьте цену в «Товары → Каталог»</value>
+  </data>
+  <data name="Dash_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить сводку: {0}</value>
+  </data>
+  <data name="Dash_BarTooltip" xml:space="preserve">
+    <value>{0}: {1:N2} · чеков {2}</value>
+  </data>
+  <data name="Dash_ReceiptsLabel" xml:space="preserve">
+    <value>{0} чек(ов)</value>
+  </data>
+  <data name="Dash_StockOut" xml:space="preserve">
+    <value>нет</value>
+  </data>
+  <data name="Soon_Title" xml:space="preserve">
+    <value>Экран в разработке</value>
+  </data>
+  <data name="Soon_Text" xml:space="preserve">
+    <value>Раздел есть в макете v2 и появится в приложении следующим шагом.</value>
+  </data>
+  <data name="Err_InvalidCredentials" xml:space="preserve">
+    <value>Неверный логин или пароль</value>
+  </data>
+  <data name="Err_UsernameTaken" xml:space="preserve">
+    <value>Такой логин уже занят</value>
+  </data>
+  <data name="Err_ProductNotFound" xml:space="preserve">
+    <value>Товар не найден</value>
+  </data>
+  <data name="Err_NeedProductName" xml:space="preserve">
+    <value>Укажите название товара</value>
+  </data>
+  <data name="Err_NeedSalePrice" xml:space="preserve">
+    <value>Укажите цену продажи</value>
+  </data>
+  <data name="Err_CostNegative" xml:space="preserve">
+    <value>Цена закупки не может быть отрицательной</value>
+  </data>
+  <data name="Err_CategoryNotFound" xml:space="preserve">
+    <value>Категория не найдена</value>
+  </data>
+  <data name="Err_BarcodeTaken" xml:space="preserve">
+    <value>Штрихкод {0} уже занят другим товаром</value>
+  </data>
+  <data name="Err_QuantityPositive" xml:space="preserve">
+    <value>Количество должно быть больше нуля</value>
+  </data>
+  <data name="Err_NoEmployee" xml:space="preserve">
+    <value>Не указан сотрудник</value>
+  </data>
+  <data name="Err_NoInventory" xml:space="preserve">
+    <value>Остатка по товару нет</value>
+  </data>
+  <data name="Err_WriteOffTooMuch" xml:space="preserve">
+    <value>«{0}»: на складе {1} шт., списать {2} нельзя</value>
+  </data>
+  <data name="Err_DeleteSold" xml:space="preserve">
+    <value>«{0}» продавался — удаление стёрло бы историю продаж. Спишите остаток вместо удаления</value>
+  </data>
+  <data name="Err_DeletePurchased" xml:space="preserve">
+    <value>«{0}» есть в поставках — удаление стёрло бы историю приходов. Спишите остаток вместо удаления</value>
+  </data>
+  <data name="Err_DeleteWrittenOff" xml:space="preserve">
+    <value>По «{0}» уже были списания — карточку удалять нельзя</value>
+  </data>
+  <data name="Err_ProductListEmpty" xml:space="preserve">
+    <value>Список товаров пуст</value>
+  </data>
+  <data name="Err_PriceNegative" xml:space="preserve">
+    <value>Цена не может быть отрицательной</value>
+  </data>
+  <data name="Err_NewProductNoName" xml:space="preserve">
+    <value>У нового товара {0} не указано название</value>
+  </data>
+  <data name="Err_NewProductNoCategory" xml:space="preserve">
+    <value>У нового товара «{0}» не выбрана категория</value>
+  </data>
+  <data name="Err_NewProductNoPrice" xml:space="preserve">
+    <value>У нового товара «{0}» не указана цена продажи</value>
+  </data>
+  <data name="Err_NeedShopName" xml:space="preserve">
+    <value>Укажите название магазина</value>
+  </data>
+  <data name="Err_ShopNameRequired" xml:space="preserve">
+    <value>Название магазина обязательно</value>
+  </data>
+  <data name="Err_CartEmpty" xml:space="preserve">
+    <value>Чек пуст</value>
+  </data>
+  <data name="Err_NoSeller" xml:space="preserve">
+    <value>Не указан продавец</value>
+  </data>
+  <data name="Err_CreditNeedCustomer" xml:space="preserve">
+    <value>Для продажи в долг нужно выбрать клиента</value>
+  </data>
+  <data name="Err_CustomerNotFound" xml:space="preserve">
+    <value>Клиент не найден</value>
+  </data>
+  <data name="Err_DiscountNegative" xml:space="preserve">
+    <value>Скидка не может быть отрицательной</value>
+  </data>
+  <data name="Err_DiscountTooBig" xml:space="preserve">
+    <value>Скидка {0} больше суммы чека {1}</value>
+  </data>
+  <data name="Err_ProductNotInStock" xml:space="preserve">
+    <value>Товар не найден на складе</value>
+  </data>
+  <data name="Err_NotEnoughStock" xml:space="preserve">
+    <value>«{0}»: на складе {1} шт., а в чеке {2}</value>
+  </data>
+  <data name="Err_PrepaidNegative" xml:space="preserve">
+    <value>Предоплата не может быть отрицательной</value>
+  </data>
+  <data name="Err_PrepaidTooBig" xml:space="preserve">
+    <value>Предоплата больше суммы чека</value>
+  </data>
+  <data name="Err_PaymentTooSmall" xml:space="preserve">
+    <value>Оплата меньше суммы чека</value>
+  </data>
+  <data name="Err_ReceiptNotFound" xml:space="preserve">
+    <value>Чек не найден</value>
+  </data>
+  <data name="Err_AlreadyReturned" xml:space="preserve">
+    <value>Чек №{0} уже возвращён</value>
+  </data>
+  <data name="Err_SaleAlreadyReturned" xml:space="preserve">
+    <value>Чек уже возвращён</value>
+  </data>
+  <data name="Err_PaymentPositive" xml:space="preserve">
+    <value>Сумма платежа должна быть больше нуля</value>
+  </data>
+  <data name="Err_SaleNotFound" xml:space="preserve">
+    <value>Продажа не найдена</value>
+  </data>
+  <data name="Err_DebtAlreadyClosed" xml:space="preserve">
+    <value>Долг по этой продаже уже закрыт</value>
+  </data>
+  <data name="Err_DebtTooMuch" xml:space="preserve">
+    <value>Долг составляет {0} — принять больше нельзя</value>
+  </data>
+  <data name="Log_LoggedIn" xml:space="preserve">
+    <value>Вход в систему</value>
+  </data>
+  <data name="Log_Role" xml:space="preserve">
+    <value>Роль: {0}</value>
+  </data>
+  <data name="Log_PriceChanged" xml:space="preserve">
+    <value>Изменена цена товара</value>
+  </data>
+  <data name="Log_ProductChanged" xml:space="preserve">
+    <value>Изменена карточка товара</value>
+  </data>
+  <data name="Log_WriteOff" xml:space="preserve">
+    <value>Списание со склада</value>
+  </data>
+  <data name="Log_ProductCreated" xml:space="preserve">
+    <value>Создан товар</value>
+  </data>
+  <data name="Log_PurchaseSaved" xml:space="preserve">
+    <value>Сохранён приход</value>
+  </data>
+  <data name="Log_TemplateSaved" xml:space="preserve">
+    <value>Сохранён шаблон чека</value>
+  </data>
+  <data name="Log_TemplateDetails" xml:space="preserve">
+    <value>{0} · блоков включено: {1} из {2}</value>
+  </data>
+  <data name="Log_SaleClosed" xml:space="preserve">
+    <value>Закрыт чек</value>
+  </data>
+  <data name="Log_SaleCredit" xml:space="preserve">
+    <value>Продажа в долг</value>
+  </data>
+  <data name="Log_SaleReturned" xml:space="preserve">
+    <value>Возврат чека</value>
+  </data>
+  <data name="Log_ReturnDetails" xml:space="preserve">
+    <value>Чек №{0} · {1} шт. возвращено на склад · {2}</value>
+  </data>
+  <data name="Log_DebtPaid" xml:space="preserve">
+    <value>Принята оплата долга</value>
+  </data>
+  <data name="Log_Unknown" xml:space="preserve">
+    <value>—</value>
+  </data>
+  <data name="Log_NoSupplier" xml:space="preserve">
+    <value>Без поставщика</value>
+  </data>
+  <data name="Log_NoCustomer" xml:space="preserve">
+    <value>Без клиента</value>
+  </data>
+  <data name="Reason_Damage" xml:space="preserve">
+    <value>порча</value>
+  </data>
+  <data name="Reason_Shortage" xml:space="preserve">
+    <value>недостача</value>
+  </data>
+  <data name="Reason_ReturnToSupplier" xml:space="preserve">
+    <value>возврат поставщику</value>
+  </data>
+  <data name="Reason_Other" xml:space="preserve">
+    <value>другое</value>
+  </data>
+  <data name="PaymentLower_Cash" xml:space="preserve">
+    <value>наличные</value>
+  </data>
+  <data name="PaymentLower_Card" xml:space="preserve">
+    <value>карта</value>
+  </data>
+  <data name="PaymentLower_Transfer" xml:space="preserve">
+    <value>перевод</value>
+  </data>
+  <data name="PaymentLower_Credit" xml:space="preserve">
+    <value>в долг</value>
+  </data>
+  <data name="PaymentLower_Unknown" xml:space="preserve">
+    <value>оплата не указана</value>
+  </data>
+  <data name="Common_DateMask" xml:space="preserve">
+    <value>дд.мм.гггг</value>
+  </data>
+  <data name="Template_Preview_Item1Line" xml:space="preserve">
+    <value>  2 × 480,00              960,00</value>
+  </data>
+  <data name="Template_Preview_Item2Line" xml:space="preserve">
+    <value>  1 × 45,00                45,00</value>
+  </data>
+  <data name="Log_WriteOffDetails" xml:space="preserve">
+    <value>{0}: {1} шт. · {2}</value>
+  </data>
+  <data name="Log_PurchaseDetails" xml:space="preserve">
+    <value>{0} · {1} поз. · {2} шт. · {3}</value>
+  </data>
+  <data name="Log_SaleDetails" xml:space="preserve">
+    <value>{0} поз. · {1} · {2}</value>
+  </data>
+  <data name="Log_SaleDiscount" xml:space="preserve">
+    <value> · скидка {0}</value>
+  </data>
+  <data name="Log_SaleDebt" xml:space="preserve">
+    <value> · долг {0}</value>
+  </data>
+  <data name="Log_DebtPaidRest" xml:space="preserve">
+    <value>Чек №{0} · {1} · остаток {2}</value>
+  </data>
+  <data name="Log_DebtPaidClosed" xml:space="preserve">
+    <value>Чек №{0} · {1} · долг закрыт</value>
+  </data>
+</root>

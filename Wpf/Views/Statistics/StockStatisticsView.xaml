@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Statistics"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1100"
@@ -147,7 +148,7 @@
                                                    FontWeight="SemiBold"
                                                    Foreground="{DynamicResource TextPrimaryBrush}"/>
 
-                                        <TextBlock Text="шт."
+                                        <TextBlock Text="{loc:Tr Common_Pcs}"
                                                    FontSize="11"
                                                    Margin="5,0,0,0"
                                                    VerticalAlignment="Center"
@@ -191,10 +192,10 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0">
-                    <TextBlock Text="Остатки по категориям" Style="{StaticResource SectionTitle}"/>
+                    <TextBlock Text="{loc:Tr Stock_Title}" Style="{StaticResource SectionTitle}"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                        <TextBlock Style="{StaticResource Muted}" Text="Период:"/>
+                        <TextBlock Style="{StaticResource Muted}" Text="{loc:Tr Common_Period}"/>
                         <TextBlock Style="{StaticResource Muted}"
                                    Margin="5,0,0,0"
                                    FontWeight="SemiBold"
@@ -202,14 +203,14 @@
 
                         <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="·"/>
 
-                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="На складе:"/>
+                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="{loc:Tr Stock_InStock}"/>
                         <TextBlock Style="{StaticResource Muted}"
                                    Margin="5,0,0,0"
                                    FontWeight="SemiBold"
                                    Foreground="{DynamicResource TextPrimaryBrush}"
                                    Text="{Binding TotalInStock}"/>
 
-                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="Поступило:"/>
+                        <TextBlock Style="{StaticResource Muted}" Margin="12,0,0,0" Text="{loc:Tr Stock_Received}"/>
                         <TextBlock Style="{StaticResource Muted}"
                                    Margin="5,0,0,0"
                                    FontWeight="SemiBold"
@@ -229,14 +230,14 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
 
                     <StackPanel Margin="0,0,10,0">
-                        <TextBlock Text="ОТ" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Text="{loc:Tr Common_From}" Style="{StaticResource FieldCaption}"/>
                         <DatePicker Style="{StaticResource FieldDate}"
                                     Width="140"
                                     SelectedDate="{Binding From, Mode=TwoWay}"/>
                     </StackPanel>
 
                     <StackPanel Margin="0,0,10,0">
-                        <TextBlock Text="ДО" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Text="{loc:Tr Common_To}" Style="{StaticResource FieldCaption}"/>
                         <DatePicker Style="{StaticResource FieldDate}"
                                     Width="140"
                                     SelectedDate="{Binding To, Mode=TwoWay}"/>
@@ -244,12 +245,12 @@
 
                     <Button Style="{StaticResource PrimaryButton}"
                             Margin="0,17,8,0"
-                            Content="Показать"
+                            Content="{loc:Tr Common_Show}"
                             Command="{Binding RefreshCommand}"/>
 
                     <Button Style="{StaticResource SecondaryButton}"
                             Margin="0,17,0,0"
-                            Content="Сбросить"
+                            Content="{loc:Tr Common_Reset}"
                             Command="{Binding ResetPeriodCommand}"/>
                 </StackPanel>
             </Grid>
@@ -275,7 +276,7 @@
                                          HorizontalAlignment="Center"
                                          Foreground="{DynamicResource LineBrush}"/>
 
-                <TextBlock Text="За этот период товаров нет"
+                <TextBlock Text="{loc:Tr Stock_Empty}"
                            Margin="0,10,0,0"
                            FontSize="14"
                            Foreground="{DynamicResource TextSecondaryBrush}"/>
@@ -284,7 +285,7 @@
             <Border Background="#B3F1F5F9"
                     Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibility}}">
 
-                <TextBlock Text="Загрузка…"
+                <TextBlock Text="{loc:Tr Common_Loading}"
                            FontSize="14"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Dashboard"
              mc:Ignorable="d"
              d:DesignHeight="760" d:DesignWidth="1200"
@@ -226,7 +227,7 @@
 
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Refresh" Width="17" Height="17" VerticalAlignment="Center"/>
-                        <TextBlock Text="Обновить" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="{loc:Tr Dash_Refresh}" Margin="8,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -267,25 +268,23 @@
 
                 <Border Style="{StaticResource Card}" Padding="16,14" Margin="0,0,7,0">
                     <StackPanel>
-                        <TextBlock Text="ВЫРУЧКА ЗА СЕГОДНЯ" Style="{StaticResource KpiCaption}"/>
+                        <TextBlock Text="{loc:Tr Dash_Kpi_Revenue}" Style="{StaticResource KpiCaption}"/>
                         <TextBlock Text="{Binding TodayRevenue, StringFormat={}{0:N2}}" Style="{StaticResource KpiValue}"/>
-                        <TextBlock Style="{StaticResource KpiHint}"
-                                   Text="{Binding TodayReceipts, StringFormat=чеков: {0}}"/>
+                        <TextBlock Style="{StaticResource KpiHint}" Text="{Binding TodayReceiptsLabel}"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource Card}" Padding="16,14" Margin="7,0">
                     <StackPanel>
-                        <TextBlock Text="СРЕДНИЙ ЧЕК" Style="{StaticResource KpiCaption}"/>
+                        <TextBlock Text="{loc:Tr Dash_Kpi_Average}" Style="{StaticResource KpiCaption}"/>
                         <TextBlock Text="{Binding AverageReceipt, StringFormat={}{0:N2}}" Style="{StaticResource KpiValue}"/>
-                        <TextBlock Style="{StaticResource KpiHint}"
-                                   Text="{Binding TodayWrittenOff, StringFormat=списано сегодня: {0} шт.}"/>
+                        <TextBlock Style="{StaticResource KpiHint}" Text="{Binding TodayWrittenOffLabel}"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource Card}" Padding="16,14" Margin="7,0">
                     <StackPanel>
-                        <TextBlock Text="ПРИБЫЛЬ ЗА СЕГОДНЯ" Style="{StaticResource KpiCaption}"/>
+                        <TextBlock Text="{loc:Tr Dash_Kpi_Profit}" Style="{StaticResource KpiCaption}"/>
 
                         <TextBlock Text="{Binding TodayProfit, StringFormat={}{0:N2}}">
                             <TextBlock.Style>
@@ -300,14 +299,13 @@
                             </TextBlock.Style>
                         </TextBlock>
 
-                        <TextBlock Style="{StaticResource KpiHint}"
-                                   Text="{Binding TodayPurchases, StringFormat=закуплено на: {0:N2}}"/>
+                        <TextBlock Style="{StaticResource KpiHint}" Text="{Binding TodayPurchasesLabel}"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource Card}" Padding="16,14" Margin="7,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="ДОЛГ КЛИЕНТОВ" Style="{StaticResource KpiCaption}"/>
+                        <TextBlock Text="{loc:Tr Dash_Kpi_Debt}" Style="{StaticResource KpiCaption}"/>
 
                         <TextBlock Text="{Binding TotalDebt, StringFormat={}{0:N2}}"
                                    Style="{StaticResource KpiValue}"
@@ -346,14 +344,14 @@
                         Padding="18,16">
 
                     <StackPanel>
-                        <TextBlock Text="Оплаты за сегодня" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="{loc:Tr Dash_Payments}" Style="{StaticResource SectionTitle}"/>
 
                         <ItemsControl ItemsSource="{Binding Payments}" Margin="0,16,0,0"/>
 
                         <StackPanel Margin="0,10,0,0"
                                     Visibility="{Binding HasSales, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
 
-                            <TextBlock Text="Сегодня продаж ещё не было"
+                            <TextBlock Text="{loc:Tr Dash_NoSales}"
                                        Style="{StaticResource Muted}"
                                        HorizontalAlignment="Center"
                                        Margin="0,20,0,20"/>
@@ -382,12 +380,12 @@
                             <TextBlock Grid.Column="1"
                                        Style="{StaticResource Muted}"
                                        VerticalAlignment="Center"
-                                       Text="{Binding ProductsOutOfStock, StringFormat=нет в наличии: {0}}"/>
+                                       Text="{Binding OutOfStockLabel}"/>
                         </Grid>
 
                         <ItemsControl ItemsSource="{Binding LowStock}" Margin="0,16,0,0"/>
 
-                        <TextBlock Text="Всё в достатке"
+                        <TextBlock Text="{loc:Tr Dash_AllStocked}"
                                    Style="{StaticResource Muted}"
                                    HorizontalAlignment="Center"
                                    Margin="0,20,0,20"
@@ -401,7 +399,7 @@
 
                         <ItemsControl ItemsSource="{Binding TopProducts}" Margin="0,16,0,0"/>
 
-                        <TextBlock Text="Продаж за период не было"
+                        <TextBlock Text="{loc:Tr Dash_NoTop}"
                                    Style="{StaticResource Muted}"
                                    HorizontalAlignment="Center"
                                    Margin="0,20,0,20"

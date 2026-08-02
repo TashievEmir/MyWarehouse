@@ -9,6 +9,8 @@ using Domain.Enums;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Sales;
 
 /// <summary>Скидка задаётся либо процентом от суммы, либо суммой в сомах.</summary>
@@ -30,6 +32,9 @@ public class SaleTabViewModel : ViewModelBase
     private readonly SessionService _session;
 
     public string Title { get; }
+
+    /// <summary>После смены языка перерисовываем вычисляемые подписи вкладки.</summary>
+    public void RefreshTexts() => OnPropertyChanged(string.Empty);
 
     public ObservableCollection<SaleLineItem> Lines { get; } = new();
 
@@ -98,7 +103,7 @@ public class SaleTabViewModel : ViewModelBase
 
             if (found is null)
             {
-                ShowError($"Штрихкод {barcode} не найден — товар не заведён");
+                ShowError(Loc.F("Sales_BarcodeNotFound", barcode));
                 return;
             }
 
@@ -120,15 +125,15 @@ public class SaleTabViewModel : ViewModelBase
             RaiseTotals();
 
             if (line.ExceedsStock)
-                ShowError($"{found.Name}: на складе только {found.InStock} шт.");
+                ShowError(Loc.F("Sales_OnlyInStock", found.Name, found.InStock));
             else if (line.HasNoPrice)
-                ShowError($"{found.Name}: не указана цена — введите её в строке");
+                ShowError(Loc.F("Sales_LineNoPrice", found.Name));
             else
-                ShowInfo($"{found.Name} · {line.Quantity} шт.");
+                ShowInfo(Loc.F("Sales_LineAdded", found.Name, line.Quantity));
         }
         catch (Exception ex)
         {
-            ShowError($"Ошибка при сканировании: {ex.Message}");
+            ShowError(Loc.F("Receiving_ScanError", ex.Message));
         }
     }
 
@@ -204,8 +209,8 @@ public class SaleTabViewModel : ViewModelBase
     public int ItemsCount => Lines.Sum(l => l.Quantity);
 
     public string CartSummary => Lines.Count == 0
-        ? "Чек пуст"
-        : $"{LinesCount} поз. · {ItemsCount} шт.";
+        ? Loc.T("Sales_CartEmpty")
+        : Loc.F("Sales_CartSummary", LinesCount, ItemsCount);
 
     private void SetDiscount(string value)
     {
@@ -331,7 +336,7 @@ public class SaleTabViewModel : ViewModelBase
 
         if (name.Length == 0)
         {
-            ShowError("Введите имя клиента");
+            ShowError(Loc.T("Sales_NeedCustomerName"));
             return;
         }
 
@@ -343,7 +348,7 @@ public class SaleTabViewModel : ViewModelBase
             SelectedCustomer = existing;
             IsCreatingCustomer = false;
 
-            ShowInfo($"Клиент «{existing.Name}» уже есть — выбран он");
+            ShowInfo(Loc.F("Sales_CustomerExists", existing.Name));
             return;
         }
 
@@ -359,7 +364,7 @@ public class SaleTabViewModel : ViewModelBase
 
             if (created is null)
             {
-                ShowError("Не удалось создать клиента");
+                ShowError(Loc.T("Sales_CustomerCreateFailed"));
                 return;
             }
 
@@ -368,11 +373,11 @@ public class SaleTabViewModel : ViewModelBase
             SelectedCustomer = created;
             IsCreatingCustomer = false;
 
-            ShowInfo($"Клиент «{created.Name}» добавлен");
+            ShowInfo(Loc.F("Sales_CustomerAdded", created.Name));
         }
         catch (Exception ex)
         {
-            ShowError($"Не удалось создать клиента: {ex.Message}");
+            ShowError(Loc.F("Sales_CustomerCreateError", ex.Message));
         }
     }
 
@@ -395,37 +400,37 @@ public class SaleTabViewModel : ViewModelBase
     {
         if (Lines.Count == 0)
         {
-            ShowError("Чек пуст — отсканируйте товары");
+            ShowError(Loc.T("Sales_CartEmptyScan"));
             return;
         }
 
         if (_session.User is null)
         {
-            ShowError("Продажу нельзя закрыть: не выполнен вход в систему");
+            ShowError(Loc.T("Sales_NoLogin"));
             return;
         }
 
         if (Lines.FirstOrDefault(l => l.HasNoPrice) is { } noPrice)
         {
-            ShowError($"«{noPrice.Name}»: укажите цену");
+            ShowError(Loc.F("Sales_ProductNoPrice", noPrice.Name));
             return;
         }
 
         if (Lines.FirstOrDefault(l => l.ExceedsStock) is { } noStock)
         {
-            ShowError($"«{noStock.Name}»: на складе только {noStock.InStock} шт.");
+            ShowError(Loc.F("Sales_ProductNoStock", noStock.Name, noStock.InStock));
             return;
         }
 
         if (IsCash && CashGiven < Total)
         {
-            ShowError($"Получено {CashGiven:N2} — меньше суммы чека {Total:N2}");
+            ShowError(Loc.F("Sales_CashTooLittle", CashGiven.ToString("N2", Loc.Instance.Culture), Total.ToString("N2", Loc.Instance.Culture)));
             return;
         }
 
         if (IsCredit && SelectedCustomer is null)
         {
-            ShowError("Для продажи в долг выберите клиента");
+            ShowError(Loc.T("Sales_CreditNeedCustomer"));
             return;
         }
 
@@ -450,13 +455,13 @@ public class SaleTabViewModel : ViewModelBase
 
             Reset();
 
-            var message = $"Чек №{saleId} закрыт";
+            var message = Loc.F("Sales_Closed", saleId);
 
             if (change > 0)
-                message += $" · сдача {change:N2}";
+                message += Loc.F("Sales_ClosedChange", change.ToString("N2", Loc.Instance.Culture));
 
             if (debt > 0)
-                message += $" · долг {debt:N2}";
+                message += Loc.F("Sales_ClosedDebt", debt.ToString("N2", Loc.Instance.Culture));
 
             ShowInfo(message);
         }

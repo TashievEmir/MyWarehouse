@@ -1,8 +1,8 @@
-using System.Globalization;
 using System.Windows.Input;
 using Application.Contracts.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Common;
+using Wpf.Localization;
 using Wpf.Services;
 using Wpf.ViewModels.Products;
 using Wpf.ViewModels.Statistics;
@@ -11,8 +11,6 @@ namespace Wpf.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    private static readonly CultureInfo RussianCulture = new("ru-RU");
-
     private readonly NavigationService _navigation;
     private readonly SessionService _session;
     private readonly ThemeService _theme;
@@ -28,19 +26,12 @@ public class MainViewModel : ViewModelBase
         private set => SetProperty(ref _currentPage, value);
     }
 
-    private string _pageTitle = "";
-    public string PageTitle
-    {
-        get => _pageTitle;
-        private set => SetProperty(ref _pageTitle, value);
-    }
+    // Храним ключи, а не готовый текст: при смене языка заголовок пересчитывается сам
+    private string _titleKey = "";
+    private string _subtitleKey = "";
 
-    private string _pageSubtitle = "";
-    public string PageSubtitle
-    {
-        get => _pageSubtitle;
-        private set => SetProperty(ref _pageSubtitle, value);
-    }
+    public string PageTitle => Loc.T(_titleKey);
+    public string PageSubtitle => Loc.T(_subtitleKey);
 
     public string UserName => _session.DisplayName;
     public string UserRole => _session.RoleTitle;
@@ -57,9 +48,12 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    public string Today => DateTime.Now.ToString("d MMMM yyyy", RussianCulture);
+    public string Today => DateTime.Now.ToString("d MMMM yyyy", Loc.Instance.Culture);
 
     public string ThemeLabel => _theme.ToggleLabel;
+
+    /// <summary>Код языка, на который переключит кнопка: RU или KY.</summary>
+    public string LanguageLabel => Loc.Instance.ToggleCode;
 
     // ── Долги: счётчик на пункте меню ──
 
@@ -89,6 +83,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowDebtsCommand { get; }
     public ICommand ShowPurchasesCommand { get; }
     public ICommand ToggleThemeCommand { get; }
+    public ICommand ToggleLanguageCommand { get; }
 
     public MainViewModel(
         NavigationService navigation,
@@ -112,6 +107,17 @@ public class MainViewModel : ViewModelBase
 
         _theme.PropertyChanged += (_, __) => OnPropertyChanged(nameof(ThemeLabel));
 
+        // Строки страниц собраны в коде — после смены языка перезаходим на текущую
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(nameof(LanguageLabel));
+            OnPropertyChanged(nameof(ThemeLabel));
+            OnPropertyChanged(nameof(Today));
+            OnPropertyChanged(nameof(UserRole));
+
+            _reopenCurrentPage?.Invoke();
+        };
+
         ShowDashboardCommand       = new RelayCommand(ShowDashboard);
         ShowSalesCommand           = new RelayCommand(ShowSales);
         ShowCatalogCommand         = new RelayCommand(ShowCatalog);
@@ -123,6 +129,7 @@ public class MainViewModel : ViewModelBase
         ShowDebtsCommand           = new RelayCommand(ShowDebts);
         ShowPurchasesCommand       = new RelayCommand(ShowPurchases);
         ToggleThemeCommand         = new RelayCommand(_theme.Toggle);
+        ToggleLanguageCommand      = new RelayCommand(Loc.Instance.Toggle);
 
         ShowDashboard();
     }
@@ -130,10 +137,10 @@ public class MainViewModel : ViewModelBase
     // ── Обзор ──
 
     private void ShowDashboard()
-        => Navigate(new Views.Dashboard.DashboardView(), "dashboard", "Главная", "Сводка дня: касса, склад и долги");
+        => Navigate(new Views.Dashboard.DashboardView(), "dashboard", "Page_Dashboard_Title", "Page_Dashboard_Sub", ShowDashboard);
 
     private void ShowSales()
-        => Navigate(new Views.Sales.SalesView(), "sales", "Касса", "Чеки, скидки и оплата");
+        => Navigate(new Views.Sales.SalesView(), "sales", "Page_Sales_Title", "Page_Sales_Sub", ShowSales);
 
     // ── Склад ──
 
@@ -141,14 +148,14 @@ public class MainViewModel : ViewModelBase
     {
         Products().IsCatalogSelected = true;
 
-        Navigate(new Views.Products.ProductsView(), "catalog", "Каталог товаров", "Карточки, цены, списание и удаление");
+        Navigate(new Views.Products.ProductsView(), "catalog", "Page_Catalog_Title", "Page_Catalog_Sub", ShowCatalog);
     }
 
     private void ShowReceiving()
     {
         Products().IsReceivingSelected = true;
 
-        Navigate(new Views.Products.ProductsView(), "receiving", "Приёмка", "Приход товара по штрихкоду");
+        Navigate(new Views.Products.ProductsView(), "receiving", "Page_Receiving_Title", "Page_Receiving_Sub", ShowReceiving);
     }
 
     private void ShowReceipts()
@@ -156,36 +163,44 @@ public class MainViewModel : ViewModelBase
         // Список перечитывается при каждом заходе: чеки пробивают прямо сейчас
         _ = App.Services.GetRequiredService<ViewModels.Receipts.ReceiptsListViewModel>().LoadAsync();
 
-        Navigate(new Views.Receipts.ReceiptsListView(), "receipts", "Список чеков", "Чеки за период и их состав");
+        Navigate(new Views.Receipts.ReceiptsListView(), "receipts", "Page_Receipts_Title", "Page_Receipts_Sub", ShowReceipts);
     }
 
     private void ShowReceiptTemplate()
-        => Navigate(new Views.Common.ComingSoonView(), "editor", "Редактор чека", "Что печатается на чеке и в каком порядке");
+    {
+        _ = App.Services.GetRequiredService<ViewModels.Receipts.ReceiptTemplateViewModel>().LoadAsync();
+
+        Navigate(new Views.Receipts.ReceiptTemplateView(), "editor", "Page_Editor_Title", "Page_Editor_Sub", ShowReceiptTemplate);
+    }
 
     // ── Аналитика ──
 
     private void ShowActivityLog()
-        => Navigate(new Views.Common.ComingSoonView(), "history", "История действий", "Кто что сделал и когда");
+    {
+        _ = App.Services.GetRequiredService<ViewModels.Activity.ActivityLogViewModel>().LoadAsync();
+
+        Navigate(new Views.Activity.ActivityLogView(), "history", "Page_History_Title", "Page_History_Sub", ShowActivityLog);
+    }
 
     private void ShowStock()
     {
         Statistics().IsStockSelected = true;
 
-        Navigate(new Views.Statistics.StatisticsView(), "stock", "Остатки", "Остатки по категориям за период");
+        Navigate(new Views.Statistics.StatisticsView(), "stock", "Page_Stock_Title", "Page_Stock_Sub", ShowStock);
     }
 
     private void ShowDebts()
     {
         Statistics().IsDebtsSelected = true;
 
-        Navigate(new Views.Statistics.StatisticsView(), "debts", "Долги клиентов", "Незакрытые чеки и приём оплаты");
+        Navigate(new Views.Statistics.StatisticsView(), "debts", "Page_Debts_Title", "Page_Debts_Sub", ShowDebts);
     }
 
     private void ShowPurchases()
     {
         Statistics().IsPurchasesSelected = true;
 
-        Navigate(new Views.Statistics.StatisticsView(), "purchases", "Закупки", "Журнал поставок за период");
+        Navigate(new Views.Statistics.StatisticsView(), "purchases", "Page_Purchases_Title", "Page_Purchases_Sub", ShowPurchases);
     }
 
     // ── Общее ──
@@ -197,13 +212,20 @@ public class MainViewModel : ViewModelBase
     private static StatisticsPageViewModel Statistics()
         => App.Services.GetRequiredService<StatisticsPageViewModel>();
 
-    private void Navigate(object view, string pageKey, string title, string subtitle)
+    /// <summary>Повтор последнего перехода — нужен, чтобы перерисовать страницу на новом языке.</summary>
+    private Action? _reopenCurrentPage;
+
+    private void Navigate(object view, string pageKey, string titleKey, string subtitleKey, Action reopen)
     {
         _navigation.CurrentView = view;
 
         CurrentPage = pageKey;
-        PageTitle = title;
-        PageSubtitle = subtitle;
+        _titleKey = titleKey;
+        _subtitleKey = subtitleKey;
+        _reopenCurrentPage = reopen;
+
+        OnPropertyChanged(nameof(PageTitle));
+        OnPropertyChanged(nameof(PageSubtitle));
 
         _ = RefreshDebtsBadgeAsync();
     }

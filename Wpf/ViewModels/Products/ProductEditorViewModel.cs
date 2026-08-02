@@ -7,6 +7,8 @@ using Application.DTOs.Products;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Products;
 
 /// <summary>
@@ -131,9 +133,15 @@ public class ProductEditorViewModel : ViewModelBase
         private set
         {
             if (SetProperty(ref _inStock, value))
+            {
                 OnPropertyChanged(nameof(CanWriteOff));
+                OnPropertyChanged(nameof(InStockText));
+            }
         }
     }
+
+    /// <summary>Подпись «на складе: N шт.» под названием карточки.</summary>
+    public string InStockText => Loc.F("Editor_InStock", InStock);
 
     private bool _hasHistory;
     public bool HasHistory
@@ -179,8 +187,8 @@ public class ProductEditorViewModel : ViewModelBase
     public bool CanDelete => !HasHistory && !IsBusy;
 
     public string DeleteHint => HasHistory
-        ? "По товару есть движения — вместо удаления спишите остаток"
-        : "Товар без движений можно удалить целиком";
+        ? Loc.T("Editor_DeleteBlocked")
+        : Loc.T("Editor_DeleteAllowed");
 
     // ===================== Состояние =====================
 
@@ -224,19 +232,19 @@ public class ProductEditorViewModel : ViewModelBase
     {
         if (string.IsNullOrWhiteSpace(Name))
         {
-            ShowError("Укажите название товара");
+            ShowError(Loc.T("Editor_NeedName"));
             return;
         }
 
         if (SelectedCategory is null)
         {
-            ShowError("Выберите категорию");
+            ShowError(Loc.T("Editor_NeedCategory"));
             return;
         }
 
         if (PricePerUnit <= 0)
         {
-            ShowError("Укажите цену продажи");
+            ShowError(Loc.T("Editor_NeedPrice"));
             return;
         }
 
@@ -247,6 +255,7 @@ public class ProductEditorViewModel : ViewModelBase
             await _products.UpdateAsync(new UpdateProductRequest
             {
                 ProductId = ProductId,
+                UserId = _session.User?.UserId ?? 0,
                 Name = Name,
                 SKU = SKU,
                 Barcode = Barcode,
@@ -260,7 +269,7 @@ public class ProductEditorViewModel : ViewModelBase
 
             await _reloadCatalog();
 
-            ShowInfo("Карточка сохранена");
+            ShowInfo(Loc.T("Editor_Saved"));
         }
         catch (Exception ex)
         {
@@ -276,19 +285,19 @@ public class ProductEditorViewModel : ViewModelBase
     {
         if (WriteOffQuantity > InStock)
         {
-            ShowError($"На складе {InStock} шт. — списать больше нельзя");
+            ShowError(Loc.F("Editor_WriteOffTooMuch", InStock));
             return;
         }
 
         if (_session.User is null)
         {
-            ShowError("Списание нельзя провести: не выполнен вход в систему");
+            ShowError(Loc.T("Editor_WriteOffNoLogin"));
             return;
         }
 
         var answer = MessageBox.Show(
-            $"Списать {WriteOffQuantity} шт. «{Title}»?\nПричина: {SelectedReason.Name}",
-            "Списание товара",
+            Loc.F("Editor_WriteOffConfirm", WriteOffQuantity, Title, SelectedReason.Name),
+            Loc.T("Editor_WriteOffConfirmTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
 
@@ -318,7 +327,7 @@ public class ProductEditorViewModel : ViewModelBase
 
             await _reloadCatalog();
 
-            ShowInfo($"Списано {quantity} шт. · осталось {InStock}");
+            ShowInfo(Loc.F("Editor_WriteOffDone", quantity, InStock));
         }
         catch (Exception ex)
         {
@@ -333,8 +342,8 @@ public class ProductEditorViewModel : ViewModelBase
     private async Task DeleteAsync()
     {
         var answer = MessageBox.Show(
-            $"Удалить карточку «{Title}» целиком?",
-            "Удаление товара",
+            Loc.F("Editor_DeleteConfirm", Title),
+            Loc.T("Editor_DeleteConfirmTitle"),
             MessageBoxButton.YesNo,
             MessageBoxImage.Warning);
 

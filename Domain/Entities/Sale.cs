@@ -24,7 +24,10 @@ namespace Domain.Entities
 
         public PaymentMethod PaymentMethod { get; private set; }
 
-        public bool IsCredit => PaidAmount < TotalAmount;
+        /// <summary>Чек отменён возвратом: товар вернулся на склад, долг снят.</summary>
+        public bool IsReturned { get; private set; }
+
+        public bool IsCredit => !IsReturned && PaidAmount < TotalAmount;
 
         private readonly List<SaleItem> _items = new();
         public IReadOnlyCollection<SaleItem> SaleItems => _items;
@@ -86,6 +89,15 @@ namespace Domain.Entities
                 throw new DomainException("Payment exceeds the amount due");
 
             PaidAmount += amount;
+        }
+
+        /// <summary>Возврат: чек больше не участвует ни в выручке, ни в долгах.</summary>
+        public void MarkReturned()
+        {
+            if (IsReturned)
+                throw new DomainException("Чек уже возвращён");
+
+            IsReturned = true;
         }
 
         private void Recalculate() => TotalAmount = Subtotal - DiscountAmount;

@@ -3,6 +3,8 @@ using System.Windows.Input;
 using Application.Contracts.Interfaces;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Statistics;
 
 /// <summary>
@@ -26,6 +28,8 @@ public class PurchaseLogViewModel : ViewModelBase
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
         ResetPeriodCommand = new RelayCommand(ResetPeriod);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
+    
+        WatchLanguage();
     }
 
     // ===================== Период и поиск =====================
@@ -56,11 +60,13 @@ public class PurchaseLogViewModel : ViewModelBase
     {
         get
         {
-            if (From is null && To is null) return "за всё время";
-            if (From is not null && To is null) return $"с {From:dd.MM.yyyy}";
-            if (From is null && To is not null) return $"по {To:dd.MM.yyyy}";
+            if (From is null && To is null) return Loc.T("Period_All");
+            if (From is not null && To is null) return Loc.F("Period_From", From.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
+            if (From is null && To is not null) return Loc.F("Period_To", To!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
 
-            return $"{From:dd.MM.yyyy} — {To:dd.MM.yyyy}";
+            return Loc.F("Period_Range",
+                From!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture),
+                To!.Value.ToString("dd.MM.yyyy", Loc.Instance.Culture));
         }
     }
 
@@ -108,10 +114,16 @@ public class PurchaseLogViewModel : ViewModelBase
     public int TotalItems
     {
         get => _totalItems;
-        private set => SetProperty(ref _totalItems, value);
+        private set
+        {
+            if (SetProperty(ref _totalItems, value))
+                OnPropertyChanged(nameof(TotalItemsText));
+        }
     }
 
-    public string CountText => Purchases.Count == 0 ? "" : $"{Purchases.Count} поставок";
+    public string TotalItemsText => Loc.F("Purchases_ItemsCount", TotalItems);
+
+    public string CountText => Purchases.Count == 0 ? "" : Loc.F("Purchases_Count", Purchases.Count);
 
     private string _errorMessage = "";
     public string ErrorMessage
@@ -156,7 +168,7 @@ public class PurchaseLogViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось загрузить журнал закупок: {ex.Message}";
+            ErrorMessage = Loc.F("Purchases_LoadFailed", ex.Message);
         }
         finally
         {
@@ -170,5 +182,15 @@ public class PurchaseLogViewModel : ViewModelBase
         To = null;
 
         _ = LoadAsync();
+    }
+
+    /// <summary>Страница живёт синглтоном: после смены языка перечитываем её строки.</summary>
+    private void WatchLanguage()
+    {
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+            _ = LoadAsync();
+        };
     }
 }

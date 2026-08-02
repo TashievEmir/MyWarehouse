@@ -1,8 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Input;
 using Application.Contracts.Interfaces;
 using Wpf.Common;
+using Wpf.Services;
+
+using Wpf.Localization;
 
 namespace Wpf.ViewModels.Receipts;
 
@@ -23,6 +27,7 @@ public class ReceiptsListViewModel : ViewModelBase
     private static readonly CultureInfo Russian = new("ru-RU");
 
     private readonly ISalesService _sales;
+    private readonly SessionService _session;
 
     public ObservableCollection<ReceiptListItem> Receipts { get; } = new();
 
@@ -31,18 +36,34 @@ public class ReceiptsListViewModel : ViewModelBase
     public ICommand CloseCommand { get; }
     public ICommand SetPeriodCommand { get; }
     public ICommand ClearSearchCommand { get; }
+    public ICommand CopyCommand { get; }
+    public ICommand ReturnCommand { get; }
 
-    public ReceiptsListViewModel(ISalesService sales)
+    public ReceiptsListViewModel(ISalesService sales, SessionService session)
     {
         _sales = sales;
+        _session = session;
 
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
         SelectCommand = new AsyncRelayCommand<ReceiptListItem>(SelectAsync);
         CloseCommand = new RelayCommand(() => Selected = null);
         SetPeriodCommand = new RelayCommand<string>(SetPeriod);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
+        CopyCommand = new RelayCommand(CopyToClipboard);
+        ReturnCommand = new AsyncRelayCommand(ReturnAsync);
 
         SetPeriod(nameof(ReceiptPeriod.Today));
+    }
+
+    /// <summary>Возврат доступен менеджеру и админу; кассир только смотрит.</summary>
+    public bool CanReturn
+    {
+        get
+        {
+            var roles = _session.User?.Roles;
+
+            return roles is not null && roles.Any(r => r is "Admin" or "Manager");
+        }
     }
 
     // ===================== Фильтры =====================
@@ -166,8 +187,8 @@ public class ReceiptsListViewModel : ViewModelBase
     }
 
     public string SummaryText => Receipts.Count == 0
-        ? "чеков нет"
-        : $"{Receipts.Count} чек(ов) · {TotalAmount:N2}";
+        ? Loc.T("Receipts_None")
+        : Loc.F("Receipts_Summary", Receipts.Count, TotalAmount.ToString("N2", Loc.Instance.Culture));
 
     private string _errorMessage = "";
     public string ErrorMessage
@@ -214,7 +235,7 @@ public class ReceiptsListViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось загрузить чеки: {ex.Message}";
+            ErrorMessage = Loc.F("Receipts_LoadFailed", ex.Message);
         }
         finally
         {
@@ -247,6 +268,87 @@ public class ReceiptsListViewModel : ViewModelBase
 
     public bool HasSelection => Selected is not null;
 
+    /// <summary>«Копия чека»: печати нет, поэтому кладём ленту в буфер обмена.</summary>
+    private void CopyToClipboard()
+    {
+        if (Selected is null)
+            return;
+
+        try
+        {
+            Clipboard.SetText(Selected.AsText());
+
+            ErrorMessage = "";
+            StatusMessage = Loc.F("Receipts_Copied", Selected.SaleId);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = Loc.F("Receipts_CopyFailed", ex.Message);
+        }
+    }
+
+    private async Task ReturnAsync()
+    {
+        if (Selected is null)
+            return;
+
+        if (!CanReturn)
+        {
+            ErrorMessage = Loc.T("Receipts_ReturnDenied");
+            return;
+        }
+
+        if (_session.User is null)
+        {
+            ErrorMessage = Loc.T("Receipts_ReturnNoLogin");
+            return;
+        }
+
+        var answer = MessageBox.Show(
+            Loc.F("Receipts_ReturnConfirm", Selected.SaleId, Selected.TotalAmount.ToString("N2", Loc.Instance.Culture)),
+            Loc.T("Receipts_ReturnConfirmTitle"),
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+
+        if (answer != MessageBoxResult.Yes)
+            return;
+
+        try
+        {
+            var saleId = Selected.SaleId;
+
+            await _sales.ReturnSaleAsync(saleId, _session.User.UserId, CancellationToken.None);
+
+            await LoadAsync();
+
+            // Перечитываем открытый чек: он должен показаться уже возвращённым
+            var refreshed = Receipts.FirstOrDefault(r => r.SaleId == saleId);
+
+            if (refreshed is not null)
+                await SelectAsync(refreshed);
+
+            StatusMessage = Loc.F("Receipts_ReturnDone", saleId);
+            ErrorMessage = "";
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    private string _statusMessage = "";
+    public string StatusMessage
+    {
+        get => _statusMessage;
+        private set
+        {
+            if (SetProperty(ref _statusMessage, value))
+                OnPropertyChanged(nameof(HasStatus));
+        }
+    }
+
+    public bool HasStatus => StatusMessage.Length > 0;
+
     private async Task SelectAsync(ReceiptListItem row)
     {
         SelectedRow = row;
@@ -259,7 +361,7 @@ public class ReceiptsListViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось открыть чек: {ex.Message}";
+            ErrorMessage = Loc.F("Receipts_OpenFailed", ex.Message);
         }
     }
 }

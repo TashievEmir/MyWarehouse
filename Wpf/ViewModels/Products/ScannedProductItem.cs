@@ -2,6 +2,8 @@ using System.Windows.Input;
 using Application.DTOs.Products;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Products;
 
 /// <summary>
@@ -55,7 +57,9 @@ public class ScannedProductItem : ViewModelBase
         }
     }
 
-    public string CategoryName => SelectedCategory?.Name ?? "Без категории";
+    public string CategoryName => SelectedCategory?.Name ?? Loc.T("Scanned_NoCategory");
+
+    public string InStockBeforeText => Loc.F("Scanned_InStockBefore", InStockBefore);
 
     private bool _isCreatingCategory;
     /// <summary>В строке вместо списка категорий показывается поле ввода новой.</summary>
@@ -122,9 +126,9 @@ public class ScannedProductItem : ViewModelBase
         get
         {
             if (!IsNew) return null;
-            if (string.IsNullOrWhiteSpace(Name)) return "укажите название";
-            if (SelectedCategory?.Category is null) return "выберите категорию";
-            if (Price <= 0) return "укажите цену продажи";
+            if (string.IsNullOrWhiteSpace(Name)) return Loc.T("Scanned_NeedName");
+            if (SelectedCategory?.Category is null) return Loc.T("Scanned_NeedCategory");
+            if (Price <= 0) return Loc.T("Scanned_NeedPrice");
 
             return null;
         }

@@ -3,6 +3,8 @@ using Application.DTOs.Products;
 using Application.DTOs.Sales;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Sales;
 
 /// <summary>Позиция чека: товар, цена продажи и количество.</summary>
@@ -46,7 +48,7 @@ public class SaleLineItem : ViewModelBase
     /// <summary>В чеке больше, чем лежит на складе.</summary>
     public bool ExceedsStock => Quantity > InStock;
 
-    public string StockText => $"на складе: {InStock}";
+    public string StockText => Loc.F("Sales_StockText", InStock);
 
     public ICommand IncreaseCommand { get; }
     public ICommand DecreaseCommand { get; }

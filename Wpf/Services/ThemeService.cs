@@ -54,7 +54,7 @@ public class ThemeService : INotifyPropertyChanged
     public bool IsDark => Theme == AppTheme.Dark;
 
     /// <summary>Подпись кнопки: показывает, на что переключимся.</summary>
-    public string ToggleLabel => IsDark ? "Светлая тема" : "Тёмная тема";
+    public string ToggleLabel => Localization.Loc.T(IsDark ? "Theme_Light" : "Theme_Dark");
 
     /// <summary>Ставит сохранённую тему при старте приложения.</summary>
     public void Apply() => Apply(Theme);

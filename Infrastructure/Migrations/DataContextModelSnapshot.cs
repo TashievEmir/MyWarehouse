@@ -17,6 +17,43 @@ namespace Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.2");
 
+            modelBuilder.Entity("Domain.Entities.ActivityLogEntry", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Details")
+                        .HasColumnType("TEXT");
+
+                    b.Property<long?>("EntityId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EntityType")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("OccurredAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActivityLog");
+                });
+
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<long>("Id")
@@ -196,6 +233,37 @@ namespace Infrastructure.Migrations
                     b.ToTable("PurchaseItems");
                 });
 
+            modelBuilder.Entity("Domain.Entities.ReceiptTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Blocks")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FooterText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShopName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Tin")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReceiptTemplates");
+                });
+
             modelBuilder.Entity("Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -222,6 +290,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<decimal>("DiscountAmount")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsReturned")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("PaidAmount")
                         .HasColumnType("TEXT");

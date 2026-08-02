@@ -69,6 +69,19 @@ public class NullToVisibilityConverter : IValueConverter
 }
 
 /// <summary>
+/// Ключ ресурса -> кисть. Модель называет цвет события строкой, а не тащит кисти в себя.
+/// Цвет берётся из активной темы в момент отрисовки списка.
+/// </summary>
+public class ResourceKeyToBrushConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is string key ? System.Windows.Application.Current.TryFindResource(key) : null;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+/// <summary>
 /// true, если все переданные значения равны. Нужен для подсветки активного пункта меню.
 /// </summary>
 public class EqualsConverter : IMultiValueConverter

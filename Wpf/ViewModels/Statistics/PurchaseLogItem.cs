@@ -3,6 +3,8 @@ using System.Globalization;
 using Application.DTOs.Purchases;
 using Wpf.Common;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Statistics;
 
 /// <summary>Позиция поставки в журнале закупок.</summary>
@@ -14,7 +16,7 @@ public class PurchaseLineItem
     public decimal CostPerUnit { get; }
     public decimal Total { get; }
 
-    public string QuantityText => $"{Quantity} шт. × {CostPerUnit:N2}";
+    public string QuantityText => Loc.F("Purchase_LineQuantity", Quantity, CostPerUnit);
 
     public PurchaseLineItem(PurchaseLineResponse line)
     {
@@ -41,11 +43,11 @@ public class PurchaseLogItem : ViewModelBase
 
     public ObservableCollection<PurchaseLineItem> Lines { get; } = new();
 
-    public string Number => $"Поставка №{PurchaseId}";
+    public string Number => Loc.F("Purchase_Number", PurchaseId);
 
     public string DateText => PurchaseDate.ToLocalTime().ToString("d MMMM yyyy, HH:mm", Russian);
 
-    public string SummaryText => $"{PositionsCount} поз. · {ItemsCount} шт.";
+    public string SummaryText => Loc.F("Purchase_Summary", PositionsCount, ItemsCount);
 
     private bool _isExpanded;
     public bool IsExpanded

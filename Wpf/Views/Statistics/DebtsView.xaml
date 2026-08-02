@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Statistics"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1100"
@@ -124,10 +125,10 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,16,0">
-                        <TextBlock Text="Долги клиентов" Style="{StaticResource SectionTitle}"/>
+                        <TextBlock Text="{loc:Tr Debts_Title}" Style="{StaticResource SectionTitle}"/>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                            <TextBlock Style="{StaticResource Muted}" Text="Всего долга:"/>
+                            <TextBlock Style="{StaticResource Muted}" Text="{loc:Tr Debts_TotalLabel}"/>
                             <TextBlock Style="{StaticResource Muted}"
                                        Margin="5,0,0,0"
                                        FontWeight="SemiBold"
@@ -162,7 +163,7 @@
                         <TextBox Style="{StaticResource Field}"
                                  Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}"/>
 
-                        <TextBlock Text="Поиск по клиенту, телефону или чеку"
+                        <TextBlock Text="{loc:Tr Debts_SearchHint}"
                                    Margin="13,0,0,0"
                                    FontSize="13"
                                    IsHitTestVisible="False"
@@ -173,7 +174,7 @@
                         <Button Style="{StaticResource MiniIconButton}"
                                 HorizontalAlignment="Right"
                                 Margin="0,0,6,0"
-                                ToolTip="Очистить поиск"
+                                ToolTip="{loc:Tr Common_ClearSearch}"
                                 Command="{Binding ClearSearchCommand}"
                                 Visibility="{Binding HasSearch, Converter={StaticResource BoolToVisibility}}">
 
@@ -191,10 +192,10 @@
                         <ColumnDefinition Width="130"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="КЛИЕНТ" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="1" Text="ОПЛАЧЕНО" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="2" Text="ПЛАТЕЖИ" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="3" Text="ДОЛГ" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
+                    <TextBlock Grid.Column="0" Text="{loc:Tr Debts_Col_Customer}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="1" Text="{loc:Tr Debts_Col_Paid}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="2" Text="{loc:Tr Debts_Col_Payments}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="3" Text="{loc:Tr Debts_Col_Debt}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
                 </Grid>
 
                 <!-- Список -->
@@ -216,7 +217,7 @@
                                                  HorizontalAlignment="Center"
                                                  Foreground="{DynamicResource LineBrush}"/>
 
-                        <TextBlock Text="Непогашенных долгов нет"
+                        <TextBlock Text="{loc:Tr Debts_Empty}"
                                    Margin="0,10,0,0"
                                    FontSize="14"
                                    Foreground="{DynamicResource TextSecondaryBrush}"/>
@@ -256,7 +257,7 @@
                     <Button Grid.Column="1"
                             Style="{StaticResource MiniIconButton}"
                             VerticalAlignment="Top"
-                            ToolTip="Закрыть"
+                            ToolTip="{loc:Tr Common_Close}"
                             Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
 
                         <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
@@ -271,7 +272,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Сумма чека" Style="{StaticResource Muted}" FontSize="13"/>
+                    <TextBlock Grid.Column="0" Text="{loc:Tr Debts_SaleTotal}" Style="{StaticResource Muted}" FontSize="13"/>
                     <TextBlock Grid.Column="1"
                                FontSize="13"
                                Foreground="{DynamicResource TextPrimaryBrush}"
@@ -284,7 +285,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="Уже оплачено" Style="{StaticResource Muted}" FontSize="13"/>
+                    <TextBlock Grid.Column="0" Text="{loc:Tr Debts_AlreadyPaid}" Style="{StaticResource Muted}" FontSize="13"/>
                     <TextBlock Grid.Column="1"
                                FontSize="13"
                                Foreground="{DynamicResource SuccessBrush}"
@@ -298,7 +299,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                               Text="Остаток долга"
+                               Text="{loc:Tr Debts_Rest}"
                                FontSize="15"
                                FontWeight="SemiBold"
                                VerticalAlignment="Center"
@@ -313,7 +314,7 @@
 
                 <StackPanel DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
 
-                    <TextBlock Text="ПРИНЯТЬ ОПЛАТУ" Style="{StaticResource FieldCaption}" Margin="0,18,0,8"/>
+                    <TextBlock Text="{loc:Tr Debts_TakePayment}" Style="{StaticResource FieldCaption}" Margin="0,18,0,8"/>
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -325,13 +326,13 @@
                                  Style="{StaticResource Field}"
                                  FontSize="15"
                                  TextAlignment="Right"
-                                 ToolTip="Сумма платежа"
+                                 ToolTip="{loc:Tr Debts_PaymentTip}"
                                  Text="{Binding PaymentAmount, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <Button Grid.Column="1"
                                 Style="{StaticResource SecondaryButton}"
                                 Margin="6,0,0,0"
-                                Content="Весь долг"
+                                Content="{loc:Tr Debts_PayFull}"
                                 Command="{Binding PayFullCommand}"/>
                     </Grid>
 
@@ -342,7 +343,7 @@
 
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="CashCheck" Width="19" Height="19" VerticalAlignment="Center"/>
-                            <TextBlock Text="Принять оплату" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{loc:Tr Debts_Pay}" Margin="8,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

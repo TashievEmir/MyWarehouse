@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="900"
              FontFamily="Segoe UI">
@@ -17,14 +18,14 @@
                                      HorizontalAlignment="Center"
                                      Foreground="{DynamicResource LineBrush}"/>
 
-            <TextBlock Text="Экран в разработке"
+            <TextBlock Text="{loc:Tr Soon_Title}"
                        Margin="0,14,0,0"
                        FontSize="18"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Center"
                        Foreground="{DynamicResource TextBrush}"/>
 
-            <TextBlock Text="Раздел есть в макете v2 и появится в приложении следующим шагом."
+            <TextBlock Text="{loc:Tr Soon_Text}"
                        Margin="0,8,0,0"
                        FontSize="15"
                        TextAlignment="Center"

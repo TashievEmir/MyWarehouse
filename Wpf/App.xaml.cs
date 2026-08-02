@@ -34,7 +34,7 @@ namespace Wpf
         {
             base.OnStartup(e);
 
-            ApplyRussianCulture();
+            ApplyCulture();
 
             var services = new ServiceCollection();
 
@@ -56,6 +56,8 @@ namespace Wpf
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IActivityLogService, ActivityLogService>();
+            services.AddScoped<IReceiptTemplateService, ReceiptTemplateService>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
             services.AddSingleton<ThemeService>();
@@ -75,6 +77,8 @@ namespace Wpf
             services.AddSingleton<ReceivingViewModel>();
             services.AddTransient<DashboardViewModel>();
             services.AddSingleton<ViewModels.Receipts.ReceiptsListViewModel>();
+            services.AddSingleton<ViewModels.Receipts.ReceiptTemplateViewModel>();
+            services.AddSingleton<ViewModels.Activity.ActivityLogViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();
@@ -104,15 +108,16 @@ namespace Wpf
         }
 
         /// <summary>
-        /// Интерфейс русский: без этого даты в DatePicker показывались как 8/1/2026,
-        /// а суммы — по инвариантной культуре.
+        /// Ставит сохранённый язык интерфейса. Без этого даты в DatePicker
+        /// показывались как 8/1/2026, а суммы — по инвариантной культуре.
+        /// Кыргызская локаль на некоторых системах отсутствует — тогда
+        /// откатываемся на русскую, тексты всё равно берутся из ресурсов.
         /// </summary>
-        private static void ApplyRussianCulture()
+        private static void ApplyCulture()
         {
-            var culture = new CultureInfo("ru-RU");
+            Localization.Loc.Instance.Apply();
 
-            CultureInfo.DefaultThreadCurrentCulture   = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            var culture = Localization.Loc.Instance.Culture;
 
             Thread.CurrentThread.CurrentCulture   = culture;
             Thread.CurrentThread.CurrentUICulture = culture;

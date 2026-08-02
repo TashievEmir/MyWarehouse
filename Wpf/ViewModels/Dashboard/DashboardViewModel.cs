@@ -5,6 +5,8 @@ using Application.Contracts.Interfaces;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Dashboard;
 
 /// <summary>
@@ -51,23 +53,23 @@ public class DashboardViewModel : ViewModelBase
 
             string part = hour switch
             {
-                >= 5 and < 12  => "Доброе утро",
-                >= 12 and < 18 => "Добрый день",
-                >= 18 and < 23 => "Добрый вечер",
-                _              => "Доброй ночи",
+                >= 5 and < 12  => Loc.T("Dash_Greeting_Morning"),
+                >= 12 and < 18 => Loc.T("Dash_Greeting_Day"),
+                >= 18 and < 23 => Loc.T("Dash_Greeting_Evening"),
+                _              => Loc.T("Dash_Greeting_Night"),
             };
 
             return string.IsNullOrWhiteSpace(name) ? part : $"{part}, {name}";
         }
     }
 
-    public string TodayLabel => DateTime.Now.ToString("d MMMM yyyy", Russian);
+    public string TodayLabel => DateTime.Now.ToString("d MMMM yyyy", Loc.Instance.Culture);
 
-    public string RevenuePeriodLabel => $"Выручка за {RevenueDays} дней";
+    public string RevenuePeriodLabel => Loc.F("Dash_RevenuePeriod", RevenueDays);
 
-    public string TopPeriodLabel => $"Топ товаров за {TopDays} дней";
+    public string TopPeriodLabel => Loc.F("Dash_TopPeriod", TopDays);
 
-    public string LowStockLabel => $"Заканчивается (≤ {LowStockThreshold} шт.)";
+    public string LowStockLabel => Loc.F("Dash_LowStock", LowStockThreshold);
 
     // ===================== Показатели =====================
 
@@ -82,8 +84,14 @@ public class DashboardViewModel : ViewModelBase
     public int TodayReceipts
     {
         get => _todayReceipts;
-        private set => SetProperty(ref _todayReceipts, value);
+        private set
+        {
+            if (SetProperty(ref _todayReceipts, value))
+                OnPropertyChanged(nameof(TodayReceiptsLabel));
+        }
     }
+
+    public string TodayReceiptsLabel => Loc.F("Dash_Receipts", TodayReceipts);
 
     private decimal _averageReceipt;
     public decimal AverageReceipt
@@ -109,15 +117,27 @@ public class DashboardViewModel : ViewModelBase
     public decimal TodayPurchases
     {
         get => _todayPurchases;
-        private set => SetProperty(ref _todayPurchases, value);
+        private set
+        {
+            if (SetProperty(ref _todayPurchases, value))
+                OnPropertyChanged(nameof(TodayPurchasesLabel));
+        }
     }
+
+    public string TodayPurchasesLabel => Loc.F("Dash_Purchased", TodayPurchases);
 
     private int _todayWrittenOff;
     public int TodayWrittenOff
     {
         get => _todayWrittenOff;
-        private set => SetProperty(ref _todayWrittenOff, value);
+        private set
+        {
+            if (SetProperty(ref _todayWrittenOff, value))
+                OnPropertyChanged(nameof(TodayWrittenOffLabel));
+        }
     }
+
+    public string TodayWrittenOffLabel => Loc.F("Dash_WrittenOff", TodayWrittenOff);
 
     private decimal _totalDebt;
     public decimal TotalDebt
@@ -133,7 +153,7 @@ public class DashboardViewModel : ViewModelBase
         private set => SetProperty(ref _debtorsCount, value);
     }
 
-    public string DebtorsLabel => DebtorsCount == 0 ? "долгов нет" : $"{DebtorsCount} незакрытых чек(ов)";
+    public string DebtorsLabel => DebtorsCount == 0 ? Loc.T("Dash_NoDebts") : Loc.F("Dash_Debtors", DebtorsCount);
 
     // ===================== Требует внимания =====================
 
@@ -154,14 +174,20 @@ public class DashboardViewModel : ViewModelBase
     public bool HasPriceWarning => ProductsWithoutPrice > 0;
 
     public string PriceWarningText =>
-        $"{ProductsWithoutPrice} товар(ов) без цены продажи — их нельзя пробить на кассе. Проставьте цену в «Товары → Каталог»";
+        Loc.F("Dash_PriceWarning", ProductsWithoutPrice);
 
     private int _productsOutOfStock;
     public int ProductsOutOfStock
     {
         get => _productsOutOfStock;
-        private set => SetProperty(ref _productsOutOfStock, value);
+        private set
+        {
+            if (SetProperty(ref _productsOutOfStock, value))
+                OnPropertyChanged(nameof(OutOfStockLabel));
+        }
     }
+
+    public string OutOfStockLabel => Loc.F("Dash_OutOfStock", ProductsOutOfStock);
 
     // ===================== Состояние =====================
 
@@ -243,7 +269,7 @@ public class DashboardViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось загрузить сводку: {ex.Message}";
+            ErrorMessage = Loc.F("Dash_LoadFailed", ex.Message);
         }
         finally
         {

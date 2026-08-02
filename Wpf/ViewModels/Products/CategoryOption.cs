@@ -1,5 +1,7 @@
 using Application.DTOs.Categories;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Products;
 
 /// <summary>
@@ -12,7 +14,7 @@ public class CategoryOption
 
     public bool IsCreateNew => Category is null;
 
-    public string Name => Category?.Name ?? "+ Новая категория…";
+    public string Name => Category?.Name ?? Loc.T("Category_CreateNew");
 
     private CategoryOption(CategoryResponse? category) => Category = category;
 

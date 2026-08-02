@@ -6,6 +6,8 @@ using Application.DTOs.Customers;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Sales;
 
 /// <summary>
@@ -48,6 +50,15 @@ public class SalesViewModel : ViewModelBase
         AddTab();
 
         _ = LoadCustomersAsync();
+
+        // Касса живёт всё время работы: перечитывать нечего, но подписи вкладок обновляем
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+
+            foreach (var tab in Tabs)
+                tab.RefreshTexts();
+        };
     }
 
     private SaleTabViewModel? _selectedTab;
@@ -64,7 +75,7 @@ public class SalesViewModel : ViewModelBase
         _tabCounter++;
 
         var tab = new SaleTabViewModel(
-            $"Чек {_tabCounter}",
+            Loc.F("Sales_TabTitle", _tabCounter),
             _products,
             _sales,
             _customerService,
@@ -86,8 +97,8 @@ public class SalesViewModel : ViewModelBase
         if (tab.Lines.Count > 0)
         {
             var answer = MessageBox.Show(
-                $"В «{tab.Title}» осталось {tab.CartSummary}. Закрыть вкладку и потерять чек?",
-                "Закрытие вкладки",
+                Loc.F("Sales_CloseTabConfirm", tab.Title, tab.CartSummary),
+                Loc.T("Sales_CloseTabConfirmTitle"),
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning);
 

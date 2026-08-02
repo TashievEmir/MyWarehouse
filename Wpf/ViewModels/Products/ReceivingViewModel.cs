@@ -6,6 +6,9 @@ using Application.Contracts.Interfaces;
 using Application.DTOs.Categories;
 using Application.DTOs.Products;
 using Wpf.Common;
+using Wpf.Services;
+
+using Wpf.Localization;
 
 namespace Wpf.ViewModels.Products;
 
@@ -19,6 +22,7 @@ public class ReceivingViewModel : ViewModelBase
 {
     private readonly IProductService _products;
     private readonly ICategoryService _categories;
+    private readonly SessionService _session;
 
     /// <summary>Категории для выбора у новых товаров, последний пункт — «создать новую».</summary>
     public ObservableCollection<CategoryOption> CategoryOptions { get; } = new();
@@ -35,10 +39,11 @@ public class ReceivingViewModel : ViewModelBase
     /// <summary>Приход записан — каталог и остатки изменились.</summary>
     public event Action? Received;
 
-    public ReceivingViewModel(IProductService products, ICategoryService categories)
+    public ReceivingViewModel(IProductService products, ICategoryService categories, SessionService session)
     {
         _products = products;
         _categories = categories;
+        _session = session;
 
         ScanCommand = new AsyncRelayCommand(ScanAsync);
         RemoveScannedCommand = new RelayCommand<ScannedProductItem>(RemoveScanned);
@@ -49,6 +54,8 @@ public class ReceivingViewModel : ViewModelBase
         Scanned.CollectionChanged += OnScannedChanged;
 
         _ = LoadCategoriesAsync();
+
+        WatchLanguage();
     }
 
     // ===================== Состояние =====================
@@ -105,12 +112,22 @@ public class ReceivingViewModel : ViewModelBase
     public int ScannedQuantity => Scanned.Sum(x => x.Quantity);
 
     public string ScannedSummary => Scanned.Count == 0
-        ? "Список пуст — отсканируйте штрихкоды"
-        : $"{Scanned.Count} поз. · {ScannedQuantity} шт.";
+        ? Loc.T("Receiving_EmptySummary")
+        : Loc.F("Receiving_Summary", Scanned.Count, ScannedQuantity);
 
     public bool CanSave => Scanned.Count > 0 && !IsBusy;
 
     // ===================== Категории =====================
+
+    /// <summary>Приёмка живёт синглтоном: после смены языка обновляем подписи и список категорий.</summary>
+    private void WatchLanguage()
+    {
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+            _ = LoadCategoriesAsync();
+        };
+    }
 
     private async Task LoadCategoriesAsync()
     {
@@ -127,7 +144,7 @@ public class ReceivingViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ShowError($"Не удалось загрузить категории: {ex.Message}");
+            ShowError(Loc.F("Receiving_CategoriesFailed", ex.Message));
         }
     }
 
@@ -141,7 +158,7 @@ public class ReceivingViewModel : ViewModelBase
 
         if (name.Length == 0)
         {
-            ShowError("Введите название категории");
+            ShowError(Loc.T("Receiving_NeedCategoryName"));
             return;
         }
 
@@ -152,7 +169,7 @@ public class ReceivingViewModel : ViewModelBase
         if (existing is not null)
         {
             item.ApplyCategory(existing);
-            ShowInfo($"Категория «{existing.Category!.Name}» уже есть — выбрана она");
+            ShowInfo(Loc.F("Receiving_CategoryExists", existing.Category!.Name));
             return;
         }
 
@@ -163,7 +180,7 @@ public class ReceivingViewModel : ViewModelBase
 
             if (created is null)
             {
-                ShowError("Не удалось создать категорию");
+                ShowError(Loc.T("Receiving_CategoryCreateFailed"));
                 return;
             }
 
@@ -172,11 +189,11 @@ public class ReceivingViewModel : ViewModelBase
             InsertCategoryOption(option);
             item.ApplyCategory(option);
 
-            ShowInfo($"Категория «{created.Name}» добавлена");
+            ShowInfo(Loc.F("Receiving_CategoryAdded", created.Name));
         }
         catch (Exception ex)
         {
-            ShowError($"Не удалось создать категорию: {ex.Message}");
+            ShowError(Loc.F("Receiving_CategoryCreateError", ex.Message));
         }
     }
 
@@ -213,7 +230,7 @@ public class ReceivingViewModel : ViewModelBase
         {
             existing.Quantity++;
             RefreshScannedSummary();
-            ShowInfo($"{DisplayName(existing)} — {existing.Quantity} шт.");
+            ShowInfo(Loc.F("Receiving_ScannedExisting", DisplayName(existing), existing.Quantity));
             return;
         }
 
@@ -230,13 +247,13 @@ public class ReceivingViewModel : ViewModelBase
             Scanned.Insert(0, item);
 
             if (found is null)
-                ShowInfo($"Новый штрихкод {barcode} — укажите название, категорию и цену продажи");
+                ShowInfo(Loc.F("Receiving_ScannedNew", barcode));
             else
-                ShowInfo($"{found.Name} · {found.CategoryName}");
+                ShowInfo(Loc.F("Receiving_ScannedFound", found.Name, found.CategoryName));
         }
         catch (Exception ex)
         {
-            ShowError($"Ошибка при сканировании: {ex.Message}");
+            ShowError(Loc.F("Receiving_ScanError", ex.Message));
         }
     }
 
@@ -260,7 +277,7 @@ public class ReceivingViewModel : ViewModelBase
     {
         if (Scanned.Count == 0)
         {
-            ShowError("Список пуст — сначала отсканируйте товары");
+            ShowError(Loc.T("Receiving_ListEmpty"));
             return;
         }
 
@@ -268,7 +285,7 @@ public class ReceivingViewModel : ViewModelBase
 
         if (invalid is not null)
         {
-            ShowError($"Штрихкод {invalid.Barcode}: {invalid.ValidationHint}");
+            ShowError(Loc.F("Receiving_Invalid", invalid.Barcode, invalid.ValidationHint));
             return;
         }
 
@@ -279,6 +296,7 @@ public class ReceivingViewModel : ViewModelBase
             var request = new ReceiveProductsRequest
             {
                 SupplierName = SupplierName,
+                UserId = _session.User?.UserId ?? 0,
                 Items = Scanned.Select(x => x.ToRequest()).ToList()
             };
 
@@ -291,7 +309,7 @@ public class ReceivingViewModel : ViewModelBase
 
             Received?.Invoke();
 
-            ShowInfo($"Добавлено {positions} поз. · {quantity} шт. — остатки видны в «Статистике»");
+            ShowInfo(Loc.F("Receiving_Saved", positions, quantity));
         }
         catch (Exception ex)
         {

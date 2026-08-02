@@ -27,7 +27,7 @@ public class SessionService : INotifyPropertyChanged
     {
         get
         {
-            if (_user is null) return "Гость";
+            if (_user is null) return Localization.Loc.T("Session_Guest");
 
             var fullName = $"{_user.Lastname} {_user.Firstname}".Trim();
 
@@ -35,7 +35,7 @@ public class SessionService : INotifyPropertyChanged
         }
     }
 
-    public string RoleTitle => _user?.Roles.FirstOrDefault() ?? "Не авторизован";
+    public string RoleTitle => _user?.Roles.FirstOrDefault() ?? Localization.Loc.T("Session_NotAuthorized");
 
     public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -31,6 +31,7 @@ namespace Application.Services
 
             var sales = await _db.Sales
                 .AsNoTracking()
+                .Where(s => !s.IsReturned)   // возвращённые чеки не выручка
                 .Select(s => new
                 {
                     s.Id,

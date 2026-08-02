@@ -5,6 +5,8 @@ using Application.DTOs.Categories;
 using Wpf.Common;
 using Wpf.Services;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Products;
 
 /// <summary>
@@ -34,6 +36,8 @@ public class ProductCatalogViewModel : ViewModelBase
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
         SelectCommand = new RelayCommand<ProductListItem>(Select);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
+    
+        WatchLanguage();
     }
 
     private string _searchText = "";
@@ -100,7 +104,7 @@ public class ProductCatalogViewModel : ViewModelBase
 
     public bool HasError => ErrorMessage.Length > 0;
 
-    public string CountText => Products.Count == 0 ? "" : $"{Products.Count} поз.";
+    public string CountText => Products.Count == 0 ? "" : Loc.F("Catalog_Count", Products.Count);
 
     /// <summary>Перечитывает каталог и категории — вызывается при открытии вкладки.</summary>
     public async Task LoadAsync()
@@ -139,7 +143,7 @@ public class ProductCatalogViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Не удалось загрузить каталог: {ex.Message}";
+            ErrorMessage = Loc.F("Catalog_LoadFailed", ex.Message);
         }
         finally
         {
@@ -174,5 +178,15 @@ public class ProductCatalogViewModel : ViewModelBase
     {
         Editor = null;
         SelectedProduct = null;
+    }
+
+    /// <summary>Страница живёт синглтоном: после смены языка перечитываем её строки.</summary>
+    private void WatchLanguage()
+    {
+        Loc.LanguageChanged += () =>
+        {
+            OnPropertyChanged(string.Empty);
+            _ = LoadAsync();
+        };
     }
 }

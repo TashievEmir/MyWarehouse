@@ -22,6 +22,11 @@ namespace Application.Contracts.Interfaces
         /// <summary>Чек целиком: позиции и итоги.</summary>
         Task<ReceiptDetailsResponse?> GetReceiptAsync(long saleId, CancellationToken ct);
 
+        /// <summary>
+        /// Возврат чека: товар возвращается на склад, чек уходит из выручки и долгов.
+        /// </summary>
+        Task ReturnSaleAsync(long saleId, long userId, CancellationToken ct);
+
         /// <summary>Незакрытые долги клиентов: продажи, оплаченные не полностью.</summary>
         Task<List<DebtResponse>> GetDebtsAsync(string? search, CancellationToken ct);
 

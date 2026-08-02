@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Receipts"
              mc:Ignorable="d"
              d:DesignHeight="760" d:DesignWidth="1200"
@@ -219,13 +220,13 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0" Margin="0,0,12,0">
-                        <TextBlock Text="ПОИСК" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Text="{loc:Tr Common_Search}" Style="{StaticResource FieldCaption}"/>
 
                         <Grid>
                             <TextBox Style="{StaticResource Field}"
                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}"/>
 
-                            <TextBlock Text="Номер чека, кассир, клиент или товар"
+                            <TextBlock Text="{loc:Tr Receipts_SearchHint}"
                                        Margin="15,0,0,0"
                                        FontSize="15"
                                        IsHitTestVisible="False"
@@ -236,7 +237,7 @@
                             <Button Style="{StaticResource MiniIconButton}"
                                     HorizontalAlignment="Right"
                                     Margin="0,0,8,0"
-                                    ToolTip="Очистить поиск"
+                                    ToolTip="{loc:Tr Common_ClearSearch}"
                                     Command="{Binding ClearSearchCommand}"
                                     Visibility="{Binding HasSearch, Converter={StaticResource BoolToVisibility}}">
 
@@ -246,12 +247,12 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="0,0,12,0">
-                        <TextBlock Text="С ДАТЫ" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Text="{loc:Tr Common_DateFrom}" Style="{StaticResource FieldCaption}"/>
                         <DatePicker Style="{StaticResource FieldDate}" Width="170" SelectedDate="{Binding From, Mode=TwoWay}"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="2" Margin="0,0,12,0">
-                        <TextBlock Text="ПО ДАТУ" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Text="{loc:Tr Common_DateTo}" Style="{StaticResource FieldCaption}"/>
                         <DatePicker Style="{StaticResource FieldDate}" Width="170" SelectedDate="{Binding To, Mode=TwoWay}"/>
                     </StackPanel>
 
@@ -259,7 +260,7 @@
                             Style="{StaticResource PrimaryButton}"
                             Margin="0,20,0,0"
                             VerticalAlignment="Top"
-                            Content="Показать"
+                            Content="{loc:Tr Common_Show}"
                             Command="{Binding RefreshCommand}"/>
                 </Grid>
 
@@ -272,19 +273,19 @@
 
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <RadioButton Style="{StaticResource PeriodChip}"
-                                     Content="Сегодня"
+                                     Content="{loc:Tr Receipts_Today}"
                                      IsChecked="{Binding IsToday, Mode=OneWay}"
                                      Command="{Binding SetPeriodCommand}"
                                      CommandParameter="Today"/>
 
                         <RadioButton Style="{StaticResource PeriodChip}"
-                                     Content="Неделя"
+                                     Content="{loc:Tr Receipts_Week}"
                                      IsChecked="{Binding IsWeek, Mode=OneWay}"
                                      Command="{Binding SetPeriodCommand}"
                                      CommandParameter="Week"/>
 
                         <RadioButton Style="{StaticResource PeriodChip}"
-                                     Content="Месяц"
+                                     Content="{loc:Tr Receipts_Month}"
                                      IsChecked="{Binding IsMonth, Mode=OneWay}"
                                      Command="{Binding SetPeriodCommand}"
                                      CommandParameter="Month"/>
@@ -308,12 +309,12 @@
                         <ColumnDefinition Width="140"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Text="ЧЕК" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="1" Text="ВРЕМЯ" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="2" Text="КАССИР / КЛИЕНТ" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="3" Text="ПОЗИЦИЙ" Style="{StaticResource FieldCaption}" TextAlignment="Center"/>
-                    <TextBlock Grid.Column="4" Text="ОПЛАТА" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="5" Text="СУММА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,12,7"/>
+                    <TextBlock Grid.Column="0" Text="{loc:Tr Receipts_Col_Number}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="1" Text="{loc:Tr Receipts_Col_Time}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="2" Text="{loc:Tr Receipts_Col_Cashier}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="3" Text="{loc:Tr Receipts_Col_Positions}" Style="{StaticResource FieldCaption}" TextAlignment="Center"/>
+                    <TextBlock Grid.Column="4" Text="{loc:Tr Receipts_Col_Payment}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="5" Text="{loc:Tr Receipts_Col_Total}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,12,7"/>
                 </Grid>
 
                 <!-- Строки -->
@@ -335,7 +336,7 @@
                                                  HorizontalAlignment="Center"
                                                  Foreground="{DynamicResource LineBrush}"/>
 
-                        <TextBlock Text="За этот период чеков нет"
+                        <TextBlock Text="{loc:Tr Receipts_Empty}"
                                    Margin="0,10,0,0"
                                    FontSize="15"
                                    Foreground="{DynamicResource MutedBrush}"/>
@@ -365,6 +366,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <!-- Шапка -->
@@ -387,7 +389,7 @@
                     <Button Grid.Column="1"
                             Style="{StaticResource MiniIconButton}"
                             VerticalAlignment="Top"
-                            ToolTip="Закрыть"
+                            ToolTip="{loc:Tr Common_Close}"
                             Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
 
                         <materialDesign:PackIcon Kind="Close" Width="17" Height="17"/>
@@ -405,13 +407,13 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel>
 
-                            <TextBlock Text="Мой склад"
+                            <TextBlock Text="{loc:Tr App_Title}"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        HorizontalAlignment="Center"
                                        Foreground="{DynamicResource TextBrush}"/>
 
-                            <TextBlock Text="г. Бишкек · ИНН 01234567890123"
+                            <TextBlock Text="{loc:Tr Receipts_ShopAddress}"
                                        FontSize="13"
                                        Margin="0,2,0,0"
                                        HorizontalAlignment="Center"
@@ -429,7 +431,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="Сумма" FontSize="15" Foreground="{DynamicResource MutedBrush}"/>
+                                <TextBlock Grid.Column="0" Text="{loc:Tr Sales_Subtotal}" FontSize="15" Foreground="{DynamicResource MutedBrush}"/>
                                 <TextBlock Grid.Column="1"
                                            Text="{Binding Subtotal, StringFormat={}{0:N2}}"
                                            FontSize="15"
@@ -460,7 +462,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0"
-                                           Text="Итого"
+                                           Text="{loc:Tr Sales_Total}"
                                            FontSize="17"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"
@@ -498,7 +500,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0"
-                                           Text="{Binding CustomerName, StringFormat=Долг · {0}}"
+                                           Text="{Binding DebtLabel}"
                                            FontSize="15"
                                            Foreground="{DynamicResource MutedBrush}"
                                            TextTrimming="CharacterEllipsis"/>
@@ -510,7 +512,20 @@
                                            Foreground="{DynamicResource DangerBrush}"/>
                             </Grid>
 
-                            <TextBlock Text="Рахмат! Спасибо за покупку"
+                            <Border Margin="0,14,0,0"
+                                    Padding="10,6"
+                                    CornerRadius="9"
+                                    HorizontalAlignment="Center"
+                                    Background="{DynamicResource DangerBrush}"
+                                    Visibility="{Binding IsReturned, Converter={StaticResource BoolToVisibility}}">
+
+                                <TextBlock Text="{loc:Tr Receipts_Returned}"
+                                           FontSize="13"
+                                           FontWeight="SemiBold"
+                                           Foreground="#FFFFFF"/>
+                            </Border>
+
+                            <TextBlock Text="{loc:Tr Receipts_ThankYou}"
                                        FontSize="13"
                                        Margin="0,18,0,0"
                                        HorizontalAlignment="Center"
@@ -519,6 +534,30 @@
                         </StackPanel>
                     </ScrollViewer>
                 </Border>
+
+                <!-- Копия и возврат -->
+                <Grid Grid.Row="2" Margin="0,14,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="0,0,5,0"
+                            Content="{loc:Tr Receipts_Copy}"
+                            Command="{Binding DataContext.CopyCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+
+                    <Button Grid.Column="1"
+                            Style="{StaticResource SecondaryButton}"
+                            Height="48"
+                            Margin="5,0,0,0"
+                            Content="{loc:Tr Receipts_Return}"
+                            Foreground="{DynamicResource DangerBrush}"
+                            IsEnabled="{Binding CanReturn}"
+                            Command="{Binding DataContext.ReturnCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                            Visibility="{Binding DataContext.CanReturn, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibility}}"/>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

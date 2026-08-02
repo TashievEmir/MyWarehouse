@@ -10,6 +10,9 @@ namespace Application.DTOs.Products
     public class ReceiveProductsRequest
     {
         public string? SupplierName { get; set; }
+
+        /// <summary>Кто оформил приход — для истории действий.</summary>
+        public long UserId { get; set; }
         public List<ReceiveItemRequest> Items { get; set; } = new();
     }
 }

@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:common="clr-namespace:Wpf.Common"
-        Title="Мой склад"
+        xmlns:loc="clr-namespace:Wpf.Localization"
+        Title="{loc:Tr App_Title}"
         WindowState="Maximized"
         ResizeMode="CanResize"
         MinWidth="1000"
@@ -326,13 +327,13 @@
                                 VerticalAlignment="Center"
                                 Visibility="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
 
-                        <TextBlock Text="Мой склад"
+                        <TextBlock Text="{loc:Tr App_Title}"
                                    FontSize="17"
                                    FontWeight="SemiBold"
                                    Foreground="#FFFFFF"
                                    TextTrimming="CharacterEllipsis"/>
 
-                        <TextBlock Text="Складкы башкаруу"
+                        <TextBlock Text="{loc:Tr App_Tagline}"
                                    FontSize="12"
                                    Margin="0,1,0,0"
                                    Foreground="{DynamicResource NavCaptionBrush}"
@@ -347,22 +348,22 @@
 
                     <StackPanel Margin="0,4,0,12">
 
-                        <TextBlock Style="{StaticResource NavCaption}" Text="ОБЗОР"/>
+                        <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Overview}"/>
                         <Border Style="{StaticResource NavCaptionRule}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Главная"
+                                Content="{loc:Tr Nav_Dashboard}"
                                 common:Nav.Icon="ViewDashboardOutline"
                                 common:Nav.PageKey="dashboard"
                                 Command="{Binding ShowDashboardCommand}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="Касса"
+                                Content="{loc:Tr Nav_Sales}"
                                 common:Nav.Icon="CashRegister"
                                 common:Nav.PageKey="sales"
                                 Command="{Binding ShowSalesCommand}"/>
 
-                        <TextBlock Style="{StaticResource NavCaption}" Text="СКЛАД"/>
+                        <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Warehouse}"/>
                         <Border Style="{StaticResource NavCaptionRule}"/>
 
                         <!-- Товары -->
@@ -374,7 +375,7 @@
                                                          VerticalAlignment="Center"
                                                          Foreground="{DynamicResource NavTextBrush}"/>
 
-                                <TextBlock Text="Товары"
+                                <TextBlock Text="{loc:Tr Nav_Products}"
                                            Margin="15,0,0,0"
                                            FontSize="15"
                                            VerticalAlignment="Center"
@@ -384,12 +385,12 @@
 
                         <StackPanel Style="{StaticResource NavSubGroup}">
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Каталог"
+                                    Content="{loc:Tr Nav_Catalog}"
                                     common:Nav.PageKey="catalog"
                                     Command="{Binding ShowCatalogCommand}"/>
 
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Приёмка"
+                                    Content="{loc:Tr Nav_Receiving}"
                                     common:Nav.PageKey="receiving"
                                     Command="{Binding ShowReceivingCommand}"/>
                         </StackPanel>
@@ -403,7 +404,7 @@
                                                          VerticalAlignment="Center"
                                                          Foreground="{DynamicResource NavTextBrush}"/>
 
-                                <TextBlock Text="Чеки"
+                                <TextBlock Text="{loc:Tr Nav_Receipts}"
                                            Margin="15,0,0,0"
                                            FontSize="15"
                                            VerticalAlignment="Center"
@@ -413,12 +414,12 @@
 
                         <StackPanel Style="{StaticResource NavSubGroup}">
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Список чеков"
+                                    Content="{loc:Tr Nav_ReceiptsList}"
                                     common:Nav.PageKey="receipts"
                                     Command="{Binding ShowReceiptsCommand}"/>
 
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Редактор чека"
+                                    Content="{loc:Tr Nav_ReceiptEditor}"
                                     common:Nav.PageKey="editor"
                                     Command="{Binding ShowReceiptTemplateCommand}"
                                     Visibility="{Binding CanEditReceiptTemplate, Converter={StaticResource BoolToVisibility}}">
@@ -429,7 +430,7 @@
                                             BorderBrush="{DynamicResource NavLineBrush}"
                                             BorderThickness="1">
 
-                                        <TextBlock Text="АДМИН"
+                                        <TextBlock Text="{loc:Tr Nav_Badge_Admin}"
                                                    FontSize="10"
                                                    FontWeight="SemiBold"
                                                    Foreground="{DynamicResource NavCaptionBrush}"/>
@@ -438,11 +439,11 @@
                             </Button>
                         </StackPanel>
 
-                        <TextBlock Style="{StaticResource NavCaption}" Text="АНАЛИТИКА"/>
+                        <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Analytics}"/>
                         <Border Style="{StaticResource NavCaptionRule}"/>
 
                         <Button Style="{StaticResource NavButton}"
-                                Content="История действий"
+                                Content="{loc:Tr Nav_History}"
                                 common:Nav.Icon="History"
                                 common:Nav.PageKey="history"
                                 Command="{Binding ShowActivityLogCommand}"/>
@@ -456,7 +457,7 @@
                                                          VerticalAlignment="Center"
                                                          Foreground="{DynamicResource NavTextBrush}"/>
 
-                                <TextBlock Text="Статистика"
+                                <TextBlock Text="{loc:Tr Nav_Statistics}"
                                            Margin="15,0,0,0"
                                            FontSize="15"
                                            VerticalAlignment="Center"
@@ -466,12 +467,12 @@
 
                         <StackPanel Style="{StaticResource NavSubGroup}">
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Остатки"
+                                    Content="{loc:Tr Nav_Stock}"
                                     common:Nav.PageKey="stock"
                                     Command="{Binding ShowStockCommand}"/>
 
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Долги"
+                                    Content="{loc:Tr Nav_Debts}"
                                     common:Nav.PageKey="debts"
                                     Command="{Binding ShowDebtsCommand}">
 
@@ -488,7 +489,7 @@
                             </Button>
 
                             <Button Style="{StaticResource NavSubButton}"
-                                    Content="Закупки"
+                                    Content="{loc:Tr Nav_Purchases}"
                                     common:Nav.PageKey="purchases"
                                     Command="{Binding ShowPurchasesCommand}"/>
                         </StackPanel>
@@ -506,18 +507,37 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0"
-                                   Text="v2.0"
+                                   Text="{loc:Tr App_Version}"
                                    FontSize="12"
                                    VerticalAlignment="Center"
-                                   Foreground="{DynamicResource NavCaptionBrush}"/>
+                                   Foreground="{DynamicResource NavCaptionBrush}"
+                                   Visibility="{Binding IsSidebarCollapsed, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}"/>
 
+                        <!-- Язык: показываем код, на который переключимся -->
                         <Button Grid.Column="1"
                                 Style="{StaticResource ThemeButton}"
+                                Margin="0,0,6,0"
+                                Command="{Binding ToggleLanguageCommand}"
+                                ToolTip="{loc:Tr Tip_ToggleLanguage}">
+
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Translate" Width="16" Height="16" VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding LanguageLabel}"
+                                           Margin="6,0,0,0"
+                                           FontWeight="SemiBold"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Grid.Column="2"
+                                Style="{StaticResource ThemeButton}"
                                 Command="{Binding ToggleThemeCommand}"
-                                ToolTip="Переключить тему">
+                                ToolTip="{loc:Tr Tip_ToggleTheme}">
 
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="ThemeLightDark" Width="16" Height="16" VerticalAlignment="Center"/>
@@ -558,7 +578,7 @@
                     <Button Grid.Column="0"
                             Style="{StaticResource HeaderIconButton}"
                             Click="ToggleSidebar"
-                            ToolTip="Свернуть / развернуть меню">
+                            ToolTip="{loc:Tr Tip_ToggleSidebar}">
 
                         <materialDesign:PackIcon x:Name="ToggleIcon" Kind="Backburger" Width="22" Height="22"/>
                     </Button>

@@ -2,12 +2,14 @@ using System.Globalization;
 using Application.DTOs.Dashboard;
 using Domain.Enums;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Dashboard;
 
 /// <summary>Столбик графика выручки.</summary>
 public class RevenueBarItem
 {
-    private static readonly CultureInfo Russian = new("ru-RU");
+    private static CultureInfo Ui => Wpf.Localization.Loc.Instance.Culture;
 
     /// <summary>Высота столбика в пикселях: считаем в модели, чтобы XAML остался без конвертеров.</summary>
     public const double MaxBarHeight = 120;
@@ -20,11 +22,11 @@ public class RevenueBarItem
 
     public bool IsToday => Date == DateTime.Today;
 
-    public string DayLabel => Date.ToString("dd.MM", Russian);
+    public string DayLabel => Date.ToString("dd.MM", Ui);
 
-    public string AmountLabel => Amount == 0 ? "" : Amount.ToString("N0", Russian);
+    public string AmountLabel => Amount == 0 ? "" : Amount.ToString("N0", Ui);
 
-    public string Tooltip => $"{Date.ToString("d MMMM", Russian)}: {Amount:N2} · чеков {Receipts}";
+    public string Tooltip => Loc.F("Dash_BarTooltip", Date.ToString("d MMMM", Ui), Amount, Receipts);
 
     public RevenueBarItem(DailyRevenueResponse day, decimal maxAmount)
     {
@@ -47,17 +49,17 @@ public class PaymentSliceItem
     public int Receipts { get; }
     public double SharePercent { get; }
 
-    public string ReceiptsLabel => $"{Receipts} чек(ов)";
+    public string ReceiptsLabel => Loc.F("Dash_ReceiptsLabel", Receipts);
 
     public PaymentSliceItem(PaymentSliceResponse slice, decimal total)
     {
         Name = slice.Method switch
         {
-            PaymentMethod.Cash     => "Наличные",
-            PaymentMethod.Card     => "Карта",
-            PaymentMethod.Transfer => "Перевод",
-            PaymentMethod.Credit   => "В долг",
-            _                      => "Не указан",
+            PaymentMethod.Cash     => Loc.T("Payment_Cash"),
+            PaymentMethod.Card     => Loc.T("Payment_Card"),
+            PaymentMethod.Transfer => Loc.T("Payment_Transfer"),
+            PaymentMethod.Credit   => Loc.T("Payment_Credit"),
+            _                      => Loc.T("Payment_Unknown"),
         };
 
         Amount = slice.Amount;
@@ -76,7 +78,7 @@ public class LowStockItem
 
     public bool IsOut => InStock <= 0;
 
-    public string StockLabel => IsOut ? "нет" : $"{InStock} шт.";
+    public string StockLabel => IsOut ? Loc.T("Dash_StockOut") : Loc.F("Product_StockPcs", InStock);
 
     public LowStockItem(LowStockResponse product)
     {
@@ -95,7 +97,7 @@ public class TopProductItem
     public int Quantity { get; }
     public decimal Revenue { get; }
 
-    public string QuantityLabel => $"{Quantity} шт.";
+    public string QuantityLabel => Loc.F("Product_StockPcs", Quantity);
 
     public TopProductItem(TopProductResponse product, int position)
     {

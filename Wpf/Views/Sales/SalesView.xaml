@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Sales"
              mc:Ignorable="d"
              d:DesignHeight="720" d:DesignWidth="1200"
@@ -40,7 +41,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
                         <Border x:Name="Bd"
-                                Height="58"
+                                Height="66"
                                 CornerRadius="10"
                                 Background="{DynamicResource SurfaceBrush}"
                                 BorderBrush="{DynamicResource LineBrush}"
@@ -155,14 +156,14 @@
                                        FontSize="11"
                                        Margin="10,0,0,0"/>
 
-                            <TextBlock Text="укажите цену"
+                            <TextBlock Text="{loc:Tr Sales_NoPrice}"
                                        FontSize="11"
                                        Margin="10,0,0,0"
                                        FontWeight="SemiBold"
                                        Foreground="{DynamicResource DangerBrush}"
                                        Visibility="{Binding HasNoPrice, Converter={StaticResource BoolToVisibility}}"/>
 
-                            <TextBlock Text="больше, чем на складе"
+                            <TextBlock Text="{loc:Tr Sales_ExceedsStock}"
                                        FontSize="11"
                                        Margin="10,0,0,0"
                                        FontWeight="SemiBold"
@@ -178,7 +179,7 @@
                              Margin="0,0,8,0"
                              FontSize="12"
                              TextAlignment="Right"
-                             ToolTip="Цена продажи за штуку"
+                             ToolTip="{loc:Tr Sales_PriceTip}"
                              Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Количество -->
@@ -194,7 +195,7 @@
 
                         <TextBox Style="{StaticResource Field}"
                                  Width="52"
-                                 Height="32"
+                                 Height="44"
                                  Margin="4,0"
                                  Padding="0"
                                  TextAlignment="Center"
@@ -220,7 +221,7 @@
                     <Button Grid.Column="4"
                             Style="{StaticResource MiniIconButton}"
                             VerticalAlignment="Center"
-                            ToolTip="Убрать из чека"
+                            ToolTip="{loc:Tr Sales_RemoveLine}"
                             Command="{Binding DataContext.SelectedTab.RemoveLineCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             CommandParameter="{Binding}">
 
@@ -269,7 +270,7 @@
                                     </TextBox.InputBindings>
                                 </TextBox>
 
-                                <TextBlock Text="Отсканируйте товар — он попадёт в чек"
+                                <TextBlock Text="{loc:Tr Sales_ScanHint}"
                                            Margin="13,0,0,0"
                                            FontSize="13"
                                            IsHitTestVisible="False"
@@ -281,7 +282,7 @@
                             <Button Grid.Column="1"
                                     Style="{StaticResource SecondaryButton}"
                                     Margin="8,0,0,0"
-                                    Content="Пробить"
+                                    Content="{loc:Tr Sales_ScanButton}"
                                     Click="OnReturnFocusToScanner"
                                     Command="{Binding ScanCommand}"/>
                         </Grid>
@@ -296,10 +297,10 @@
                                 <ColumnDefinition Width="26"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Column="0" Text="ТОВАР" Style="{StaticResource FieldCaption}"/>
-                            <TextBlock Grid.Column="1" Text="ЦЕНА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
-                            <TextBlock Grid.Column="2" Text="КОЛ-ВО" Style="{StaticResource FieldCaption}" TextAlignment="Center" Margin="0,0,0,5"/>
-                            <TextBlock Grid.Column="3" Text="СУММА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Column="0" Text="{loc:Tr Sales_Col_Product}" Style="{StaticResource FieldCaption}"/>
+                            <TextBlock Grid.Column="1" Text="{loc:Tr Sales_Col_Price}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+                            <TextBlock Grid.Column="2" Text="{loc:Tr Sales_Col_Quantity}" Style="{StaticResource FieldCaption}" TextAlignment="Center" Margin="0,0,0,5"/>
+                            <TextBlock Grid.Column="3" Text="{loc:Tr Sales_Col_Sum}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
                         </Grid>
 
                         <!-- Позиции -->
@@ -321,7 +322,7 @@
                                                          HorizontalAlignment="Center"
                                                          Foreground="{DynamicResource LineBrush}"/>
 
-                                <TextBlock Text="Чек пуст — отсканируйте товар"
+                                <TextBlock Text="{loc:Tr Sales_Empty}"
                                            Margin="0,10,0,0"
                                            FontSize="14"
                                            HorizontalAlignment="Center"
@@ -343,7 +344,7 @@
 
                             <Button Grid.Column="1"
                                     Style="{StaticResource SecondaryButton}"
-                                    Content="Очистить чек"
+                                    Content="{loc:Tr Sales_ClearCart}"
                                     IsEnabled="{Binding HasLines}"
                                     Click="OnReturnFocusToScanner"
                                     Command="{Binding ClearCommand}"/>
@@ -360,7 +361,7 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,4,0">
                         <StackPanel>
 
-                            <TextBlock Text="Оплата" Style="{StaticResource SectionTitle}"/>
+                            <TextBlock Text="{loc:Tr Sales_Payment}" Style="{StaticResource SectionTitle}"/>
 
                             <!-- Сумма -->
                             <Grid Margin="0,14,0,0">
@@ -369,7 +370,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="Сумма" Style="{StaticResource Muted}" FontSize="13"/>
+                                <TextBlock Grid.Column="0" Text="{loc:Tr Sales_Subtotal}" Style="{StaticResource Muted}" FontSize="13"/>
                                 <TextBlock Grid.Column="1"
                                            FontSize="13"
                                            Foreground="{DynamicResource TextPrimaryBrush}"
@@ -377,7 +378,7 @@
                             </Grid>
 
                             <!-- Скидка -->
-                            <TextBlock Text="СКИДКА" Style="{StaticResource FieldCaption}" Margin="0,14,0,8"/>
+                            <TextBlock Text="{loc:Tr Sales_DiscountCaption}" Style="{StaticResource FieldCaption}" Margin="0,14,0,8"/>
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -396,7 +397,7 @@
                                                      IsChecked="{Binding IsPercentDiscount, Mode=TwoWay}"/>
 
                                         <RadioButton Style="{StaticResource SegmentOption}"
-                                                     Content="сом"
+                                                     Content="{loc:Tr Sales_Som}"
                                                      IsChecked="{Binding IsAmountDiscount, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </Border>
@@ -405,7 +406,7 @@
                                          Style="{StaticResource Field}"
                                          Margin="8,0,0,0"
                                          TextAlignment="Right"
-                                         ToolTip="Размер скидки"
+                                         ToolTip="{loc:Tr Sales_DiscountAmountTip}"
                                          Text="{Binding DiscountInput, UpdateSourceTrigger=PropertyChanged}"/>
                             </Grid>
 
@@ -422,7 +423,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="0" Text="Скидка" Style="{StaticResource Muted}" FontSize="13"/>
+                                <TextBlock Grid.Column="0" Text="{loc:Tr Sales_Discount}" Style="{StaticResource Muted}" FontSize="13"/>
                                 <TextBlock Grid.Column="1"
                                            FontSize="13"
                                            FontWeight="SemiBold"
@@ -440,58 +441,59 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Column="0"
-                                           Text="Итого"
+                                           Text="{loc:Tr Sales_Total}"
                                            FontSize="15"
                                            FontWeight="SemiBold"
                                            VerticalAlignment="Center"
                                            Foreground="{DynamicResource TextPrimaryBrush}"/>
 
                                 <TextBlock Grid.Column="1"
-                                           FontSize="26"
+                                           FontSize="32"
+
                                            FontWeight="Bold"
                                            Foreground="{DynamicResource TextPrimaryBrush}"
                                            Text="{Binding Total, StringFormat={}{0:N2}}"/>
                             </Grid>
 
                             <!-- Способ оплаты -->
-                            <TextBlock Text="СПОСОБ ОПЛАТЫ" Style="{StaticResource FieldCaption}" Margin="0,18,0,8"/>
+                            <TextBlock Text="{loc:Tr Sales_PaymentMethod}" Style="{StaticResource FieldCaption}" Margin="0,18,0,8"/>
 
                             <UniformGrid Columns="2">
                                 <RadioButton Style="{StaticResource PaymentOption}" IsChecked="{Binding IsCash, Mode=TwoWay}">
                                     <StackPanel HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="CashMultiple" Width="20" Height="20" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Наличные" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{loc:Tr Payment_Cash}" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </RadioButton>
 
                                 <RadioButton Style="{StaticResource PaymentOption}" IsChecked="{Binding IsCard, Mode=TwoWay}">
                                     <StackPanel HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="CreditCardOutline" Width="20" Height="20" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Карта" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{loc:Tr Payment_Card}" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </RadioButton>
 
                                 <RadioButton Style="{StaticResource PaymentOption}" IsChecked="{Binding IsTransfer, Mode=TwoWay}">
                                     <StackPanel HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="QrcodeScan" Width="20" Height="20" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Перевод" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{loc:Tr Payment_Transfer}" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </RadioButton>
 
                                 <RadioButton Style="{StaticResource PaymentOption}" IsChecked="{Binding IsCredit, Mode=TwoWay}">
                                     <StackPanel HorizontalAlignment="Center">
                                         <materialDesign:PackIcon Kind="CreditCardClockOutline" Width="20" Height="20" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="В долг" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{loc:Tr Payment_Credit}" FontSize="12" Margin="0,4,0,0" HorizontalAlignment="Center"/>
                                     </StackPanel>
                                 </RadioButton>
                             </UniformGrid>
 
                             <!-- Наличные: получено и сдача -->
                             <StackPanel Visibility="{Binding IsCash, Converter={StaticResource BoolToVisibility}}">
-                                <TextBlock Text="ПОЛУЧЕНО ОТ КЛИЕНТА" Style="{StaticResource FieldCaption}" Margin="0,10,0,8"/>
+                                <TextBlock Text="{loc:Tr Sales_CashReceived}" Style="{StaticResource FieldCaption}" Margin="0,10,0,8"/>
 
                                 <TextBox Style="{StaticResource Field}"
-                                         FontSize="15"
+                                         FontSize="20"
                                          TextAlignment="Right"
                                          Text="{Binding CashGiven, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -501,7 +503,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="Сдача" Style="{StaticResource Muted}" FontSize="13"/>
+                                    <TextBlock Grid.Column="0" Text="{loc:Tr Sales_Change}" Style="{StaticResource Muted}" FontSize="13"/>
                                     <TextBlock Grid.Column="1"
                                                FontSize="15"
                                                FontWeight="SemiBold"
@@ -512,7 +514,7 @@
 
                             <!-- Долг: клиент и предоплата -->
                             <StackPanel Visibility="{Binding IsCredit, Converter={StaticResource BoolToVisibility}}">
-                                <TextBlock Text="КЛИЕНТ" Style="{StaticResource FieldCaption}" Margin="0,10,0,8"/>
+                                <TextBlock Text="{loc:Tr Sales_Customer}" Style="{StaticResource FieldCaption}" Margin="0,10,0,8"/>
 
                                 <Grid Visibility="{Binding IsCreatingCustomer, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
                                     <Grid.ColumnDefinitions>
@@ -522,7 +524,7 @@
 
                                     <ComboBox Grid.Column="0"
                                               Style="{StaticResource FieldCombo}"
-                                              Tag="Выберите клиента"
+                                              Tag="{loc:Tr Sales_CustomerHint}"
                                               ItemsSource="{Binding Customers}"
                                               SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 
@@ -537,7 +539,7 @@
                                             Style="{StaticResource SecondaryButton}"
                                             Margin="6,0,0,0"
                                             Padding="10,0"
-                                            ToolTip="Новый клиент"
+                                            ToolTip="{loc:Tr Sales_NewCustomer}"
                                             Command="{Binding StartNewCustomerCommand}">
 
                                         <materialDesign:PackIcon Kind="AccountPlusOutline" Width="18" Height="18"/>
@@ -554,7 +556,7 @@
                                             </TextBox.InputBindings>
                                         </TextBox>
 
-                                        <TextBlock Text="Имя клиента"
+                                        <TextBlock Text="{loc:Tr Sales_CustomerNameHint}"
                                                    FontSize="13"
                                                    Margin="12,0,0,0"
                                                    IsHitTestVisible="False"
@@ -572,7 +574,7 @@
                                             </TextBox.InputBindings>
                                         </TextBox>
 
-                                        <TextBlock Text="Телефон (необязательно)"
+                                        <TextBlock Text="{loc:Tr Sales_CustomerPhoneHint}"
                                                    FontSize="13"
                                                    Margin="12,0,0,0"
                                                    IsHitTestVisible="False"
@@ -590,18 +592,18 @@
                                         <Button Grid.Column="0"
                                                 Style="{StaticResource SecondaryButton}"
                                                 Margin="0,0,3,0"
-                                                Content="Отмена"
+                                                Content="{loc:Tr Common_Cancel}"
                                                 Command="{Binding CancelNewCustomerCommand}"/>
 
                                         <Button Grid.Column="1"
                                                 Style="{StaticResource PrimaryButton}"
                                                 Margin="3,0,0,0"
-                                                Content="Добавить"
+                                                Content="{loc:Tr Common_Add}"
                                                 Command="{Binding CreateCustomerCommand}"/>
                                     </Grid>
                                 </StackPanel>
 
-                                <TextBlock Text="ВНЕСЕНО СЕЙЧАС" Style="{StaticResource FieldCaption}" Margin="0,12,0,8"/>
+                                <TextBlock Text="{loc:Tr Sales_Prepaid}" Style="{StaticResource FieldCaption}" Margin="0,12,0,8"/>
 
                                 <TextBox Style="{StaticResource Field}"
                                          TextAlignment="Right"
@@ -613,7 +615,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Column="0" Text="Останется долг" Style="{StaticResource Muted}" FontSize="13"/>
+                                    <TextBlock Grid.Column="0" Text="{loc:Tr Sales_DebtLeft}" Style="{StaticResource Muted}" FontSize="13"/>
                                     <TextBlock Grid.Column="1"
                                                FontSize="15"
                                                FontWeight="SemiBold"
@@ -633,7 +635,7 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <materialDesign:PackIcon Kind="CheckCircleOutline" Width="20" Height="20" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Закрыть сделку" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{loc:Tr Sales_CloseDeal}" Margin="8,0,0,0" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </Button>
 
@@ -726,7 +728,7 @@
                                                 Height="24"
                                                 Margin="0,0,6,0"
                                                 VerticalAlignment="Center"
-                                                ToolTip="Закрыть вкладку"
+                                                ToolTip="{loc:Tr Sales_CloseTab}"
                                                 Command="{Binding DataContext.CloseTabCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                 CommandParameter="{Binding}"
                                                 Visibility="{Binding DataContext.CanCloseTab, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibility}}">
@@ -757,12 +759,12 @@
                             Margin="6,0,0,0"
                             Padding="12,0"
                             VerticalAlignment="Center"
-                            ToolTip="Отложить текущего клиента и открыть новый чек"
+                            ToolTip="{loc:Tr Sales_NewTabTip}"
                             Command="{Binding NewTabCommand}">
 
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" VerticalAlignment="Center"/>
-                            <TextBlock Text="Новый чек" Margin="6,0,0,0" FontSize="12" VerticalAlignment="Center"/>
+                            <TextBlock Text="{loc:Tr Sales_NewTab}" Margin="6,0,0,0" FontSize="12" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>

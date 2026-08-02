@@ -21,6 +21,9 @@ namespace Application.DTOs.Sales
 
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
+
+        /// <summary>Чек отменён возвратом.</summary>
+        public bool IsReturned { get; set; }
     }
 
     /// <summary>Позиция чека.</summary>
@@ -47,7 +50,10 @@ namespace Application.DTOs.Sales
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
 
-        public decimal DebtLeft => TotalAmount - PaidAmount;
+        public decimal DebtLeft => IsReturned ? 0m : TotalAmount - PaidAmount;
+
+        /// <summary>Чек отменён возвратом.</summary>
+        public bool IsReturned { get; set; }
 
         public PaymentMethod PaymentMethod { get; set; }
 

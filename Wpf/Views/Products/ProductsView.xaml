@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization"
              xmlns:vm="clr-namespace:Wpf.ViewModels.Products"
              mc:Ignorable="d"
              d:DesignHeight="700" d:DesignWidth="1100"
@@ -171,7 +172,7 @@
                                        FontSize="11"
                                        Margin="8,1,0,0"
                                        VerticalAlignment="Center"
-                                       Text="{Binding InStockBefore, StringFormat=на складе: {0}}"/>
+                                       Text="{Binding InStockBeforeText}"/>
                         </StackPanel>
 
                         <Grid Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibility}}">
@@ -181,7 +182,7 @@
                                      KeyDown="OnScanFieldKeyDown"
                                      Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Название нового товара"
+                            <TextBlock Text="{loc:Tr Receiving_NewProductHint}"
                                        FontSize="12"
                                        Margin="12,0,0,0"
                                        IsHitTestVisible="False"
@@ -205,7 +206,7 @@
                             <ComboBox Style="{StaticResource FieldCombo}"
                                       Height="32"
                                       FontSize="12"
-                                      Tag="Категория"
+                                      Tag="{loc:Tr Receiving_CategoryTag}"
                                       ItemsSource="{Binding DataContext.Receiving.CategoryOptions, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                       SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
                                       Visibility="{Binding IsCreatingCategory, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
@@ -251,7 +252,7 @@
                                         </TextBox.InputBindings>
                                     </TextBox>
 
-                                    <TextBlock Text="Название категории"
+                                    <TextBlock Text="{loc:Tr Receiving_NewCategoryHint}"
                                                FontSize="12"
                                                Margin="12,0,0,0"
                                                IsHitTestVisible="False"
@@ -263,7 +264,7 @@
                                 <Button Grid.Column="1"
                                         Style="{StaticResource MiniIconButton}"
                                         Margin="2,0,0,0"
-                                        ToolTip="Создать категорию"
+                                        ToolTip="{loc:Tr Receiving_CreateCategory}"
                                         Command="{Binding DataContext.Receiving.CreateCategoryCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                         CommandParameter="{Binding}">
 
@@ -272,7 +273,7 @@
 
                                 <Button Grid.Column="2"
                                         Style="{StaticResource MiniIconButton}"
-                                        ToolTip="Отменить"
+                                        ToolTip="{loc:Tr Receiving_CancelTip}"
                                         Command="{Binding CancelNewCategoryCommand}">
 
                                     <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
@@ -288,7 +289,7 @@
 
                         <Button Style="{StaticResource MiniIconButton}"
                                 Command="{Binding DecreaseCommand}"
-                                ToolTip="Убавить">
+                                ToolTip="{loc:Tr Receiving_Decrease}">
                             <materialDesign:PackIcon Kind="Minus" Width="16" Height="16"/>
                         </Button>
 
@@ -304,7 +305,7 @@
 
                         <Button Style="{StaticResource MiniIconButton}"
                                 Command="{Binding IncreaseCommand}"
-                                ToolTip="Добавить">
+                                ToolTip="{loc:Tr Receiving_Increase}">
                             <materialDesign:PackIcon Kind="Plus" Width="16" Height="16"/>
                         </Button>
                     </StackPanel>
@@ -316,7 +317,7 @@
                              Margin="10,0,6,0"
                              TextAlignment="Right"
                              KeyDown="OnScanFieldKeyDown"
-                             ToolTip="Цена закупки за штуку"
+                             ToolTip="{loc:Tr Receiving_CostTip}"
                              Text="{Binding Cost, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <!-- Цена продажи: уедет в карточку товара и на кассу -->
@@ -327,13 +328,13 @@
                              TextAlignment="Right"
                              FontWeight="SemiBold"
                              KeyDown="OnScanFieldKeyDown"
-                             ToolTip="Цена продажи за штуку — подставится на кассе"
+                             ToolTip="{loc:Tr Receiving_PriceTip}"
                              Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Button Grid.Column="6"
                             Style="{StaticResource MiniIconButton}"
                             VerticalAlignment="Center"
-                            ToolTip="Убрать из списка"
+                            ToolTip="{loc:Tr Receiving_RemoveTip}"
                             Command="{Binding DataContext.Receiving.RemoveScannedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                             CommandParameter="{Binding}">
 
@@ -381,7 +382,7 @@
                                      FontSize="14"
                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}"/>
 
-                            <TextBlock Text="Поиск по названию, штрихкоду или категории"
+                            <TextBlock Text="{loc:Tr Catalog_SearchHint}"
                                        Margin="13,0,0,0"
                                        FontSize="13"
                                        IsHitTestVisible="False"
@@ -392,7 +393,7 @@
                             <Button Style="{StaticResource MiniIconButton}"
                                     HorizontalAlignment="Right"
                                     Margin="0,0,6,0"
-                                    ToolTip="Очистить поиск"
+                                    ToolTip="{loc:Tr Common_ClearSearch}"
                                     Command="{Binding ClearSearchCommand}"
                                     Visibility="{Binding HasSearch, Converter={StaticResource BoolToVisibility}}">
 
@@ -417,11 +418,11 @@
                             <ColumnDefinition Width="90"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="ТОВАР" Style="{StaticResource FieldCaption}"/>
-                        <TextBlock Grid.Column="1" Text="КАТЕГОРИЯ" Style="{StaticResource FieldCaption}"/>
-                        <TextBlock Grid.Column="2" Text="ПРОДАЖА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
-                        <TextBlock Grid.Column="3" Text="ЗАКУПКА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
-                        <TextBlock Grid.Column="4" Text="ОСТАТОК" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
+                        <TextBlock Grid.Column="0" Text="{loc:Tr Catalog_Col_Product}" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Grid.Column="1" Text="{loc:Tr Catalog_Col_Category}" Style="{StaticResource FieldCaption}"/>
+                        <TextBlock Grid.Column="2" Text="{loc:Tr Catalog_Col_Price}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+                        <TextBlock Grid.Column="3" Text="{loc:Tr Catalog_Col_Cost}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+                        <TextBlock Grid.Column="4" Text="{loc:Tr Catalog_Col_Stock}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
                     </Grid>
 
                     <!-- Список -->
@@ -443,7 +444,7 @@
                                                      HorizontalAlignment="Center"
                                                      Foreground="{DynamicResource LineBrush}"/>
 
-                            <TextBlock Text="Товары не найдены"
+                            <TextBlock Text="{loc:Tr Catalog_Empty}"
                                        Margin="0,10,0,0"
                                        FontSize="14"
                                        HorizontalAlignment="Center"
@@ -488,25 +489,25 @@
                                 <TextBlock Style="{StaticResource Muted}"
                                            FontSize="12"
                                            Margin="0,2,0,0"
-                                           Text="{Binding InStock, StringFormat=на складе: {0} шт.}"/>
+                                           Text="{Binding InStockText}"/>
                             </StackPanel>
 
                             <Button Grid.Column="1"
                                     Style="{StaticResource MiniIconButton}"
                                     VerticalAlignment="Top"
-                                    ToolTip="Закрыть"
+                                    ToolTip="{loc:Tr Common_Close}"
                                     Command="{Binding CloseCommand}">
 
                                 <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
                             </Button>
                         </Grid>
 
-                        <TextBlock Text="НАЗВАНИЕ" Style="{StaticResource FieldCaption}" Margin="0,16,0,6"/>
+                        <TextBlock Text="{loc:Tr Editor_Name}" Style="{StaticResource FieldCaption}" Margin="0,16,0,6"/>
                         <TextBox Style="{StaticResource Field}" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="КАТЕГОРИЯ" Style="{StaticResource FieldCaption}" Margin="0,12,0,6"/>
+                        <TextBlock Text="{loc:Tr Editor_Category}" Style="{StaticResource FieldCaption}" Margin="0,12,0,6"/>
                         <ComboBox Style="{StaticResource FieldCombo}"
-                                  Tag="Выберите категорию"
+                                  Tag="{loc:Tr Editor_CategoryHint}"
                                   ItemsSource="{Binding Categories}"
                                   SelectedItem="{Binding SelectedCategory, Mode=TwoWay}">
 
@@ -524,7 +525,7 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,0,4,0">
-                                <TextBlock Text="ЦЕНА ПРОДАЖИ" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Price}" Style="{StaticResource FieldCaption}"/>
                                 <TextBox Style="{StaticResource Field}"
                                          TextAlignment="Right"
                                          FontWeight="SemiBold"
@@ -532,7 +533,7 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="4,0,0,0">
-                                <TextBlock Text="ЦЕНА ЗАКУПКИ" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Cost}" Style="{StaticResource FieldCaption}"/>
                                 <TextBox Style="{StaticResource Field}"
                                          TextAlignment="Right"
                                          Text="{Binding CostPerUnit, UpdateSourceTrigger=PropertyChanged}"/>
@@ -546,20 +547,20 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,0,4,0">
-                                <TextBlock Text="ШТРИХКОД" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Barcode}" Style="{StaticResource FieldCaption}"/>
                                 <TextBox Style="{StaticResource Field}"
                                          FontFamily="Consolas"
                                          Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Margin="4,0,0,0">
-                                <TextBlock Text="АРТИКУЛ" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Sku}" Style="{StaticResource FieldCaption}"/>
                                 <TextBox Style="{StaticResource Field}"
                                          Text="{Binding SKU, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </Grid>
 
-                        <TextBlock Text="ОПИСАНИЕ" Style="{StaticResource FieldCaption}" Margin="0,12,0,6"/>
+                        <TextBlock Text="{loc:Tr Editor_Description}" Style="{StaticResource FieldCaption}" Margin="0,12,0,6"/>
                         <TextBox Style="{StaticResource Field}"
                                  Height="70"
                                  AcceptsReturn="True"
@@ -571,13 +572,13 @@
                         <Button Style="{StaticResource PrimaryButton}"
                                 Height="42"
                                 Margin="0,14,0,0"
-                                Content="Сохранить карточку"
+                                Content="{loc:Tr Editor_Save}"
                                 Command="{Binding SaveCommand}"/>
 
                         <Border Height="1" Margin="0,16" Background="{DynamicResource LineBrush}"/>
 
                         <!-- Списание -->
-                        <TextBlock Text="Списание со склада" Style="{StaticResource SectionTitle}" FontSize="14"/>
+                        <TextBlock Text="{loc:Tr Editor_WriteOffTitle}" Style="{StaticResource SectionTitle}" FontSize="14"/>
 
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -586,7 +587,7 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Margin="0,0,6,0">
-                                <TextBlock Text="КОЛ-ВО" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Quantity}" Style="{StaticResource FieldCaption}"/>
                                 <TextBox Style="{StaticResource Field}"
                                          TextAlignment="Center"
                                          FontWeight="SemiBold"
@@ -594,7 +595,7 @@
                             </StackPanel>
 
                             <StackPanel Grid.Column="1">
-                                <TextBlock Text="ПРИЧИНА" Style="{StaticResource FieldCaption}"/>
+                                <TextBlock Text="{loc:Tr Editor_Reason}" Style="{StaticResource FieldCaption}"/>
                                 <ComboBox Style="{StaticResource FieldCombo}"
                                           ItemsSource="{Binding Reasons}"
                                           SelectedItem="{Binding SelectedReason, Mode=TwoWay}">
@@ -612,7 +613,7 @@
                             <TextBox Style="{StaticResource Field}"
                                      Text="{Binding WriteOffComment, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Комментарий (необязательно)"
+                            <TextBlock Text="{loc:Tr Editor_CommentHint}"
                                        FontSize="13"
                                        Margin="12,0,0,0"
                                        IsHitTestVisible="False"
@@ -629,7 +630,7 @@
 
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon Kind="TrashCanOutline" Width="17" Height="17" VerticalAlignment="Center"/>
-                                <TextBlock Text="Списать" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{loc:Tr Editor_WriteOff}" Margin="8,0,0,0" VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
@@ -646,7 +647,7 @@
                                 Margin="0,8,0,0"
                                 Foreground="{DynamicResource DangerBrush}"
                                 IsEnabled="{Binding CanDelete}"
-                                Content="Удалить товар"
+                                Content="{loc:Tr Editor_Delete}"
                                 Command="{Binding DeleteCommand}"/>
 
                         <TextBlock Margin="0,12,0,0"
@@ -702,7 +703,7 @@
                                                  VerticalAlignment="Center"
                                                  Foreground="{DynamicResource BrandBrush}"/>
 
-                        <TextBlock Text="Приход по штрихкоду"
+                        <TextBlock Text="{loc:Tr Receiving_Title}"
                                    Style="{StaticResource SectionTitle}"
                                    Margin="8,0,0,0"
                                    VerticalAlignment="Center"/>
@@ -714,7 +715,7 @@
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <TextBlock Text="Поставщик"
+                        <TextBlock Text="{loc:Tr Receiving_Supplier}"
                                    Style="{StaticResource Muted}"
                                    Margin="0,0,8,0"
                                    VerticalAlignment="Center"/>
@@ -743,7 +744,7 @@
                             </TextBox.InputBindings>
                         </TextBox>
 
-                        <TextBlock Text="Отсканируйте штрихкод — товар добавится в список"
+                        <TextBlock Text="{loc:Tr Receiving_ScanHint}"
                                    Margin="13,0,0,0"
                                    FontSize="13"
                                    IsHitTestVisible="False"
@@ -755,7 +756,7 @@
                     <Button Grid.Column="1"
                             Style="{StaticResource SecondaryButton}"
                             Margin="8,0,0,0"
-                            Content="Считать"
+                            Content="{loc:Tr Receiving_ScanButton}"
                             Click="OnReturnFocusToScanner"
                             Command="{Binding ScanCommand}"/>
                 </Grid>
@@ -775,11 +776,11 @@
                         <ColumnDefinition Width="Auto" SharedSizeGroup="Remove"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="1" Text="ТОВАР" Style="{StaticResource FieldCaption}" Margin="10,0,0,5"/>
-                    <TextBlock Grid.Column="2" Text="КАТЕГОРИЯ" Style="{StaticResource FieldCaption}" Margin="0,0,0,5"/>
-                    <TextBlock Grid.Column="3" Text="КОЛ-ВО" Style="{StaticResource FieldCaption}" TextAlignment="Center" Margin="0,0,0,5"/>
-                    <TextBlock Grid.Column="4" Text="ЗАКУПКА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="10,0,6,5"/>
-                    <TextBlock Grid.Column="5" Text="ПРОДАЖА" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
+                    <TextBlock Grid.Column="1" Text="{loc:Tr Receiving_Col_Product}" Style="{StaticResource FieldCaption}" Margin="10,0,0,5"/>
+                    <TextBlock Grid.Column="2" Text="{loc:Tr Receiving_Col_Category}" Style="{StaticResource FieldCaption}" Margin="0,0,0,5"/>
+                    <TextBlock Grid.Column="3" Text="{loc:Tr Receiving_Col_Quantity}" Style="{StaticResource FieldCaption}" TextAlignment="Center" Margin="0,0,0,5"/>
+                    <TextBlock Grid.Column="4" Text="{loc:Tr Receiving_Col_Cost}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="10,0,6,5"/>
+                    <TextBlock Grid.Column="5" Text="{loc:Tr Receiving_Col_Price}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,10,5"/>
                 </Grid>
 
                 <!-- Список считанных -->
@@ -801,7 +802,7 @@
                                                  HorizontalAlignment="Center"
                                                  Foreground="{DynamicResource LineBrush}"/>
 
-                        <TextBlock Text="Отсканируйте товары — они появятся здесь"
+                        <TextBlock Text="{loc:Tr Receiving_Empty}"
                                    Margin="0,10,0,0"
                                    FontSize="14"
                                    HorizontalAlignment="Center"
@@ -840,7 +841,7 @@
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button Style="{StaticResource SecondaryButton}"
                                 Margin="0,0,8,0"
-                                Content="Очистить"
+                                Content="{loc:Tr Common_Clear}"
                                 IsEnabled="{Binding HasScanned}"
                                 Click="OnReturnFocusToScanner"
                                 Command="{Binding ClearScannedCommand}"/>
@@ -856,7 +857,7 @@
                                                          Height="17"
                                                          VerticalAlignment="Center"/>
 
-                                <TextBlock Text="Добавить товары"
+                                <TextBlock Text="{loc:Tr Receiving_Save}"
                                            Margin="8,0,0,0"
                                            VerticalAlignment="Center"/>
                             </StackPanel>

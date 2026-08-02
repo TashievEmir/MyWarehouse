@@ -2,6 +2,8 @@ using System.Globalization;
 using Application.DTOs.Sales;
 using Domain.Enums;
 
+using Wpf.Localization;
+
 namespace Wpf.ViewModels.Receipts;
 
 /// <summary>Строка списка чеков.</summary>
@@ -21,24 +23,28 @@ public class ReceiptListItem
     public PaymentMethod PaymentMethod { get; }
     public decimal TotalAmount { get; }
 
-    public string Number => $"Чек №{SaleId}";
+    public string Number => Loc.F("Receipts_Number", SaleId);
 
     public string TimeText => SaleDate.ToLocalTime().ToString("HH:mm", Russian);
 
     public string DateText => SaleDate.ToLocalTime().ToString("d MMMM yyyy", Russian);
 
-    public string PositionsText => $"{PositionsCount} поз. · {ItemsCount} шт.";
+    public string PositionsText => Loc.F("Receipts_Positions", PositionsCount, ItemsCount);
 
     public string PaymentName => PaymentLabel.For(PaymentMethod);
 
     public bool IsCredit => PaymentMethod == PaymentMethod.Credit;
 
+    /// <summary>Чек отменён возвратом.</summary>
+    public bool IsReturned { get; }
+
     public ReceiptListItem(ReceiptListItemResponse receipt)
     {
+        IsReturned = receipt.IsReturned;
         SaleId = receipt.SaleId;
         SaleDate = receipt.SaleDate;
         CashierName = receipt.CashierName;
-        CustomerName = string.IsNullOrWhiteSpace(receipt.CustomerName) ? "без клиента" : receipt.CustomerName!;
+        CustomerName = string.IsNullOrWhiteSpace(receipt.CustomerName) ? Loc.T("Receipts_NoCustomer") : receipt.CustomerName!;
         PositionsCount = receipt.PositionsCount;
         ItemsCount = receipt.ItemsCount;
         PaymentMethod = receipt.PaymentMethod;
@@ -54,7 +60,7 @@ public class ReceiptLineItem
     public decimal Price { get; }
     public decimal Total { get; }
 
-    public string QuantityText => $"{Quantity} × {Price:N2}";
+    public string QuantityText => Loc.F("Receipts_LineQuantity", Quantity, Price);
 
     public ReceiptLineItem(ReceiptLineResponse line)
     {
@@ -70,10 +76,10 @@ public static class PaymentLabel
 {
     public static string For(PaymentMethod method) => method switch
     {
-        PaymentMethod.Cash     => "Наличные",
-        PaymentMethod.Card     => "Карта",
-        PaymentMethod.Transfer => "Перевод",
-        PaymentMethod.Credit   => "В долг",
-        _                      => "Не указан",
+        PaymentMethod.Cash     => Loc.T("Payment_Cash"),
+        PaymentMethod.Card     => Loc.T("Payment_Card"),
+        PaymentMethod.Transfer => Loc.T("Payment_Transfer"),
+        PaymentMethod.Credit   => Loc.T("Payment_Credit"),
+        _                      => Loc.T("Payment_Unknown"),
     };
 }
