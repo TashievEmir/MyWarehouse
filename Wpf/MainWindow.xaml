@@ -355,7 +355,8 @@
                                 Content="{loc:Tr Nav_Dashboard}"
                                 common:Nav.Icon="ViewDashboardOutline"
                                 common:Nav.PageKey="dashboard"
-                                Command="{Binding ShowDashboardCommand}"/>
+                                Command="{Binding ShowDashboardCommand}"
+                                Visibility="{Binding CanSeeOverview, Converter={StaticResource BoolToVisibility}}"/>
 
                         <Button Style="{StaticResource NavButton}"
                                 Content="{loc:Tr Nav_Sales}"
@@ -395,7 +396,9 @@
                                     Command="{Binding ShowReceivingCommand}"/>
                         </StackPanel>
 
-                        <!-- Чеки -->
+                        <!-- Чеки: кассиру не нужны -->
+                        <StackPanel Visibility="{Binding CanSeeReceipts, Converter={StaticResource BoolToVisibility}}">
+
                         <Border Style="{StaticResource NavGroup}">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <materialDesign:PackIcon Kind="ReceiptTextOutline"
@@ -438,6 +441,11 @@
                                 </common:Nav.Badge>
                             </Button>
                         </StackPanel>
+
+                        </StackPanel>
+
+                        <!-- Аналитика: сводные экраны для админа и менеджера -->
+                        <StackPanel Visibility="{Binding CanSeeAnalytics, Converter={StaticResource BoolToVisibility}}">
 
                         <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Analytics}"/>
                         <Border Style="{StaticResource NavCaptionRule}"/>
@@ -494,8 +502,10 @@
                                     Command="{Binding ShowPurchasesCommand}"/>
                         </StackPanel>
 
-                        <!-- Настройки видит тот же круг, что и редактор чека -->
-                        <StackPanel Visibility="{Binding CanEditReceiptTemplate, Converter={StaticResource BoolToVisibility}}">
+                        </StackPanel>
+
+                        <!-- Настройки видит тот же круг, что и аналитику -->
+                        <StackPanel Visibility="{Binding CanSeeSettings, Converter={StaticResource BoolToVisibility}}">
                             <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Settings}"/>
                             <Border Style="{StaticResource NavCaptionRule}"/>
 

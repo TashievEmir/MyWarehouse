@@ -20,6 +20,7 @@ public class SessionService : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(User)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RoleTitle)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsPrivileged)));
         }
     }
 
@@ -36,6 +37,12 @@ public class SessionService : INotifyPropertyChanged
     }
 
     public string RoleTitle => _user?.Roles.FirstOrDefault() ?? Localization.Loc.T("Session_NotAuthorized");
+
+    /// <summary>
+    /// Админу и менеджеру открыто всё приложение. Кассиру — только рабочие
+    /// экраны: касса, каталог и приёмка. Роль не распознана — считаем кассиром.
+    /// </summary>
+    public bool IsPrivileged => _user?.Roles.Any(r => r is "Admin" or "Manager") ?? false;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 }

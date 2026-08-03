@@ -36,17 +36,18 @@ public class MainViewModel : ViewModelBase
     public string UserName => _session.DisplayName;
     public string UserRole => _session.RoleTitle;
 
-    /// <summary>Редактор шаблона чека доступен менеджеру и админу.</summary>
-    public bool CanEditReceiptTemplate
-    {
-        get
-        {
-            var roles = _session.User?.Roles;
+    // ── Доступ по ролям ──
+    //
+    // Кассиру нужны только рабочие экраны: касса, каталог и приёмка.
+    // Всё остальное — сводка, чеки, аналитика и настройки — админу и менеджеру.
 
-            return roles is not null
-                   && roles.Any(r => r is "Admin" or "Manager");
-        }
-    }
+    public bool CanSeeOverview => _session.IsPrivileged;
+    public bool CanSeeReceipts => _session.IsPrivileged;
+    public bool CanSeeAnalytics => _session.IsPrivileged;
+    public bool CanSeeSettings => _session.IsPrivileged;
+
+    /// <summary>Редактор шаблона чека доступен менеджеру и админу.</summary>
+    public bool CanEditReceiptTemplate => _session.IsPrivileged;
 
     public string Today => DateTime.Now.ToString("d MMMM yyyy", Loc.Instance.Culture);
 
@@ -103,6 +104,10 @@ public class MainViewModel : ViewModelBase
         {
             OnPropertyChanged(nameof(UserName));
             OnPropertyChanged(nameof(UserRole));
+            OnPropertyChanged(nameof(CanSeeOverview));
+            OnPropertyChanged(nameof(CanSeeReceipts));
+            OnPropertyChanged(nameof(CanSeeAnalytics));
+            OnPropertyChanged(nameof(CanSeeSettings));
             OnPropertyChanged(nameof(CanEditReceiptTemplate));
         };
 
@@ -133,13 +138,22 @@ public class MainViewModel : ViewModelBase
         ToggleThemeCommand         = new RelayCommand(_theme.Toggle);
         ToggleLanguageCommand      = new RelayCommand(Loc.Instance.Toggle);
 
-        ShowDashboard();
+        // Кассиру сводка недоступна — открываем сразу кассу
+        if (CanSeeOverview)
+            ShowDashboard();
+        else
+            ShowSales();
     }
 
     // ── Обзор ──
 
     private void ShowDashboard()
-        => Navigate(new Views.Dashboard.DashboardView(), "dashboard", "Page_Dashboard_Title", "Page_Dashboard_Sub", ShowDashboard);
+    {
+        if (!CanSeeOverview)
+            return;
+
+        Navigate(new Views.Dashboard.DashboardView(), "dashboard", "Page_Dashboard_Title", "Page_Dashboard_Sub", ShowDashboard);
+    }
 
     private void ShowSales()
         => Navigate(new Views.Sales.SalesView(), "sales", "Page_Sales_Title", "Page_Sales_Sub", ShowSales);
@@ -162,6 +176,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowReceipts()
     {
+        if (!CanSeeReceipts)
+            return;
+
         // Список перечитывается при каждом заходе: чеки пробивают прямо сейчас
         _ = App.Services.GetRequiredService<ViewModels.Receipts.ReceiptsListViewModel>().LoadAsync();
 
@@ -170,6 +187,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowReceiptTemplate()
     {
+        if (!CanEditReceiptTemplate)
+            return;
+
         _ = App.Services.GetRequiredService<ViewModels.Receipts.ReceiptTemplateViewModel>().LoadAsync();
 
         Navigate(new Views.Receipts.ReceiptTemplateView(), "editor", "Page_Editor_Title", "Page_Editor_Sub", ShowReceiptTemplate);
@@ -179,6 +199,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowActivityLog()
     {
+        if (!CanSeeAnalytics)
+            return;
+
         _ = App.Services.GetRequiredService<ViewModels.Activity.ActivityLogViewModel>().LoadAsync();
 
         Navigate(new Views.Activity.ActivityLogView(), "history", "Page_History_Title", "Page_History_Sub", ShowActivityLog);
@@ -186,6 +209,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowStock()
     {
+        if (!CanSeeAnalytics)
+            return;
+
         Statistics().IsStockSelected = true;
 
         Navigate(new Views.Statistics.StatisticsView(), "stock", "Page_Stock_Title", "Page_Stock_Sub", ShowStock);
@@ -193,6 +219,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowDebts()
     {
+        if (!CanSeeAnalytics)
+            return;
+
         Statistics().IsDebtsSelected = true;
 
         Navigate(new Views.Statistics.StatisticsView(), "debts", "Page_Debts_Title", "Page_Debts_Sub", ShowDebts);
@@ -200,6 +229,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowPurchases()
     {
+        if (!CanSeeAnalytics)
+            return;
+
         Statistics().IsPurchasesSelected = true;
 
         Navigate(new Views.Statistics.StatisticsView(), "purchases", "Page_Purchases_Title", "Page_Purchases_Sub", ShowPurchases);
@@ -209,6 +241,9 @@ public class MainViewModel : ViewModelBase
 
     private void ShowNotifications()
     {
+        if (!CanSeeSettings)
+            return;
+
         _ = App.Services.GetRequiredService<ViewModels.Notifications.NotificationsViewModel>().LoadAsync();
 
         Navigate(new Views.Notifications.NotificationsView(), "notifications",
