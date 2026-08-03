@@ -583,6 +583,25 @@
                                                    Visibility="{Binding NewCustomerPhone, Converter={StaticResource EmptyToVisibility}}"/>
                                     </Grid>
 
+                                    <!-- Почта обязательна: на неё уходят напоминания о долге -->
+                                    <Grid Margin="0,6,0,0">
+                                        <TextBox Style="{StaticResource Field}"
+                                                 Text="{Binding NewCustomerEmail, UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBox.InputBindings>
+                                                <KeyBinding Key="Enter" Command="{Binding CreateCustomerCommand}"/>
+                                                <KeyBinding Key="Escape" Command="{Binding CancelNewCustomerCommand}"/>
+                                            </TextBox.InputBindings>
+                                        </TextBox>
+
+                                        <TextBlock Text="{loc:Tr Sales_CustomerEmailHint}"
+                                                   FontSize="13"
+                                                   Margin="12,0,0,0"
+                                                   IsHitTestVisible="False"
+                                                   VerticalAlignment="Center"
+                                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                                   Visibility="{Binding NewCustomerEmail, Converter={StaticResource EmptyToVisibility}}"/>
+                                    </Grid>
+
                                     <Grid Margin="0,6,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -602,6 +621,12 @@
                                                 Command="{Binding CreateCustomerCommand}"/>
                                     </Grid>
                                 </StackPanel>
+
+                                <!-- До этой даты долг не считается просроченным -->
+                                <TextBlock Text="{loc:Tr Sales_DueDate}" Style="{StaticResource FieldCaption}" Margin="0,12,0,8"/>
+
+                                <DatePicker Style="{StaticResource FieldDate}"
+                                            SelectedDate="{Binding DueDate, Mode=TwoWay}"/>
 
                                 <TextBlock Text="{loc:Tr Sales_Prepaid}" Style="{StaticResource FieldCaption}" Margin="0,12,0,8"/>
 

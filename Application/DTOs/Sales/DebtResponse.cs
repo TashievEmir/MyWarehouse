@@ -14,6 +14,7 @@ namespace Application.DTOs.Sales
         public long? CustomerId { get; set; }
         public string CustomerName { get; set; } = "";
         public string? CustomerPhone { get; set; }
+        public string? CustomerEmail { get; set; }
 
         public decimal TotalAmount { get; set; }
         public decimal PaidAmount { get; set; }
@@ -25,5 +26,8 @@ namespace Application.DTOs.Sales
         public int PaymentsCount { get; set; }
 
         public DateTimeOffset? LastPaymentDate { get; set; }
+
+        /// <summary>Обещанный срок погашения. null у долгов, заведённых до появления сроков.</summary>
+        public DateTimeOffset? DueDate { get; set; }
     }
 }

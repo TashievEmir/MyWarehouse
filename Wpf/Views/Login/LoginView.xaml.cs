@@ -13,6 +13,9 @@ public partial class LoginView : Window
     public LoginView(LoginViewModel vm)
     {
         InitializeComponent();
+
+        // Формат дат в DatePicker берётся из Language окна
+        Language = Loc.Instance.XmlLanguage;
         DataContext = vm;
 
         Loaded += (_, _) => LoginBox.Focus();

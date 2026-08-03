@@ -392,6 +392,10 @@
     </Style>
 
     <Style x:Key="FieldDate" TargetType="DatePicker">
+        <!-- Формат даты DatePicker берёт из Language. Наследования от окна мало:
+             если значение прилетело до попадания элемента в дерево, дата
+             форматируется по умолчанию и остаётся как 8/3/2026 -->
+        <Setter Property="Language" Value="{Binding XmlLanguage, Source={x:Static loc:Loc.Instance}}"/>
         <Setter Property="Height" Value="48"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="Background" Value="{DynamicResource FieldBrush}"/>

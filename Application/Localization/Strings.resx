@@ -1518,4 +1518,200 @@
   <data name="Editor_StockNote" xml:space="preserve">
     <value>Правка пишется в историю</value>
   </data>
+  <data name="Err_CreditNeedDueDate" xml:space="preserve">
+    <value>Укажите срок оплаты долга</value>
+  </data>
+  <data name="Sales_DueDate" xml:space="preserve">
+    <value>СРОК ОПЛАТЫ</value>
+  </data>
+  <data name="Sales_NeedDueDate" xml:space="preserve">
+    <value>Для продажи в долг укажите срок оплаты</value>
+  </data>
+  <data name="Sales_DueDatePast" xml:space="preserve">
+    <value>Срок оплаты не может быть в прошлом</value>
+  </data>
+  <data name="Sales_CustomerEmailHint" xml:space="preserve">
+    <value>Электронная почта</value>
+  </data>
+  <data name="Sales_NeedCustomerEmail" xml:space="preserve">
+    <value>Укажите почту клиента — на неё уйдут напоминания о долге</value>
+  </data>
+  <data name="Sales_BadEmail" xml:space="preserve">
+    <value>Похоже, почта указана с ошибкой</value>
+  </data>
+  <data name="Debts_Col_Due" xml:space="preserve">
+    <value>СРОК</value>
+  </data>
+  <data name="Debt_NoDueDate" xml:space="preserve">
+    <value>срок не указан</value>
+  </data>
+  <data name="Debt_DueToday" xml:space="preserve">
+    <value>сегодня срок</value>
+  </data>
+  <data name="Debt_DueIn" xml:space="preserve">
+    <value>осталось {0} дн.</value>
+  </data>
+  <data name="Debt_Overdue" xml:space="preserve">
+    <value>просрочка {0} дн.</value>
+  </data>
+  <data name="Debt_NoEmail" xml:space="preserve">
+    <value>без почты</value>
+  </data>
+  <data name="Common_On" xml:space="preserve">
+    <value>включено</value>
+  </data>
+  <data name="Common_Off" xml:space="preserve">
+    <value>выключено</value>
+  </data>
+  <data name="Err_NeedSendTimes" xml:space="preserve">
+    <value>Укажите хотя бы одно время рассылки</value>
+  </data>
+  <data name="Err_NeedSmtpHost" xml:space="preserve">
+    <value>Укажите SMTP-сервер</value>
+  </data>
+  <data name="Err_NeedTestRecipient" xml:space="preserve">
+    <value>Укажите адрес для пробного письма</value>
+  </data>
+  <data name="Log_NotificationsSaved" xml:space="preserve">
+    <value>Изменены настройки напоминаний</value>
+  </data>
+  <data name="Log_NotificationsDetails" xml:space="preserve">
+    <value>Рассылка {0} · время: {1}</value>
+  </data>
+  <data name="Mail_Subject" xml:space="preserve">
+    <value>Напоминание о долге: {0}</value>
+  </data>
+  <data name="Mail_Greeting" xml:space="preserve">
+    <value>Здравствуйте, {0}!</value>
+  </data>
+  <data name="Mail_Body" xml:space="preserve">
+    <value>По чеку №{0} за вами числится {1}.
+Срок оплаты — {2} ({3}).</value>
+  </data>
+  <data name="Mail_DueToday" xml:space="preserve">
+    <value>срок наступил сегодня</value>
+  </data>
+  <data name="Mail_Overdue" xml:space="preserve">
+    <value>просрочка {0} дн.</value>
+  </data>
+  <data name="Mail_Signature" xml:space="preserve">
+    <value>С уважением, «Мой склад»</value>
+  </data>
+  <data name="Mail_TestSubject" xml:space="preserve">
+    <value>Проверка настроек — «Мой склад»</value>
+  </data>
+  <data name="Mail_TestBody" xml:space="preserve">
+    <value>Если вы читаете это письмо, почтовые напоминания о долгах настроены верно.</value>
+  </data>
+  <data name="Nav_Group_Settings" xml:space="preserve">
+    <value>НАСТРОЙКИ</value>
+  </data>
+  <data name="Nav_Notifications" xml:space="preserve">
+    <value>Напоминания</value>
+  </data>
+  <data name="Page_Notifications_Title" xml:space="preserve">
+    <value>Напоминания о долгах</value>
+  </data>
+  <data name="Page_Notifications_Sub" xml:space="preserve">
+    <value>Письма клиентам, когда наступил срок оплаты</value>
+  </data>
+  <data name="Notif_Title" xml:space="preserve">
+    <value>Почтовые напоминания</value>
+  </data>
+  <data name="Notif_Subtitle" xml:space="preserve">
+    <value>Письмо уходит клиенту каждый день начиная со срока оплаты, в указанные часы.</value>
+  </data>
+  <data name="Notif_Enabled" xml:space="preserve">
+    <value>Включить рассылку</value>
+  </data>
+  <data name="Notif_Server" xml:space="preserve">
+    <value>СЕРВЕР</value>
+  </data>
+  <data name="Notif_Host" xml:space="preserve">
+    <value>SMTP-сервер</value>
+  </data>
+  <data name="Notif_Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="Notif_Ssl" xml:space="preserve">
+    <value>Шифрование SSL/TLS</value>
+  </data>
+  <data name="Notif_Account" xml:space="preserve">
+    <value>УЧЁТНАЯ ЗАПИСЬ</value>
+  </data>
+  <data name="Notif_Username" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="Notif_Password" xml:space="preserve">
+    <value>Пароль приложения</value>
+  </data>
+  <data name="Notif_Sender" xml:space="preserve">
+    <value>ОТПРАВИТЕЛЬ</value>
+  </data>
+  <data name="Notif_FromAddress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Notif_FromName" xml:space="preserve">
+    <value>Имя в письме</value>
+  </data>
+  <data name="Notif_Times" xml:space="preserve">
+    <value>ВРЕМЯ РАССЫЛКИ</value>
+  </data>
+  <data name="Notif_TimesHint" xml:space="preserve">
+    <value>Через запятую, например 10:00,14:00,18:00</value>
+  </data>
+  <data name="Notif_Save" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
+  <data name="Notif_Test" xml:space="preserve">
+    <value>Пробное письмо</value>
+  </data>
+  <data name="Notif_TestHint" xml:space="preserve">
+    <value>Куда отправить проверку</value>
+  </data>
+  <data name="Notif_Saved" xml:space="preserve">
+    <value>Настройки сохранены</value>
+  </data>
+  <data name="Notif_TestSent" xml:space="preserve">
+    <value>Пробное письмо отправлено на {0}</value>
+  </data>
+  <data name="Notif_TestFailed" xml:space="preserve">
+    <value>Отправить не удалось: {0}</value>
+  </data>
+  <data name="Notif_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить настройки: {0}</value>
+  </data>
+  <data name="Notif_NoLogin" xml:space="preserve">
+    <value>Настройки нельзя сохранить: не выполнен вход в систему</value>
+  </data>
+  <data name="Notif_RunNow" xml:space="preserve">
+    <value>Разослать сейчас</value>
+  </data>
+  <data name="Notif_RunResult" xml:space="preserve">
+    <value>Отправлено: {0} · ошибок: {1} · без почты: {2} · пропущено: {3} · повторим: {4}</value>
+  </data>
+  <data name="Notif_Warning" xml:space="preserve">
+    <value>Приложение десктопное: письма уходят только пока оно запущено.</value>
+  </data>
+  <data name="Notif_PasswordNote" xml:space="preserve">
+    <value>Для Gmail и Яндекса нужен пароль приложения, не пароль от аккаунта.</value>
+  </data>
+  <data name="Notif_Log" xml:space="preserve">
+    <value>ПОСЛЕДНИЕ ОТПРАВКИ</value>
+  </data>
+  <data name="Notif_LogEmpty" xml:space="preserve">
+    <value>Писем ещё не было</value>
+  </data>
+  <data name="Notif_LogSent" xml:space="preserve">
+    <value>отправлено</value>
+  </data>
+  <data name="Notif_LogSkipped" xml:space="preserve">
+    <value>слот пропущен — приложение было закрыто</value>
+  </data>
+  <data name="Notif_LogRetry" xml:space="preserve">
+    <value>попытка {0} из {1}, повторим</value>
+  </data>
+  <data name="Notif_LogGaveUp" xml:space="preserve">
+    <value>не удалось за {0} попытки</value>
+  </data>
 </root>

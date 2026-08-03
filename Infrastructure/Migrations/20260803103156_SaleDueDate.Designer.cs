@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20260803103156_SaleDueDate")]
+    partial class SaleDueDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.2");
@@ -126,49 +129,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("DebtPayments");
                 });
 
-            modelBuilder.Entity("Domain.Entities.DebtReminder", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Attempts")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Error")
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsSkipped")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsSuccess")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Recipient")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<long>("SaleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTimeOffset>("SentAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SlotKey")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SaleId", "SlotKey")
-                        .IsUnique();
-
-                    b.ToTable("DebtReminders");
-                });
-
             modelBuilder.Entity("Domain.Entities.Inventory", b =>
                 {
                     b.Property<long>("Id")
@@ -190,50 +150,6 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Inventories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.NotificationSettings", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FromAddress")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FromName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SendTimes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SmtpHost")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("SmtpPort")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("UseSsl")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NotificationSettings");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>

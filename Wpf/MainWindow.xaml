@@ -494,6 +494,18 @@
                                     Command="{Binding ShowPurchasesCommand}"/>
                         </StackPanel>
 
+                        <!-- Настройки видит тот же круг, что и редактор чека -->
+                        <StackPanel Visibility="{Binding CanEditReceiptTemplate, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock Style="{StaticResource NavCaption}" Text="{loc:Tr Nav_Group_Settings}"/>
+                            <Border Style="{StaticResource NavCaptionRule}"/>
+
+                            <Button Style="{StaticResource NavButton}"
+                                    Content="{loc:Tr Nav_Notifications}"
+                                    common:Nav.Icon="BellOutline"
+                                    common:Nav.PageKey="notifications"
+                                    Command="{Binding ShowNotificationsCommand}"/>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
 

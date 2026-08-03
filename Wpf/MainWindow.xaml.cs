@@ -38,6 +38,9 @@ namespace Wpf
         {
             InitializeComponent();
 
+        // Формат дат в DatePicker берётся из Language окна
+        Language = Localization.Loc.Instance.XmlLanguage;
+
             DataContext = vm;
 
             SizeChanged += OnSizeChanged;

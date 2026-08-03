@@ -15,6 +15,7 @@
 
         <common:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         <common:EmptyStringToVisibilityConverter x:Key="EmptyToVisibility"/>
+        <common:ResourceKeyToBrushConverter x:Key="KeyToBrush"/>
 
         <Style x:Key="DebtRow" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -53,8 +54,9 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MinWidth="180"/>
-                        <ColumnDefinition Width="190"/>
                         <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="130"/>
                     </Grid.ColumnDefinitions>
 
@@ -67,6 +69,11 @@
                         <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
                             <TextBlock Text="{Binding SaleNumber}" Style="{StaticResource Muted}" FontSize="11"/>
                             <TextBlock Text="{Binding DateText}" Style="{StaticResource Muted}" FontSize="11" Margin="8,0,0,0"/>
+                            <TextBlock Text="{Binding EmailText}"
+                                       Style="{StaticResource Muted}"
+                                       FontSize="11"
+                                       Margin="8,0,0,0"
+                                       TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                     </StackPanel>
 
@@ -84,7 +91,21 @@
                                VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis"/>
 
-                    <Border Grid.Column="3"
+                    <!-- Срок: до его наступления долг не красный -->
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" Margin="0,0,10,0">
+                        <TextBlock Text="{Binding DueDateText}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                        <TextBlock Text="{Binding DueStatusText}"
+                                   FontSize="11"
+                                   Margin="0,2,0,0"
+                                   FontWeight="SemiBold"
+                                   TextTrimming="CharacterEllipsis"
+                                   Foreground="{Binding StatusBrushKey, Converter={StaticResource KeyToBrush}}"/>
+                    </StackPanel>
+
+                    <Border Grid.Column="4"
                             CornerRadius="8"
                             Padding="10,5"
                             HorizontalAlignment="Right"
@@ -94,7 +115,7 @@
                         <TextBlock Text="{Binding Debt, StringFormat={}{0:N2}}"
                                    FontSize="13"
                                    FontWeight="SemiBold"
-                                   Foreground="{DynamicResource DangerBrush}"/>
+                                   Foreground="{Binding StatusBrushKey, Converter={StaticResource KeyToBrush}}"/>
                     </Border>
                 </Grid>
             </Button>
@@ -187,15 +208,17 @@
                 <Grid Grid.Row="1" Margin="12,0,12,4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MinWidth="180"/>
-                        <ColumnDefinition Width="190"/>
                         <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="130"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0" Text="{loc:Tr Debts_Col_Customer}" Style="{StaticResource FieldCaption}"/>
                     <TextBlock Grid.Column="1" Text="{loc:Tr Debts_Col_Paid}" Style="{StaticResource FieldCaption}"/>
                     <TextBlock Grid.Column="2" Text="{loc:Tr Debts_Col_Payments}" Style="{StaticResource FieldCaption}"/>
-                    <TextBlock Grid.Column="3" Text="{loc:Tr Debts_Col_Debt}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
+                    <TextBlock Grid.Column="3" Text="{loc:Tr Debts_Col_Due}" Style="{StaticResource FieldCaption}"/>
+                    <TextBlock Grid.Column="4" Text="{loc:Tr Debts_Col_Debt}" Style="{StaticResource FieldCaption}" TextAlignment="Right" Margin="0,0,2,5"/>
                 </Grid>
 
                 <!-- Список -->

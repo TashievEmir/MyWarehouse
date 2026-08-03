@@ -27,6 +27,8 @@ namespace Infrastructure.Persistence.Data
         public DbSet<StockWriteOff> StockWriteOffs => Set<StockWriteOff>();
         public DbSet<ActivityLogEntry> ActivityLog => Set<ActivityLogEntry>();
         public DbSet<ReceiptTemplate> ReceiptTemplates => Set<ReceiptTemplate>();
+        public DbSet<NotificationSettings> NotificationSettings => Set<NotificationSettings>();
+        public DbSet<DebtReminder> DebtReminders => Set<DebtReminder>();
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)
         => Database.BeginTransactionAsync(ct);
@@ -69,6 +71,11 @@ namespace Infrastructure.Persistence.Data
                 .WithMany()
                 .HasForeignKey(p => p.SupplierId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            // Один слот рассылки на долг — защита от повторных писем после перезапуска
+            modelBuilder.Entity<DebtReminder>()
+                .HasIndex(r => new { r.SaleId, r.SlotKey })
+                .IsUnique();
 
             // Inventory 1:1 Product
             modelBuilder.Entity<Inventory>()

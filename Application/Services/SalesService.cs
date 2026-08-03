@@ -35,6 +35,10 @@ namespace Application.Services
             if (request.PaymentMethod == PaymentMethod.Credit && request.CustomerId is null)
                 throw new DomainException(Tr.T("Err_CreditNeedCustomer"));
 
+            // Без срока напоминать не о чем и просрочку не посчитать
+            if (request.PaymentMethod == PaymentMethod.Credit && request.DueDate is null)
+                throw new DomainException(Tr.T("Err_CreditNeedDueDate"));
+
             if (request.CustomerId is { } customerId &&
                 !await _db.Customers.AnyAsync(x => x.Id == customerId, ct))
             {
@@ -108,6 +112,8 @@ namespace Application.Services
 
                     if (request.PaidAmount > 0)
                         sale.Pay(request.PaidAmount);
+
+                    sale.SetDueDate(request.DueDate!.Value);
                 }
                 else
                 {
@@ -340,6 +346,11 @@ namespace Application.Services
                         .Where(c => c.Id == s.CustomerId)
                         .Select(c => c.Phone)
                         .FirstOrDefault(),
+                    CustomerEmail = _db.Customers
+                        .Where(c => c.Id == s.CustomerId)
+                        .Select(c => c.Email)
+                        .FirstOrDefault(),
+                    s.DueDate,
                     PaymentDates = s.DebtPayments.Select(p => p.PaymentDate).ToList(),
                 })
                 .ToListAsync(ct);
@@ -352,6 +363,8 @@ namespace Application.Services
                     CustomerId      = r.CustomerId,
                     CustomerName    = r.CustomerName ?? Tr.T("Log_NoCustomer"),
                     CustomerPhone   = r.CustomerPhone,
+                    CustomerEmail   = r.CustomerEmail,
+                    DueDate         = r.DueDate,
                     TotalAmount     = r.TotalAmount,
                     PaidAmount      = r.PaidAmount,
                     PaymentMethod   = r.PaymentMethod,

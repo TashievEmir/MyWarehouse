@@ -312,6 +312,7 @@ public class SaleTabViewModel : ViewModelBase
             {
                 NewCustomerName = "";
                 NewCustomerPhone = "";
+                NewCustomerEmail = "";
             }
         }
     }
@@ -330,6 +331,22 @@ public class SaleTabViewModel : ViewModelBase
         set => SetProperty(ref _newCustomerPhone, value);
     }
 
+    private string _newCustomerEmail = "";
+    /// <summary>Почта обязательна: на неё уходят напоминания о долге.</summary>
+    public string NewCustomerEmail
+    {
+        get => _newCustomerEmail;
+        set => SetProperty(ref _newCustomerEmail, value);
+    }
+
+    private DateTime? _dueDate = DateTime.Today.AddDays(7);
+    /// <summary>Когда клиент обещает закрыть долг — до этой даты просрочки нет.</summary>
+    public DateTime? DueDate
+    {
+        get => _dueDate;
+        set => SetProperty(ref _dueDate, value);
+    }
+
     private async Task CreateCustomerAsync()
     {
         var name = NewCustomerName.Trim();
@@ -337,6 +354,20 @@ public class SaleTabViewModel : ViewModelBase
         if (name.Length == 0)
         {
             ShowError(Loc.T("Sales_NeedCustomerName"));
+            return;
+        }
+
+        var email = NewCustomerEmail.Trim();
+
+        if (email.Length == 0)
+        {
+            ShowError(Loc.T("Sales_NeedCustomerEmail"));
+            return;
+        }
+
+        if (!LooksLikeEmail(email))
+        {
+            ShowError(Loc.T("Sales_BadEmail"));
             return;
         }
 
@@ -357,7 +388,12 @@ public class SaleTabViewModel : ViewModelBase
             var phone = NewCustomerPhone.Trim();
 
             var id = await _customerService.CreateAsync(
-                new CreateCustomerRequest { Name = name, Phone = phone.Length == 0 ? null : phone },
+                new CreateCustomerRequest
+                {
+                    Name = name,
+                    Phone = phone.Length == 0 ? null : phone,
+                    Email = email,
+                },
                 CancellationToken.None);
 
             var created = await _customerService.GetAsync(id, CancellationToken.None);
@@ -379,6 +415,18 @@ public class SaleTabViewModel : ViewModelBase
         {
             ShowError(Loc.F("Sales_CustomerCreateError", ex.Message));
         }
+    }
+
+    /// <summary>Грубая проверка почты: полноценная валидация тут излишня.</summary>
+    private static bool LooksLikeEmail(string value)
+    {
+        var at = value.IndexOf('@');
+
+        return at > 0
+               && at < value.Length - 1
+               && value.IndexOf('.', at) > at + 1
+               && !value.EndsWith('.')
+               && !value.Contains(' ');
     }
 
     // ===================== Закрытие сделки =====================
@@ -434,6 +482,18 @@ public class SaleTabViewModel : ViewModelBase
             return;
         }
 
+        if (IsCredit && DueDate is null)
+        {
+            ShowError(Loc.T("Sales_NeedDueDate"));
+            return;
+        }
+
+        if (IsCredit && DueDate!.Value.Date < DateTime.Today)
+        {
+            ShowError(Loc.T("Sales_DueDatePast"));
+            return;
+        }
+
         IsBusy = true;
 
         try
@@ -445,6 +505,8 @@ public class SaleTabViewModel : ViewModelBase
                 DiscountAmount = DiscountAmount,
                 PaymentMethod = SelectedPayment,
                 PaidAmount = IsCredit ? PrepaidAmount : Total,
+                // Срок считаем до конца дня: платёж «сегодня» не должен стать просрочкой
+                DueDate = IsCredit ? new DateTimeOffset(DueDate!.Value.Date.AddDays(1).AddTicks(-1)) : null,
                 Items = Lines.Select(l => l.ToRequest()).ToList()
             };
 

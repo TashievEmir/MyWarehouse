@@ -1518,4 +1518,200 @@
   <data name="Editor_StockNote" xml:space="preserve">
     <value>Оңдоо тарыхка жазылат</value>
   </data>
+  <data name="Err_CreditNeedDueDate" xml:space="preserve">
+    <value>Карызды төлөө мөөнөтүн көрсөтүңүз</value>
+  </data>
+  <data name="Sales_DueDate" xml:space="preserve">
+    <value>ТӨЛӨӨ МӨӨНӨТҮ</value>
+  </data>
+  <data name="Sales_NeedDueDate" xml:space="preserve">
+    <value>Карызга сатуу үчүн төлөө мөөнөтүн көрсөтүңүз</value>
+  </data>
+  <data name="Sales_DueDatePast" xml:space="preserve">
+    <value>Төлөө мөөнөтү өткөн күн боло албайт</value>
+  </data>
+  <data name="Sales_CustomerEmailHint" xml:space="preserve">
+    <value>Электрондук почта</value>
+  </data>
+  <data name="Sales_NeedCustomerEmail" xml:space="preserve">
+    <value>Кардардын почтасын жазыңыз — карыз тууралуу эскертүүлөр ошого барат</value>
+  </data>
+  <data name="Sales_BadEmail" xml:space="preserve">
+    <value>Почта туура эмес жазылган окшойт</value>
+  </data>
+  <data name="Debts_Col_Due" xml:space="preserve">
+    <value>МӨӨНӨТ</value>
+  </data>
+  <data name="Debt_NoDueDate" xml:space="preserve">
+    <value>мөөнөтү жок</value>
+  </data>
+  <data name="Debt_DueToday" xml:space="preserve">
+    <value>бүгүн мөөнөтү</value>
+  </data>
+  <data name="Debt_DueIn" xml:space="preserve">
+    <value>{0} күн калды</value>
+  </data>
+  <data name="Debt_Overdue" xml:space="preserve">
+    <value>{0} күн кечиктирилди</value>
+  </data>
+  <data name="Debt_NoEmail" xml:space="preserve">
+    <value>почтасыз</value>
+  </data>
+  <data name="Common_On" xml:space="preserve">
+    <value>күйгүзүлгөн</value>
+  </data>
+  <data name="Common_Off" xml:space="preserve">
+    <value>өчүрүлгөн</value>
+  </data>
+  <data name="Err_NeedSendTimes" xml:space="preserve">
+    <value>Жөнөтүү убактысын жок дегенде бирөөнү көрсөтүңүз</value>
+  </data>
+  <data name="Err_NeedSmtpHost" xml:space="preserve">
+    <value>SMTP-серверди көрсөтүңүз</value>
+  </data>
+  <data name="Err_NeedTestRecipient" xml:space="preserve">
+    <value>Сынама кат үчүн даректи көрсөтүңүз</value>
+  </data>
+  <data name="Log_NotificationsSaved" xml:space="preserve">
+    <value>Эскертүү жөндөөлөрү өзгөрдү</value>
+  </data>
+  <data name="Log_NotificationsDetails" xml:space="preserve">
+    <value>Жөнөтүү {0} · убакыт: {1}</value>
+  </data>
+  <data name="Mail_Subject" xml:space="preserve">
+    <value>Карыз тууралуу эскертүү: {0}</value>
+  </data>
+  <data name="Mail_Greeting" xml:space="preserve">
+    <value>Саламатсызбы, {0}!</value>
+  </data>
+  <data name="Mail_Body" xml:space="preserve">
+    <value>№{0} чек боюнча сизде {1} карыз бар.
+Төлөө мөөнөтү — {2} ({3}).</value>
+  </data>
+  <data name="Mail_DueToday" xml:space="preserve">
+    <value>мөөнөтү бүгүн келди</value>
+  </data>
+  <data name="Mail_Overdue" xml:space="preserve">
+    <value>{0} күн кечиктирилди</value>
+  </data>
+  <data name="Mail_Signature" xml:space="preserve">
+    <value>Урмат менен, «Менин кампам»</value>
+  </data>
+  <data name="Mail_TestSubject" xml:space="preserve">
+    <value>Жөндөөлөрдү текшерүү — «Менин кампам»</value>
+  </data>
+  <data name="Mail_TestBody" xml:space="preserve">
+    <value>Эгер сиз бул катты окуп жатсаңыз, карыз тууралуу почта эскертүүлөрү туура жөндөлгөн.</value>
+  </data>
+  <data name="Nav_Group_Settings" xml:space="preserve">
+    <value>ЖӨНДӨӨЛӨР</value>
+  </data>
+  <data name="Nav_Notifications" xml:space="preserve">
+    <value>Эскертүүлөр</value>
+  </data>
+  <data name="Page_Notifications_Title" xml:space="preserve">
+    <value>Карыздар тууралуу эскертүүлөр</value>
+  </data>
+  <data name="Page_Notifications_Sub" xml:space="preserve">
+    <value>Төлөө мөөнөтү келгенде кардарларга каттар</value>
+  </data>
+  <data name="Notif_Title" xml:space="preserve">
+    <value>Почта аркылуу эскертүүлөр</value>
+  </data>
+  <data name="Notif_Subtitle" xml:space="preserve">
+    <value>Кат кардарга төлөө мөөнөтүнөн баштап күн сайын, көрсөтүлгөн сааттарда жөнөтүлөт.</value>
+  </data>
+  <data name="Notif_Enabled" xml:space="preserve">
+    <value>Жөнөтүүнү күйгүзүү</value>
+  </data>
+  <data name="Notif_Server" xml:space="preserve">
+    <value>СЕРВЕР</value>
+  </data>
+  <data name="Notif_Host" xml:space="preserve">
+    <value>SMTP-сервер</value>
+  </data>
+  <data name="Notif_Port" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="Notif_Ssl" xml:space="preserve">
+    <value>SSL/TLS шифрлөө</value>
+  </data>
+  <data name="Notif_Account" xml:space="preserve">
+    <value>ЭСЕП ЖАЗУУСУ</value>
+  </data>
+  <data name="Notif_Username" xml:space="preserve">
+    <value>Логин</value>
+  </data>
+  <data name="Notif_Password" xml:space="preserve">
+    <value>Колдонмонун сырсөзү</value>
+  </data>
+  <data name="Notif_Sender" xml:space="preserve">
+    <value>ЖӨНӨТҮҮЧҮ</value>
+  </data>
+  <data name="Notif_FromAddress" xml:space="preserve">
+    <value>Дарек</value>
+  </data>
+  <data name="Notif_FromName" xml:space="preserve">
+    <value>Каттагы аты</value>
+  </data>
+  <data name="Notif_Times" xml:space="preserve">
+    <value>ЖӨНӨТҮҮ УБАКТЫСЫ</value>
+  </data>
+  <data name="Notif_TimesHint" xml:space="preserve">
+    <value>Үтүр менен, мисалы 10:00,14:00,18:00</value>
+  </data>
+  <data name="Notif_Save" xml:space="preserve">
+    <value>Жөндөөлөрдү сактоо</value>
+  </data>
+  <data name="Notif_Test" xml:space="preserve">
+    <value>Сынама кат</value>
+  </data>
+  <data name="Notif_TestHint" xml:space="preserve">
+    <value>Текшерүүнү кайда жөнөтүү</value>
+  </data>
+  <data name="Notif_Saved" xml:space="preserve">
+    <value>Жөндөөлөр сакталды</value>
+  </data>
+  <data name="Notif_TestSent" xml:space="preserve">
+    <value>Сынама кат {0} дарегине жөнөтүлдү</value>
+  </data>
+  <data name="Notif_TestFailed" xml:space="preserve">
+    <value>Жөнөтүү мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Notif_LoadFailed" xml:space="preserve">
+    <value>Жөндөөлөрдү жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Notif_NoLogin" xml:space="preserve">
+    <value>Жөндөөлөрдү сактоого болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Notif_RunNow" xml:space="preserve">
+    <value>Азыр жөнөтүү</value>
+  </data>
+  <data name="Notif_RunResult" xml:space="preserve">
+    <value>Жөнөтүлдү: {0} · ката: {1} · почтасыз: {2} · өткөрүлдү: {3} · кайталайбыз: {4}</value>
+  </data>
+  <data name="Notif_Warning" xml:space="preserve">
+    <value>Колдонмо десктоптук: каттар ал иштеп турганда гана жөнөтүлөт.</value>
+  </data>
+  <data name="Notif_PasswordNote" xml:space="preserve">
+    <value>Gmail жана Яндекс үчүн колдонмонун сырсөзү керек, аккаунттун сырсөзү эмес.</value>
+  </data>
+  <data name="Notif_Log" xml:space="preserve">
+    <value>АКЫРКЫ ЖӨНӨТҮҮЛӨР</value>
+  </data>
+  <data name="Notif_LogEmpty" xml:space="preserve">
+    <value>Каттар азырынча болгон жок</value>
+  </data>
+  <data name="Notif_LogSent" xml:space="preserve">
+    <value>жөнөтүлдү</value>
+  </data>
+  <data name="Notif_LogSkipped" xml:space="preserve">
+    <value>слот өткөрүлдү — колдонмо жабык болчу</value>
+  </data>
+  <data name="Notif_LogRetry" xml:space="preserve">
+    <value>{1} аракеттин {0}-сы, кайталайбыз</value>
+  </data>
+  <data name="Notif_LogGaveUp" xml:space="preserve">
+    <value>{0} аракетте болбоду</value>
+  </data>
 </root>

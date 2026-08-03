@@ -21,6 +21,9 @@ namespace Application.DTOs.Sales
         /// </summary>
         public decimal PaidAmount { get; set; }
 
+        /// <summary>Когда клиент обещает закрыть долг. Обязателен для продажи в долг.</summary>
+        public DateTimeOffset? DueDate { get; set; }
+
         public List<SaleLineRequest> Items { get; set; } = new();
     }
 }

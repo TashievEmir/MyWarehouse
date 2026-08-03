@@ -26,6 +26,7 @@ namespace Wpf
     public partial class App : System.Windows.Application
     {
         private IServiceProvider _services;
+        private DebtReminderWorker? _reminderWorker;
 
         // 🔥 глобальный доступ к DI
         public static IServiceProvider Services { get; private set; } = null!;
@@ -59,6 +60,9 @@ namespace Wpf
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IActivityLogService, ActivityLogService>();
             services.AddScoped<IReceiptTemplateService, ReceiptTemplateService>();
+            services.AddScoped<INotificationSettingsService, NotificationSettingsService>();
+            services.AddScoped<IDebtReminderService, DebtReminderService>();
+            services.AddSingleton<IEmailSender, Infrastructure.Notifications.SmtpEmailSender>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
             services.AddSingleton<ThemeService>();
@@ -80,6 +84,7 @@ namespace Wpf
             services.AddSingleton<ViewModels.Receipts.ReceiptsListViewModel>();
             services.AddSingleton<ViewModels.Receipts.ReceiptTemplateViewModel>();
             services.AddSingleton<ViewModels.Activity.ActivityLogViewModel>();
+            services.AddSingleton<ViewModels.Notifications.NotificationsViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();
@@ -101,6 +106,10 @@ namespace Wpf
 
             await db.MigrateAsync(CancellationToken.None);
             await DatabaseSeeder.SeedAsync(db, CancellationToken.None);
+
+            // Напоминания о долгах гоняются в фоне, пока приложение открыто
+            _reminderWorker = new DebtReminderWorker(Services);
+            _reminderWorker.Start();
 
             // 🔥 открываем Login через DI: продажа привязывается к кассиру,
             // поэтому без входа работать нельзя

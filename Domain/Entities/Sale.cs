@@ -27,6 +27,12 @@ namespace Domain.Entities
         /// <summary>Чек отменён возвратом: товар вернулся на склад, долг снят.</summary>
         public bool IsReturned { get; private set; }
 
+        /// <summary>
+        /// Когда клиент обещал закрыть долг. Заполняется только у продаж в долг:
+        /// до этой даты долг не считается просроченным.
+        /// </summary>
+        public DateTimeOffset? DueDate { get; private set; }
+
         public bool IsCredit => !IsReturned && PaidAmount < TotalAmount;
 
         private readonly List<SaleItem> _items = new();
@@ -78,6 +84,12 @@ namespace Domain.Entities
                 throw new DomainException("Payment method is required");
 
             PaymentMethod = method;
+        }
+
+        /// <summary>Срок погашения долга. Дата в прошлом бессмысленна — её не берём.</summary>
+        public void SetDueDate(DateTimeOffset dueDate)
+        {
+            DueDate = dueDate;
         }
 
         public void Pay(decimal amount)

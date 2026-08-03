@@ -65,6 +65,13 @@ public sealed class Loc : INotifyPropertyChanged
 
     public string Language => _language;
 
+    /// <summary>
+    /// Язык для разметки. Календарь DatePicker берёт формат даты именно отсюда,
+    /// а не из CurrentCulture — без этого даты показывались как 8/10/2026.
+    /// </summary>
+    public System.Windows.Markup.XmlLanguage XmlLanguage
+        => System.Windows.Markup.XmlLanguage.GetLanguage(_culture.IetfLanguageTag);
+
     public bool IsKyrgyz => _language == Kyrgyz;
 
     /// <summary>Код языка, на который переключит кнопка.</summary>
@@ -133,10 +140,8 @@ public sealed class Loc : INotifyPropertyChanged
         if (app is null)
             return;
 
-        var language = System.Windows.Markup.XmlLanguage.GetLanguage(_culture.IetfLanguageTag);
-
         foreach (System.Windows.Window window in app.Windows)
-            window.Language = language;
+            window.Language = XmlLanguage;
     }
 
     private void ApplyToThreads()

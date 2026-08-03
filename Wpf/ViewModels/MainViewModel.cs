@@ -82,6 +82,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowStockCommand { get; }
     public ICommand ShowDebtsCommand { get; }
     public ICommand ShowPurchasesCommand { get; }
+    public ICommand ShowNotificationsCommand { get; }
     public ICommand ToggleThemeCommand { get; }
     public ICommand ToggleLanguageCommand { get; }
 
@@ -128,6 +129,7 @@ public class MainViewModel : ViewModelBase
         ShowStockCommand           = new RelayCommand(ShowStock);
         ShowDebtsCommand           = new RelayCommand(ShowDebts);
         ShowPurchasesCommand       = new RelayCommand(ShowPurchases);
+        ShowNotificationsCommand   = new RelayCommand(ShowNotifications);
         ToggleThemeCommand         = new RelayCommand(_theme.Toggle);
         ToggleLanguageCommand      = new RelayCommand(Loc.Instance.Toggle);
 
@@ -203,6 +205,16 @@ public class MainViewModel : ViewModelBase
         Navigate(new Views.Statistics.StatisticsView(), "purchases", "Page_Purchases_Title", "Page_Purchases_Sub", ShowPurchases);
     }
 
+    // ── Настройки ──
+
+    private void ShowNotifications()
+    {
+        _ = App.Services.GetRequiredService<ViewModels.Notifications.NotificationsViewModel>().LoadAsync();
+
+        Navigate(new Views.Notifications.NotificationsView(), "notifications",
+            "Page_Notifications_Title", "Page_Notifications_Sub", ShowNotifications);
+    }
+
     // ── Общее ──
 
     // Страницы держатся синглтонами: раздел выбирается навигацией до создания вью
@@ -230,14 +242,19 @@ public class MainViewModel : ViewModelBase
         _ = RefreshDebtsBadgeAsync();
     }
 
-    /// <summary>Счётчик у пункта «Долги» обновляется при каждом переходе.</summary>
+    /// <summary>
+    /// Счётчик у пункта «Долги» обновляется при каждом переходе. Красным
+    /// показываем только то, что требует внимания: срок наступил или прошёл.
+    /// Долги без срока — из старых чеков — тоже считаем.
+    /// </summary>
     private async Task RefreshDebtsBadgeAsync()
     {
         try
         {
             var debts = await _sales.GetDebtsAsync(null, CancellationToken.None);
 
-            DebtsCount = debts.Count;
+            DebtsCount = debts.Count(d => d.DueDate is null
+                                          || d.DueDate.Value.ToLocalTime().Date <= DateTime.Today);
         }
         catch
         {
