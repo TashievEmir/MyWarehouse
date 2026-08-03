@@ -53,6 +53,7 @@ namespace Wpf
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ISupplierService, SupplierService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IDashboardService, DashboardService>();

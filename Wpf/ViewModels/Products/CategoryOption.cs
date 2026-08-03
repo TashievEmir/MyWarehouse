@@ -21,4 +21,7 @@ public class CategoryOption
     public static CategoryOption For(CategoryResponse category) => new(category);
 
     public static CategoryOption CreateNew() => new(null);
+
+    /// <summary>Имя списка для средств доступности: иначе туда уходит имя типа.</summary>
+    public override string ToString() => Name;
 }

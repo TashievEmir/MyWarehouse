@@ -23,6 +23,9 @@ public class ProductEditorViewModel : ViewModelBase
 
     public long ProductId { get; }
 
+    /// <summary>Категория товара из базы — запасной вариант, если выбор ещё не сделан.</summary>
+    private readonly long _productCategoryId;
+
     private string _title;
     /// <summary>Заголовок панели: не скачет при правке, обновляется после сохранения.</summary>
     public string Title
@@ -56,6 +59,7 @@ public class ProductEditorViewModel : ViewModelBase
         Categories = categories;
 
         ProductId = product.ProductId;
+        _productCategoryId = product.CategoryId;
         _title = product.Name;
 
         _name = product.Name;
@@ -65,6 +69,7 @@ public class ProductEditorViewModel : ViewModelBase
         _price = product.PricePerUnit;
         _cost = product.CostPerUnit ?? 0m;
         _inStock = product.InStock;
+        _stockInput = product.InStock.ToString();
         _hasHistory = product.HasHistory;
         _selectedCategory = categories.FirstOrDefault(c => c.Id == product.CategoryId);
         _selectedReason = Reasons[0];
@@ -112,6 +117,13 @@ public class ProductEditorViewModel : ViewModelBase
         set => SetProperty(ref _selectedCategory, value);
     }
 
+    /// <summary>
+    /// Список категорий общий с каталогом: после его перечитывания в коллекции
+    /// лежат уже другие объекты, поэтому выбор восстанавливаем по Id.
+    /// </summary>
+    public void RestoreCategory(long? categoryId)
+        => SelectedCategory = Categories.FirstOrDefault(c => c.Id == (categoryId ?? _productCategoryId));
+
     private decimal _price;
     public decimal PricePerUnit
     {
@@ -136,12 +148,25 @@ public class ProductEditorViewModel : ViewModelBase
             {
                 OnPropertyChanged(nameof(CanWriteOff));
                 OnPropertyChanged(nameof(InStockText));
+
+                StockInput = value.ToString();
             }
         }
     }
 
     /// <summary>Подпись «на складе: N шт.» под названием карточки.</summary>
     public string InStockText => Loc.F("Editor_InStock", InStock);
+
+    private string _stockInput;
+    /// <summary>
+    /// Остаток в поле правки. Держим строкой отдельно от <see cref="InStock"/>:
+    /// недописанное или ошибочное значение не должно менять карточку.
+    /// </summary>
+    public string StockInput
+    {
+        get => _stockInput;
+        set => SetProperty(ref _stockInput, value);
+    }
 
     private bool _hasHistory;
     public bool HasHistory
@@ -248,6 +273,21 @@ public class ProductEditorViewModel : ViewModelBase
             return;
         }
 
+        if (!int.TryParse((StockInput ?? "").Trim(), out var stock) || stock < 0)
+        {
+            ShowError(Loc.T("Editor_StockBadNumber"));
+            return;
+        }
+
+        // Остаток — не движение товара, а правка учёта, поэтому нужен автор
+        var stockChanged = stock != InStock;
+
+        if (stockChanged && _session.User is null)
+        {
+            ShowError(Loc.T("Editor_StockNoLogin"));
+            return;
+        }
+
         IsBusy = true;
 
         try
@@ -264,6 +304,18 @@ public class ProductEditorViewModel : ViewModelBase
                 PricePerUnit = PricePerUnit,
                 CostPerUnit = CostPerUnit
             }, CancellationToken.None);
+
+            if (stockChanged)
+            {
+                await _products.AdjustStockAsync(new AdjustStockRequest
+                {
+                    ProductId = ProductId,
+                    UserId = _session.User!.UserId,
+                    Quantity = stock
+                }, CancellationToken.None);
+
+                InStock = stock;
+            }
 
             Title = Name.Trim();
 

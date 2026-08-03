@@ -36,6 +36,19 @@ namespace Domain.Entities
             LastUpdated = DateTimeOffset.UtcNow;
         }
 
+        /// <summary>
+        /// Ставит остаток целиком — пересчёт по факту. В отличие от прихода и
+        /// списания это не движение товара, а исправление ошибки в учёте.
+        /// </summary>
+        public void SetQuantity(int quantity)
+        {
+            if (quantity < 0)
+                throw new DomainException("Quantity cannot be negative");
+
+            Quantity = quantity;
+            LastUpdated = DateTimeOffset.UtcNow;
+        }
+
         public void Decrease(int amount)
         {
             if (amount <= 0)

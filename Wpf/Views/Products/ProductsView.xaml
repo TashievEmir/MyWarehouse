@@ -560,6 +560,33 @@
                             </StackPanel>
                         </Grid>
 
+                        <!-- Остаток: правка учёта по факту пересчёта, пишется в историю -->
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="{loc:Tr Editor_Stock}" Style="{StaticResource FieldCaption}"/>
+
+                                <TextBox Style="{StaticResource Field}"
+                                         TextAlignment="Center"
+                                         FontWeight="SemiBold"
+                                         ToolTip="{loc:Tr Editor_StockTip}"
+                                         Text="{Binding StockInput, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <TextBlock Grid.Column="1"
+                                       Style="{StaticResource Muted}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       Margin="0,16,0,0"
+                                       ToolTip="{loc:Tr Editor_StockTip}"
+                                       Text="{loc:Tr Editor_StockNote}"/>
+                        </Grid>
+
                         <TextBlock Text="{loc:Tr Editor_Description}" Style="{StaticResource FieldCaption}" Margin="0,12,0,6"/>
                         <TextBox Style="{StaticResource Field}"
                                  Height="70"
@@ -720,10 +747,81 @@
                                    Margin="0,0,8,0"
                                    VerticalAlignment="Center"/>
 
-                        <TextBox Style="{StaticResource Field}"
-                                 Width="220"
-                                 Height="32"
-                                 Text="{Binding SupplierName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <!-- Список из справочника; последний пункт разворачивает поле ввода -->
+                        <ComboBox Style="{StaticResource FieldCombo}"
+                                  Width="220"
+                                  Height="32"
+                                  FontSize="12"
+                                  Tag="{loc:Tr Supplier_Hint}"
+                                  ItemsSource="{Binding SupplierOptions}"
+                                  SelectedItem="{Binding SelectedSupplier, Mode=TwoWay}"
+                                  Visibility="{Binding IsCreatingSupplier, Converter={StaticResource BoolToVisibility}, ConverterParameter=Invert}">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCreateNew}" Value="True">
+                                                        <Setter Property="Foreground" Value="{DynamicResource BrandBrush}"/>
+                                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <!-- Ввод названия нового поставщика -->
+                        <Grid Visibility="{Binding IsCreatingSupplier, Converter={StaticResource BoolToVisibility}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <TextBox Style="{StaticResource Field}"
+                                         Height="32"
+                                         FontSize="12"
+                                         IsVisibleChanged="OnCategoryEditorVisible"
+                                         Text="{Binding NewSupplierName, UpdateSourceTrigger=PropertyChanged}">
+
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Key="Enter" Command="{Binding CreateSupplierCommand}"/>
+                                        <KeyBinding Key="Escape" Command="{Binding CancelNewSupplierCommand}"/>
+                                    </TextBox.InputBindings>
+                                </TextBox>
+
+                                <TextBlock Text="{loc:Tr Supplier_NewHint}"
+                                           FontSize="12"
+                                           Margin="12,0,0,0"
+                                           IsHitTestVisible="False"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Visibility="{Binding NewSupplierName, Converter={StaticResource EmptyToVisibility}}"/>
+                            </Grid>
+
+                            <Button Grid.Column="1"
+                                    Style="{StaticResource MiniIconButton}"
+                                    Margin="2,0,0,0"
+                                    ToolTip="{loc:Tr Supplier_Create}"
+                                    Command="{Binding CreateSupplierCommand}">
+
+                                <materialDesign:PackIcon Kind="Check" Width="16" Height="16"/>
+                            </Button>
+
+                            <Button Grid.Column="2"
+                                    Style="{StaticResource MiniIconButton}"
+                                    ToolTip="{loc:Tr Receiving_CancelTip}"
+                                    Command="{Binding CancelNewSupplierCommand}">
+
+                                <materialDesign:PackIcon Kind="Close" Width="16" Height="16"/>
+                            </Button>
+                        </Grid>
                     </StackPanel>
                 </Grid>
 

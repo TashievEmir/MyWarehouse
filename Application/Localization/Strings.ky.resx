@@ -1464,4 +1464,58 @@
   <data name="Log_DebtPaidClosed" xml:space="preserve">
     <value>Чек №{0} · {1} · карыз жабылды</value>
   </data>
+  <data name="Err_NeedSupplierName" xml:space="preserve">
+    <value>Жеткирүүчүнүн аталышын жазыңыз</value>
+  </data>
+  <data name="Err_SupplierNotFound" xml:space="preserve">
+    <value>Жеткирүүчү табылган жок</value>
+  </data>
+  <data name="Supplier_CreateNew" xml:space="preserve">
+    <value>+ Жаңы жеткирүүчү…</value>
+  </data>
+  <data name="Supplier_Hint" xml:space="preserve">
+    <value>Жеткирүүчүнү тандаңыз</value>
+  </data>
+  <data name="Supplier_NewHint" xml:space="preserve">
+    <value>Жеткирүүчүнүн аталышы</value>
+  </data>
+  <data name="Supplier_Create" xml:space="preserve">
+    <value>Жеткирүүчүнү кошуу</value>
+  </data>
+  <data name="Supplier_LoadFailed" xml:space="preserve">
+    <value>Жеткирүүчүлөрдү жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Supplier_Exists" xml:space="preserve">
+    <value>«{0}» жеткирүүчүсү бар — ошол тандалды</value>
+  </data>
+  <data name="Supplier_Added" xml:space="preserve">
+    <value>«{0}» жеткирүүчүсү кошулду</value>
+  </data>
+  <data name="Supplier_CreateError" xml:space="preserve">
+    <value>Жеткирүүчүнү кошуу мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Err_QuantityNegative" xml:space="preserve">
+    <value>Саны терс боло албайт</value>
+  </data>
+  <data name="Log_StockAdjusted" xml:space="preserve">
+    <value>Калдык өзгөртүлдү</value>
+  </data>
+  <data name="Log_StockAdjustedDetails" xml:space="preserve">
+    <value>{0}: {1} → {2} даана</value>
+  </data>
+  <data name="Editor_Stock" xml:space="preserve">
+    <value>КАЛДЫК</value>
+  </data>
+  <data name="Editor_StockTip" xml:space="preserve">
+    <value>Кайра саноонун жыйынтыгы боюнча оңдоо — аракеттер тарыхына түшөт</value>
+  </data>
+  <data name="Editor_StockBadNumber" xml:space="preserve">
+    <value>Калдык — нөлдөн кем эмес бүтүн сан</value>
+  </data>
+  <data name="Editor_StockNoLogin" xml:space="preserve">
+    <value>Калдыкты өзгөртүүгө болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Editor_StockNote" xml:space="preserve">
+    <value>Оңдоо тарыхка жазылат</value>
+  </data>
 </root>

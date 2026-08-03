@@ -9,7 +9,12 @@ namespace Domain.Entities
     {
         public long Id { get; private set; }
 
+        /// <summary>Ссылка на справочник. Может быть пустой у старых поставок.</summary>
+        public long? SupplierId { get; private set; }
+
+        /// <summary>Имя на момент прихода: переименование поставщика не переписывает историю.</summary>
         public string SupplierName { get; private set; }
+
         public DateTimeOffset PurchaseDate { get; private set; }
 
         private readonly List<PurchaseItem> _items = new();
@@ -19,12 +24,13 @@ namespace Domain.Entities
 
         private Purchase() { }
 
-        public Purchase(string supplierName)
+        public Purchase(string supplierName, long? supplierId = null)
         {
             if (string.IsNullOrWhiteSpace(supplierName))
                 throw new DomainException("Supplier name is required");
 
             SupplierName = supplierName;
+            SupplierId = supplierId;
             PurchaseDate = DateTimeOffset.UtcNow;
         }
 

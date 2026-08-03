@@ -13,5 +13,6 @@ namespace Domain.Enums
         SaleReturned     = 8,
         LoggedIn         = 9,
         TemplateSaved    = 10,
+        StockAdjusted    = 11,
     }
 }

@@ -1,11 +1,12 @@
 using Application.DTOs.Products;
+using Wpf.Common;
 
 using Wpf.Localization;
 
 namespace Wpf.ViewModels.Products;
 
 /// <summary>Строка каталога товаров.</summary>
-public class ProductListItem
+public class ProductListItem : ViewModelBase
 {
     public long ProductId { get; }
     public string Name { get; }
@@ -19,12 +20,24 @@ public class ProductListItem
     public decimal PricePerUnit { get; }
     public decimal? CostPerUnit { get; }
 
-    public int InStock { get; }
-
     /// <summary>Есть продажи, поставки или списания — карточку удалять нельзя.</summary>
     public bool HasHistory { get; }
 
     public string CodeText => string.IsNullOrWhiteSpace(Barcode) ? SKU : Barcode!;
+
+    private int _inStock;
+    public int InStock
+    {
+        get => _inStock;
+        private set
+        {
+            if (!SetProperty(ref _inStock, value))
+                return;
+
+            OnPropertyChanged(nameof(StockText));
+            OnPropertyChanged(nameof(IsOutOfStock));
+        }
+    }
 
     public string StockText => Loc.F("Product_StockPcs", InStock);
 
@@ -41,7 +54,11 @@ public class ProductListItem
         CategoryName = product.CategoryName;
         PricePerUnit = product.PricePerUnit;
         CostPerUnit = product.CostPerUnit;
-        InStock = product.InStock;
         HasHistory = product.HasHistory;
+
+        _inStock = product.InStock;
     }
+
+    /// <summary>Остаток поправили в карточке — строка списка должна это показать.</summary>
+    public void ApplyStock(int quantity) => InStock = quantity;
 }

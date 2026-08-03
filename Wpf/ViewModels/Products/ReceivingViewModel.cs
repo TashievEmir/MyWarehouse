@@ -22,10 +22,14 @@ public class ReceivingViewModel : ViewModelBase
 {
     private readonly IProductService _products;
     private readonly ICategoryService _categories;
+    private readonly ISupplierService _suppliers;
     private readonly SessionService _session;
 
     /// <summary>Категории для выбора у новых товаров, последний пункт — «создать новую».</summary>
     public ObservableCollection<CategoryOption> CategoryOptions { get; } = new();
+
+    /// <summary>Поставщики из справочника, последний пункт — «создать нового».</summary>
+    public ObservableCollection<SupplierOption> SupplierOptions { get; } = new();
 
     /// <summary>Отсканированные товары, ещё не записанные в базу.</summary>
     public ObservableCollection<ScannedProductItem> Scanned { get; } = new();
@@ -34,26 +38,36 @@ public class ReceivingViewModel : ViewModelBase
     public ICommand RemoveScannedCommand { get; }
     public ICommand ClearScannedCommand { get; }
     public ICommand CreateCategoryCommand { get; }
+    public ICommand CreateSupplierCommand { get; }
+    public ICommand CancelNewSupplierCommand { get; }
     public ICommand SaveCommand { get; }
 
     /// <summary>Приход записан — каталог и остатки изменились.</summary>
     public event Action? Received;
 
-    public ReceivingViewModel(IProductService products, ICategoryService categories, SessionService session)
+    public ReceivingViewModel(
+        IProductService products,
+        ICategoryService categories,
+        ISupplierService suppliers,
+        SessionService session)
     {
         _products = products;
         _categories = categories;
+        _suppliers = suppliers;
         _session = session;
 
         ScanCommand = new AsyncRelayCommand(ScanAsync);
         RemoveScannedCommand = new RelayCommand<ScannedProductItem>(RemoveScanned);
         ClearScannedCommand = new RelayCommand(ClearScanned);
         CreateCategoryCommand = new AsyncRelayCommand<ScannedProductItem>(CreateCategoryAsync);
+        CreateSupplierCommand = new AsyncRelayCommand(CreateSupplierAsync);
+        CancelNewSupplierCommand = new RelayCommand(CancelNewSupplier);
         SaveCommand = new AsyncRelayCommand(SaveAsync);
 
         Scanned.CollectionChanged += OnScannedChanged;
 
         _ = LoadCategoriesAsync();
+        _ = LoadSuppliersAsync();
 
         WatchLanguage();
     }
@@ -100,11 +114,41 @@ public class ReceivingViewModel : ViewModelBase
         set => SetProperty(ref _barcodeInput, value);
     }
 
-    private string _supplierName = "";
-    public string SupplierName
+    // ===================== Поставщик =====================
+
+    private SupplierOption? _selectedSupplier;
+    /// <summary>Выбор «создать нового» разворачивает поле ввода вместо списка.</summary>
+    public SupplierOption? SelectedSupplier
     {
-        get => _supplierName;
-        set => SetProperty(ref _supplierName, value);
+        get => _selectedSupplier;
+        set
+        {
+            if (!SetProperty(ref _selectedSupplier, value))
+                return;
+
+            if (value?.IsCreateNew == true)
+            {
+                IsCreatingSupplier = true;
+                NewSupplierName = "";
+                _selectedSupplier = null;
+
+                OnPropertyChanged(nameof(SelectedSupplier));
+            }
+        }
+    }
+
+    private bool _isCreatingSupplier;
+    public bool IsCreatingSupplier
+    {
+        get => _isCreatingSupplier;
+        private set => SetProperty(ref _isCreatingSupplier, value);
+    }
+
+    private string _newSupplierName = "";
+    public string NewSupplierName
+    {
+        get => _newSupplierName;
+        set => SetProperty(ref _newSupplierName, value);
     }
 
     public bool HasScanned => Scanned.Count > 0;
@@ -126,7 +170,102 @@ public class ReceivingViewModel : ViewModelBase
         {
             OnPropertyChanged(string.Empty);
             _ = LoadCategoriesAsync();
+            _ = LoadSuppliersAsync();
         };
+    }
+
+    /// <summary>Справочник поставщиков: наполняется сам при каждом приходе.</summary>
+    private async Task LoadSuppliersAsync()
+    {
+        try
+        {
+            var picked = SelectedSupplier?.Supplier?.Id;
+
+            var suppliers = await _suppliers.GetAllAsync(CancellationToken.None);
+
+            SupplierOptions.Clear();
+
+            foreach (var supplier in suppliers)
+                SupplierOptions.Add(SupplierOption.For(supplier));
+
+            SupplierOptions.Add(SupplierOption.CreateNew());
+
+            // Выбор не сбрасываем: после сохранения прихода часто везут ещё одну партию
+            if (picked is not null)
+                SelectedSupplier = SupplierOptions.FirstOrDefault(o => o.Supplier?.Id == picked);
+        }
+        catch (Exception ex)
+        {
+            ShowError(Loc.F("Supplier_LoadFailed", ex.Message));
+        }
+    }
+
+    /// <summary>Заводит поставщика прямо на приёмке — как категорию из строки товара.</summary>
+    private async Task CreateSupplierAsync()
+    {
+        var name = NewSupplierName.Trim();
+
+        if (name.Length == 0)
+        {
+            ShowError(Loc.T("Err_NeedSupplierName"));
+            return;
+        }
+
+        var existing = SupplierOptions.FirstOrDefault(o =>
+            o.Supplier is not null &&
+            string.Equals(o.Supplier.Name, name, StringComparison.CurrentCultureIgnoreCase));
+
+        if (existing is not null)
+        {
+            ApplySupplier(existing);
+            ShowInfo(Loc.F("Supplier_Exists", existing.Supplier!.Name));
+            return;
+        }
+
+        try
+        {
+            var created = await _suppliers.EnsureAsync(name, CancellationToken.None);
+
+            var option = SupplierOption.For(created);
+
+            InsertSupplierOption(option);
+            ApplySupplier(option);
+
+            ShowInfo(Loc.F("Supplier_Added", created.Name));
+        }
+        catch (Exception ex)
+        {
+            ShowError(Loc.F("Supplier_CreateError", ex.Message));
+        }
+    }
+
+    private void CancelNewSupplier()
+    {
+        IsCreatingSupplier = false;
+        NewSupplierName = "";
+    }
+
+    private void ApplySupplier(SupplierOption option)
+    {
+        IsCreatingSupplier = false;
+        NewSupplierName = "";
+
+        SelectedSupplier = option;
+    }
+
+    /// <summary>Вставляет поставщика по алфавиту, но перед пунктом «создать нового».</summary>
+    private void InsertSupplierOption(SupplierOption option)
+    {
+        var index = 0;
+
+        while (index < SupplierOptions.Count &&
+               SupplierOptions[index].Supplier is { } current &&
+               string.Compare(current.Name, option.Supplier!.Name, StringComparison.CurrentCulture) < 0)
+        {
+            index++;
+        }
+
+        SupplierOptions.Insert(index, option);
     }
 
     private async Task LoadCategoriesAsync()
@@ -293,9 +432,11 @@ public class ReceivingViewModel : ViewModelBase
 
         try
         {
+            // Имя, набранное в поле «создать нового», сохранится в справочнике само
             var request = new ReceiveProductsRequest
             {
-                SupplierName = SupplierName,
+                SupplierId = SelectedSupplier?.Supplier?.Id,
+                SupplierName = IsCreatingSupplier ? NewSupplierName : SelectedSupplier?.Supplier?.Name,
                 UserId = _session.User?.UserId ?? 0,
                 Items = Scanned.Select(x => x.ToRequest()).ToList()
             };
@@ -306,6 +447,22 @@ public class ReceivingViewModel : ViewModelBase
             await _products.ReceiveAsync(request, CancellationToken.None);
 
             ClearScanned();
+
+            // Новый поставщик мог появиться при сохранении — перечитываем список
+            // и подставляем его, чтобы следующая партия уже была привязана
+            var typed = IsCreatingSupplier ? NewSupplierName.Trim() : null;
+
+            await LoadSuppliersAsync();
+
+            if (typed is { Length: > 0 })
+            {
+                var option = SupplierOptions.FirstOrDefault(o =>
+                    o.Supplier is not null &&
+                    string.Equals(o.Supplier.Name, typed, StringComparison.CurrentCultureIgnoreCase));
+
+                if (option is not null)
+                    ApplySupplier(option);
+            }
 
             Received?.Invoke();
 

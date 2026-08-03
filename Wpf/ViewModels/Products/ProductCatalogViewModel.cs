@@ -36,7 +36,7 @@ public class ProductCatalogViewModel : ViewModelBase
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
         SelectCommand = new RelayCommand<ProductListItem>(Select);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
-    
+
         WatchLanguage();
     }
 
@@ -49,7 +49,7 @@ public class ProductCatalogViewModel : ViewModelBase
             if (SetProperty(ref _searchText, value))
             {
                 OnPropertyChanged(nameof(HasSearch));
-                _ = LoadAsync();
+                _ = LoadAsync(withCategories: false);
             }
         }
     }
@@ -107,13 +107,21 @@ public class ProductCatalogViewModel : ViewModelBase
     public string CountText => Products.Count == 0 ? "" : Loc.F("Catalog_Count", Products.Count);
 
     /// <summary>Перечитывает каталог и категории — вызывается при открытии вкладки.</summary>
-    public async Task LoadAsync()
+    public Task LoadAsync() => LoadAsync(withCategories: true);
+
+    /// <param name="withCategories">
+    /// При наборе в поиске справочник не трогаем: перезаполнение общей коллекции
+    /// сбрасывает выбор в открытой карточке.
+    /// </param>
+    private async Task LoadAsync(bool withCategories)
     {
         IsLoading = true;
 
         try
         {
-            if (Categories.Count == 0)
+            // Категорию могли завести на приёмке, пока каталог был открыт,
+            // поэтому справочник перечитываем при каждом заходе, а не только пустой
+            if (withCategories || Categories.Count == 0)
                 await LoadCategoriesAsync();
 
             var catalog = await _products.GetCatalogAsync(SearchText, CancellationToken.None);
@@ -153,12 +161,18 @@ public class ProductCatalogViewModel : ViewModelBase
 
     private async Task LoadCategoriesAsync()
     {
+        var selectedId = Editor?.SelectedCategory?.Id;
+
         var categories = await _categories.GetAllAsync(CancellationToken.None);
 
         Categories.Clear();
 
-        foreach (var category in categories.OrderBy(c => c.Name))
+        // Сортировка в памяти: SQLite не сравнивает кириллицу по культуре
+        foreach (var category in categories.OrderBy(c => c.Name, StringComparer.CurrentCultureIgnoreCase))
             Categories.Add(category);
+
+        // Коллекция общая с открытой карточкой — очистка сбросила её выбор
+        Editor?.RestoreCategory(selectedId);
     }
 
     private void Select(ProductListItem product)

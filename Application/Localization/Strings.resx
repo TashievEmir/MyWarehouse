@@ -1464,4 +1464,58 @@
   <data name="Log_DebtPaidClosed" xml:space="preserve">
     <value>Чек №{0} · {1} · долг закрыт</value>
   </data>
+  <data name="Err_NeedSupplierName" xml:space="preserve">
+    <value>Укажите название поставщика</value>
+  </data>
+  <data name="Err_SupplierNotFound" xml:space="preserve">
+    <value>Поставщик не найден</value>
+  </data>
+  <data name="Supplier_CreateNew" xml:space="preserve">
+    <value>+ Новый поставщик…</value>
+  </data>
+  <data name="Supplier_Hint" xml:space="preserve">
+    <value>Выберите поставщика</value>
+  </data>
+  <data name="Supplier_NewHint" xml:space="preserve">
+    <value>Название поставщика</value>
+  </data>
+  <data name="Supplier_Create" xml:space="preserve">
+    <value>Добавить поставщика</value>
+  </data>
+  <data name="Supplier_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить поставщиков: {0}</value>
+  </data>
+  <data name="Supplier_Exists" xml:space="preserve">
+    <value>Поставщик «{0}» уже есть — выбран он</value>
+  </data>
+  <data name="Supplier_Added" xml:space="preserve">
+    <value>Поставщик «{0}» добавлен</value>
+  </data>
+  <data name="Supplier_CreateError" xml:space="preserve">
+    <value>Не удалось добавить поставщика: {0}</value>
+  </data>
+  <data name="Err_QuantityNegative" xml:space="preserve">
+    <value>Количество не может быть отрицательным</value>
+  </data>
+  <data name="Log_StockAdjusted" xml:space="preserve">
+    <value>Изменён остаток</value>
+  </data>
+  <data name="Log_StockAdjustedDetails" xml:space="preserve">
+    <value>{0}: {1} → {2} шт.</value>
+  </data>
+  <data name="Editor_Stock" xml:space="preserve">
+    <value>ОСТАТОК</value>
+  </data>
+  <data name="Editor_StockTip" xml:space="preserve">
+    <value>Правка по факту пересчёта — попадёт в историю действий</value>
+  </data>
+  <data name="Editor_StockBadNumber" xml:space="preserve">
+    <value>Остаток — целое число не меньше нуля</value>
+  </data>
+  <data name="Editor_StockNoLogin" xml:space="preserve">
+    <value>Остаток нельзя изменить: не выполнен вход в систему</value>
+  </data>
+  <data name="Editor_StockNote" xml:space="preserve">
+    <value>Правка пишется в историю</value>
+  </data>
 </root>

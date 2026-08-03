@@ -18,6 +18,7 @@ namespace Application.Contracts.Persistence
         DbSet<SaleItem> SaleItems { get; }
         DbSet<Purchase> Purchases { get; }
         DbSet<PurchaseItem> PurchaseItems { get; }
+        DbSet<Supplier> Suppliers { get; }
         DbSet<Customer> Customers { get; }
         DbSet<User> Users { get; }
         DbSet<Role> Roles { get; }

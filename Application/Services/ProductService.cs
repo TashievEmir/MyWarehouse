@@ -280,6 +280,48 @@ namespace Application.Services
                 ct);
         }
 
+        public async Task AdjustStockAsync(AdjustStockRequest request, CancellationToken ct)
+        {
+            if (request.Quantity < 0)
+                throw new DomainException(Tr.T("Err_QuantityNegative"));
+
+            if (request.UserId <= 0)
+                throw new DomainException(Tr.T("Err_NoEmployee"));
+
+            var product = await _db.Products
+                .Where(p => p.Id == request.ProductId)
+                .Select(p => new { p.Id, p.Name })
+                .FirstOrDefaultAsync(ct)
+                ?? throw new DomainException(Tr.T("Err_ProductNotFound"));
+
+            var inventory = await _db.Inventories
+                .FirstOrDefaultAsync(x => x.ProductId == request.ProductId, ct);
+
+            if (inventory is null)
+            {
+                inventory = new Inventory(request.ProductId, request.Quantity);
+                _db.Inventories.Add(inventory);
+            }
+
+            var was = inventory.Quantity;
+
+            if (was == request.Quantity)
+                return;
+
+            inventory.SetQuantity(request.Quantity);
+
+            await _db.SaveChangesAsync(ct);
+
+            await _activity.LogAsync(
+                request.UserId,
+                ActivityType.StockAdjusted,
+                Tr.T("Log_StockAdjusted"),
+                Tr.F("Log_StockAdjustedDetails", product.Name, was, request.Quantity),
+                "Product",
+                request.ProductId,
+                ct);
+        }
+
         public async Task DeleteAsync(long productId, CancellationToken ct)
         {
             var product = await _db.Products.FirstOrDefaultAsync(p => p.Id == productId, ct)
@@ -344,11 +386,9 @@ namespace Application.Services
                         lines[product.Id] = (item.Quantity, item.Cost);
                 }
 
-                var supplier = string.IsNullOrWhiteSpace(request.SupplierName)
-                    ? Tr.T("Log_NoSupplier")
-                    : request.SupplierName.Trim();
+                var (supplierId, supplier) = await ResolveSupplierAsync(request, ct);
 
-                var purchase = new Purchase(supplier);
+                var purchase = new Purchase(supplier, supplierId);
 
                 foreach (var (productId, line) in lines)
                 {
@@ -399,6 +439,44 @@ namespace Application.Services
                 await tx.RollbackAsync(ct);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Поставщик берётся из справочника по Id, а введённое вручную имя туда
+        /// добавляется — в следующий раз оно уже будет в выпадающем списке.
+        /// Приход без поставщика допустим: тогда пишем «Без поставщика» без ссылки.
+        /// </summary>
+        private async Task<(long? Id, string Name)> ResolveSupplierAsync(ReceiveProductsRequest request, CancellationToken ct)
+        {
+            if (request.SupplierId is > 0)
+            {
+                var picked = await _db.Suppliers
+                    .FirstOrDefaultAsync(s => s.Id == request.SupplierId, ct)
+                    ?? throw new DomainException(Tr.T("Err_SupplierNotFound"));
+
+                return (picked.Id, picked.Name);
+            }
+
+            var name = (request.SupplierName ?? "").Trim();
+
+            if (name.Length == 0)
+                return (null, Tr.T("Log_NoSupplier"));
+
+            // Регистр сверяем в памяти: LIKE в SQLite нечувствителен только к латинице
+            var all = await _db.Suppliers.ToListAsync(ct);
+
+            var existing = all.FirstOrDefault(s =>
+                string.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
+
+            if (existing is not null)
+                return (existing.Id, existing.Name);
+
+            var supplier = new Supplier(name);
+
+            _db.Suppliers.Add(supplier);
+            await _db.SaveChangesAsync(ct);
+
+            return (supplier.Id, supplier.Name);
         }
 
         /// <summary>

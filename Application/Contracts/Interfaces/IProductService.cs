@@ -29,6 +29,12 @@ namespace Application.Contracts.Interfaces
         Task WriteOffAsync(WriteOffProductRequest request, CancellationToken ct);
 
         /// <summary>
+        /// Ставит остаток товара целиком — правка по факту пересчёта.
+        /// Пишет в историю «было → стало», чтобы правка не терялась.
+        /// </summary>
+        Task AdjustStockAsync(AdjustStockRequest request, CancellationToken ct);
+
+        /// <summary>
         /// Удаляет карточку товара. Товар с продажами, поставками или списаниями
         /// удалить нельзя — вместе с ним пропала бы история.
         /// </summary>

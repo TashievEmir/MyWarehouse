@@ -19,6 +19,7 @@ namespace Infrastructure.Persistence.Data
         public DbSet<SaleItem> SaleItems => Set<SaleItem>();
         public DbSet<Purchase> Purchases => Set<Purchase>();
         public DbSet<PurchaseItem> PurchaseItems => Set<PurchaseItem>();
+        public DbSet<Supplier> Suppliers => Set<Supplier>();
         public DbSet<Customer> Customers => Set<Customer>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
@@ -54,6 +55,20 @@ namespace Infrastructure.Persistence.Data
             modelBuilder.Entity<Product>()
                 .HasIndex(p => p.Barcode)
                 .IsUnique();
+
+            // Один поставщик — одна запись справочника, иначе список на приёмке
+            // зарастёт дублями «Абдылда» / «абдылда»
+            modelBuilder.Entity<Supplier>()
+                .HasIndex(s => s.Name)
+                .IsUnique();
+
+            // Поставка ссылается на справочник, но имя хранит своё:
+            // удаление поставщика не должно стирать журнал закупок
+            modelBuilder.Entity<Purchase>()
+                .HasOne<Supplier>()
+                .WithMany()
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Inventory 1:1 Product
             modelBuilder.Entity<Inventory>()

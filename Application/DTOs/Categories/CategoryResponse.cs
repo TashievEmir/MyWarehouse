@@ -17,5 +17,8 @@ namespace Application.DTOs.Categories
             Name = c.Name;
             Description = c.Description;
         }
+
+        /// <summary>Подпись для списков и средств доступности: иначе туда уходит имя типа.</summary>
+        public override string ToString() => Name;
     }
 }
