@@ -61,6 +61,7 @@ namespace Wpf
             services.AddScoped<IActivityLogService, ActivityLogService>();
             services.AddScoped<IReceiptTemplateService, ReceiptTemplateService>();
             services.AddScoped<INotificationSettingsService, NotificationSettingsService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDebtReminderService, DebtReminderService>();
             services.AddSingleton<IEmailSender, Infrastructure.Notifications.SmtpEmailSender>();
             services.AddSingleton<NavigationService>();
@@ -85,6 +86,7 @@ namespace Wpf
             services.AddSingleton<ViewModels.Receipts.ReceiptTemplateViewModel>();
             services.AddSingleton<ViewModels.Activity.ActivityLogViewModel>();
             services.AddSingleton<ViewModels.Notifications.NotificationsViewModel>();
+            services.AddSingleton<ViewModels.Users.UsersViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();

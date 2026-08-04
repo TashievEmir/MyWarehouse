@@ -33,6 +33,9 @@ namespace Application.Services
 
             if (!user.VerifyPassword(request.Password))
                 throw new DomainException(Tr.T("Err_InvalidCredentials"));
+
+            if (!user.IsActive)
+                throw new DomainException(Tr.T("Err_UserDisabled"));
             
             var result = new LoginResponse(user);
 

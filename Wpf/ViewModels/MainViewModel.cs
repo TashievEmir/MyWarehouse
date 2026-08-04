@@ -84,6 +84,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowDebtsCommand { get; }
     public ICommand ShowPurchasesCommand { get; }
     public ICommand ShowNotificationsCommand { get; }
+    public ICommand ShowUsersCommand { get; }
     public ICommand ToggleThemeCommand { get; }
     public ICommand ToggleLanguageCommand { get; }
 
@@ -135,6 +136,7 @@ public class MainViewModel : ViewModelBase
         ShowDebtsCommand           = new RelayCommand(ShowDebts);
         ShowPurchasesCommand       = new RelayCommand(ShowPurchases);
         ShowNotificationsCommand   = new RelayCommand(ShowNotifications);
+        ShowUsersCommand           = new RelayCommand(ShowUsers);
         ToggleThemeCommand         = new RelayCommand(_theme.Toggle);
         ToggleLanguageCommand      = new RelayCommand(Loc.Instance.Toggle);
 
@@ -248,6 +250,17 @@ public class MainViewModel : ViewModelBase
 
         Navigate(new Views.Notifications.NotificationsView(), "notifications",
             "Page_Notifications_Title", "Page_Notifications_Sub", ShowNotifications);
+    }
+
+    private void ShowUsers()
+    {
+        if (!CanSeeSettings)
+            return;
+
+        _ = App.Services.GetRequiredService<ViewModels.Users.UsersViewModel>().LoadAsync();
+
+        Navigate(new Views.Users.UsersView(), "users",
+            "Page_Users_Title", "Page_Users_Sub", ShowUsers);
     }
 
     // ── Общее ──

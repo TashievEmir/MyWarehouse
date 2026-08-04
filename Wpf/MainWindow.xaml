@@ -510,6 +510,12 @@
                             <Border Style="{StaticResource NavCaptionRule}"/>
 
                             <Button Style="{StaticResource NavButton}"
+                                    Content="{loc:Tr Nav_Users}"
+                                    common:Nav.Icon="AccountGroupOutline"
+                                    common:Nav.PageKey="users"
+                                    Command="{Binding ShowUsersCommand}"/>
+
+                            <Button Style="{StaticResource NavButton}"
                                     Content="{loc:Tr Nav_Notifications}"
                                     common:Nav.Icon="BellOutline"
                                     common:Nav.PageKey="notifications"

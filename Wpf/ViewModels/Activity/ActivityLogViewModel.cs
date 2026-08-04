@@ -45,6 +45,9 @@ public class ActivityEntryItem
             ActivityType.SaleReturned    => ("CloseCircleOutline",      "DangerBrush"),
             ActivityType.TemplateSaved   => ("ContentSaveOutline",      "PrimaryBrush"),
             ActivityType.StockAdjusted   => ("ClipboardEditOutline",    "WarningBrush"),
+            ActivityType.UserCreated     => ("AccountPlusOutline",      "PrimaryBrush"),
+            ActivityType.UserUpdated     => ("AccountEditOutline",      "WarningBrush"),
+            ActivityType.UserDeleted     => ("AccountRemoveOutline",    "DangerBrush"),
             _                            => ("Login",                   "MutedBrush"),
         };
     }

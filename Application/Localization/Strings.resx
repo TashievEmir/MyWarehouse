@@ -1714,4 +1714,163 @@
   <data name="Notif_LogGaveUp" xml:space="preserve">
     <value>не удалось за {0} попытки</value>
   </data>
+  <data name="Role_Admin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Role_Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
+  <data name="Role_Cashier" xml:space="preserve">
+    <value>Кассир</value>
+  </data>
+  <data name="Nav_Users" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="Page_Users_Title" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="Page_Users_Sub" xml:space="preserve">
+    <value>Сотрудники, их роли и доступ</value>
+  </data>
+  <data name="Users_SearchHint" xml:space="preserve">
+    <value>Поиск по имени, логину или роли</value>
+  </data>
+  <data name="Users_Col_Name" xml:space="preserve">
+    <value>СОТРУДНИК</value>
+  </data>
+  <data name="Users_Col_Login" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Users_Col_Roles" xml:space="preserve">
+    <value>РОЛИ</value>
+  </data>
+  <data name="Users_Col_State" xml:space="preserve">
+    <value>ДОСТУП</value>
+  </data>
+  <data name="Users_Empty" xml:space="preserve">
+    <value>Сотрудники не найдены</value>
+  </data>
+  <data name="Users_Count" xml:space="preserve">
+    <value>{0} чел.</value>
+  </data>
+  <data name="Users_Active" xml:space="preserve">
+    <value>активен</value>
+  </data>
+  <data name="Users_Disabled" xml:space="preserve">
+    <value>отключён</value>
+  </data>
+  <data name="Users_New" xml:space="preserve">
+    <value>Новый сотрудник</value>
+  </data>
+  <data name="Users_NewTitle" xml:space="preserve">
+    <value>Новый сотрудник</value>
+  </data>
+  <data name="Users_LastName" xml:space="preserve">
+    <value>ФАМИЛИЯ</value>
+  </data>
+  <data name="Users_FirstName" xml:space="preserve">
+    <value>ИМЯ</value>
+  </data>
+  <data name="Users_Patronymic" xml:space="preserve">
+    <value>ОТЧЕСТВО</value>
+  </data>
+  <data name="Users_Login" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Users_Password" xml:space="preserve">
+    <value>ПАРОЛЬ</value>
+  </data>
+  <data name="Users_PasswordKeep" xml:space="preserve">
+    <value>Оставьте пустым, чтобы не менять</value>
+  </data>
+  <data name="Users_Roles" xml:space="preserve">
+    <value>РОЛИ</value>
+  </data>
+  <data name="Users_AccessOn" xml:space="preserve">
+    <value>Доступ разрешён</value>
+  </data>
+  <data name="Users_Save" xml:space="preserve">
+    <value>Сохранить сотрудника</value>
+  </data>
+  <data name="Users_Delete" xml:space="preserve">
+    <value>Удалить сотрудника</value>
+  </data>
+  <data name="Users_DeleteHint" xml:space="preserve">
+    <value>Сотрудник без продаж и списаний удаляется целиком</value>
+  </data>
+  <data name="Users_DeleteBlocked" xml:space="preserve">
+    <value>За сотрудником числятся операции — вместо удаления отключите доступ</value>
+  </data>
+  <data name="Users_DeleteConfirm" xml:space="preserve">
+    <value>Удалить сотрудника «{0}»?</value>
+  </data>
+  <data name="Users_DeleteConfirmTitle" xml:space="preserve">
+    <value>Удаление сотрудника</value>
+  </data>
+  <data name="Users_Saved" xml:space="preserve">
+    <value>Сотрудник сохранён</value>
+  </data>
+  <data name="Users_Deleted" xml:space="preserve">
+    <value>Сотрудник удалён</value>
+  </data>
+  <data name="Users_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить сотрудников: {0}</value>
+  </data>
+  <data name="Users_NoLogin" xml:space="preserve">
+    <value>Изменения нельзя сохранить: не выполнен вход в систему</value>
+  </data>
+  <data name="Users_SelfHint" xml:space="preserve">
+    <value>это вы</value>
+  </data>
+  <data name="Err_UsersNoRights" xml:space="preserve">
+    <value>Управлять сотрудниками могут менеджер и админ</value>
+  </data>
+  <data name="Err_NeedUsername" xml:space="preserve">
+    <value>Укажите логин</value>
+  </data>
+  <data name="Err_NeedPassword" xml:space="preserve">
+    <value>Укажите пароль</value>
+  </data>
+  <data name="Err_NeedRole" xml:space="preserve">
+    <value>Выберите хотя бы одну роль</value>
+  </data>
+  <data name="Err_RoleNotFound" xml:space="preserve">
+    <value>Роль не найдена</value>
+  </data>
+  <data name="Err_UserNotFound" xml:space="preserve">
+    <value>Сотрудник не найден</value>
+  </data>
+  <data name="Err_UserDisabled" xml:space="preserve">
+    <value>Доступ отключён — обратитесь к администратору</value>
+  </data>
+  <data name="Err_OnlyAdminGrantsAdmin" xml:space="preserve">
+    <value>Роль администратора назначает только администратор</value>
+  </data>
+  <data name="Err_OnlyAdminEditsAdmin" xml:space="preserve">
+    <value>Учётную запись администратора правит только администратор</value>
+  </data>
+  <data name="Err_LastAdmin" xml:space="preserve">
+    <value>Это последний администратор — оставьте хотя бы одного</value>
+  </data>
+  <data name="Err_CannotDeleteSelf" xml:space="preserve">
+    <value>Свою учётную запись удалить нельзя</value>
+  </data>
+  <data name="Err_CannotDisableSelf" xml:space="preserve">
+    <value>Свой доступ отключить нельзя</value>
+  </data>
+  <data name="Err_UserHasHistory" xml:space="preserve">
+    <value>За сотрудником числятся продажи или списания — удаление стёрло бы историю. Отключите доступ</value>
+  </data>
+  <data name="Log_UserCreated" xml:space="preserve">
+    <value>Заведён сотрудник</value>
+  </data>
+  <data name="Log_UserUpdated" xml:space="preserve">
+    <value>Изменён сотрудник</value>
+  </data>
+  <data name="Log_UserDeleted" xml:space="preserve">
+    <value>Удалён сотрудник</value>
+  </data>
+  <data name="Log_UserDetails" xml:space="preserve">
+    <value>{0} · логин {1}</value>
+  </data>
 </root>

@@ -14,5 +14,8 @@ namespace Domain.Enums
         LoggedIn         = 9,
         TemplateSaved    = 10,
         StockAdjusted    = 11,
+        UserCreated      = 12,
+        UserUpdated      = 13,
+        UserDeleted      = 14,
     }
 }

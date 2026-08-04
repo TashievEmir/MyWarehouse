@@ -1714,4 +1714,163 @@
   <data name="Notif_LogGaveUp" xml:space="preserve">
     <value>{0} аракетте болбоду</value>
   </data>
+  <data name="Role_Admin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Role_Manager" xml:space="preserve">
+    <value>Менеджер</value>
+  </data>
+  <data name="Role_Cashier" xml:space="preserve">
+    <value>Кассир</value>
+  </data>
+  <data name="Nav_Users" xml:space="preserve">
+    <value>Колдонуучулар</value>
+  </data>
+  <data name="Page_Users_Title" xml:space="preserve">
+    <value>Колдонуучулар</value>
+  </data>
+  <data name="Page_Users_Sub" xml:space="preserve">
+    <value>Кызматкерлер, алардын ролдору жана уруксаты</value>
+  </data>
+  <data name="Users_SearchHint" xml:space="preserve">
+    <value>Аты, логини же ролу боюнча издөө</value>
+  </data>
+  <data name="Users_Col_Name" xml:space="preserve">
+    <value>КЫЗМАТКЕР</value>
+  </data>
+  <data name="Users_Col_Login" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Users_Col_Roles" xml:space="preserve">
+    <value>РОЛДОР</value>
+  </data>
+  <data name="Users_Col_State" xml:space="preserve">
+    <value>УРУКСАТ</value>
+  </data>
+  <data name="Users_Empty" xml:space="preserve">
+    <value>Кызматкерлер табылган жок</value>
+  </data>
+  <data name="Users_Count" xml:space="preserve">
+    <value>{0} киши</value>
+  </data>
+  <data name="Users_Active" xml:space="preserve">
+    <value>активдүү</value>
+  </data>
+  <data name="Users_Disabled" xml:space="preserve">
+    <value>өчүрүлгөн</value>
+  </data>
+  <data name="Users_New" xml:space="preserve">
+    <value>Жаңы кызматкер</value>
+  </data>
+  <data name="Users_NewTitle" xml:space="preserve">
+    <value>Жаңы кызматкер</value>
+  </data>
+  <data name="Users_LastName" xml:space="preserve">
+    <value>ФАМИЛИЯСЫ</value>
+  </data>
+  <data name="Users_FirstName" xml:space="preserve">
+    <value>АТЫ</value>
+  </data>
+  <data name="Users_Patronymic" xml:space="preserve">
+    <value>АТАСЫНЫН АТЫ</value>
+  </data>
+  <data name="Users_Login" xml:space="preserve">
+    <value>ЛОГИН</value>
+  </data>
+  <data name="Users_Password" xml:space="preserve">
+    <value>СЫРСӨЗ</value>
+  </data>
+  <data name="Users_PasswordKeep" xml:space="preserve">
+    <value>Өзгөртпөө үчүн бош калтырыңыз</value>
+  </data>
+  <data name="Users_Roles" xml:space="preserve">
+    <value>РОЛДОР</value>
+  </data>
+  <data name="Users_AccessOn" xml:space="preserve">
+    <value>Уруксат берилген</value>
+  </data>
+  <data name="Users_Save" xml:space="preserve">
+    <value>Кызматкерди сактоо</value>
+  </data>
+  <data name="Users_Delete" xml:space="preserve">
+    <value>Кызматкерди өчүрүү</value>
+  </data>
+  <data name="Users_DeleteHint" xml:space="preserve">
+    <value>Сатуусу жана эсептен чыгаруусу жок кызматкер толугу менен өчүрүлөт</value>
+  </data>
+  <data name="Users_DeleteBlocked" xml:space="preserve">
+    <value>Кызматкерге операциялар байланган — өчүрүүнүн ордуна уруксатын алып салыңыз</value>
+  </data>
+  <data name="Users_DeleteConfirm" xml:space="preserve">
+    <value>«{0}» кызматкери өчүрүлсүнбү?</value>
+  </data>
+  <data name="Users_DeleteConfirmTitle" xml:space="preserve">
+    <value>Кызматкерди өчүрүү</value>
+  </data>
+  <data name="Users_Saved" xml:space="preserve">
+    <value>Кызматкер сакталды</value>
+  </data>
+  <data name="Users_Deleted" xml:space="preserve">
+    <value>Кызматкер өчүрүлдү</value>
+  </data>
+  <data name="Users_LoadFailed" xml:space="preserve">
+    <value>Кызматкерлерди жүктөө мүмкүн болбоду: {0}</value>
+  </data>
+  <data name="Users_NoLogin" xml:space="preserve">
+    <value>Өзгөртүүлөрдү сактоого болбойт: системага кирилген эмес</value>
+  </data>
+  <data name="Users_SelfHint" xml:space="preserve">
+    <value>бул сиз</value>
+  </data>
+  <data name="Err_UsersNoRights" xml:space="preserve">
+    <value>Кызматкерлерди башкарууну менеджер жана админ гана жасайт</value>
+  </data>
+  <data name="Err_NeedUsername" xml:space="preserve">
+    <value>Логинди жазыңыз</value>
+  </data>
+  <data name="Err_NeedPassword" xml:space="preserve">
+    <value>Сырсөздү жазыңыз</value>
+  </data>
+  <data name="Err_NeedRole" xml:space="preserve">
+    <value>Жок дегенде бир ролду тандаңыз</value>
+  </data>
+  <data name="Err_RoleNotFound" xml:space="preserve">
+    <value>Рол табылган жок</value>
+  </data>
+  <data name="Err_UserNotFound" xml:space="preserve">
+    <value>Кызматкер табылган жок</value>
+  </data>
+  <data name="Err_UserDisabled" xml:space="preserve">
+    <value>Уруксат өчүрүлгөн — администраторго кайрылыңыз</value>
+  </data>
+  <data name="Err_OnlyAdminGrantsAdmin" xml:space="preserve">
+    <value>Администратор ролун администратор гана бере алат</value>
+  </data>
+  <data name="Err_OnlyAdminEditsAdmin" xml:space="preserve">
+    <value>Администратордун эсебин администратор гана өзгөртөт</value>
+  </data>
+  <data name="Err_LastAdmin" xml:space="preserve">
+    <value>Бул акыркы администратор — жок дегенде бирөө калсын</value>
+  </data>
+  <data name="Err_CannotDeleteSelf" xml:space="preserve">
+    <value>Өз эсебиңизди өчүрүүгө болбойт</value>
+  </data>
+  <data name="Err_CannotDisableSelf" xml:space="preserve">
+    <value>Өз уруксатыңызды өчүрүүгө болбойт</value>
+  </data>
+  <data name="Err_UserHasHistory" xml:space="preserve">
+    <value>Кызматкерге сатуулар же эсептен чыгаруулар байланган — өчүрсө тарых жоголот. Уруксатын алып салыңыз</value>
+  </data>
+  <data name="Log_UserCreated" xml:space="preserve">
+    <value>Кызматкер түзүлдү</value>
+  </data>
+  <data name="Log_UserUpdated" xml:space="preserve">
+    <value>Кызматкер өзгөртүлдү</value>
+  </data>
+  <data name="Log_UserDeleted" xml:space="preserve">
+    <value>Кызматкер өчүрүлдү</value>
+  </data>
+  <data name="Log_UserDetails" xml:space="preserve">
+    <value>{0} · логин {1}</value>
+  </data>
 </root>
