@@ -27,7 +27,6 @@ namespace Infrastructure.Persistence.Data
         public DbSet<StockWriteOff> StockWriteOffs => Set<StockWriteOff>();
         public DbSet<ActivityLogEntry> ActivityLog => Set<ActivityLogEntry>();
         public DbSet<ReceiptTemplate> ReceiptTemplates => Set<ReceiptTemplate>();
-        public DbSet<NotificationSettings> NotificationSettings => Set<NotificationSettings>();
         public DbSet<PrinterSettings> PrinterSettings => Set<PrinterSettings>();
         public DbSet<DebtReminder> DebtReminders => Set<DebtReminder>();
 

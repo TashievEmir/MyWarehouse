@@ -1,9 +1,10 @@
-using Domain.Entities;
-
 namespace Application.DTOs.Notifications
 {
     public class NotificationSettingsResponse
     {
+        /// <summary>Рассылка раз в день, в обед — по умолчанию.</summary>
+        public const string DefaultTimes = "14:00";
+
         public bool IsEnabled { get; set; }
 
         public string SmtpHost { get; set; } = "";
@@ -16,29 +17,10 @@ namespace Application.DTOs.Notifications
         public string FromAddress { get; set; } = "";
         public string FromName { get; set; } = "";
 
-        public string SendTimes { get; set; } = NotificationSettings.DefaultTimes;
+        public string SendTimes { get; set; } = DefaultTimes;
 
-        public NotificationSettingsResponse()
-        {
-        }
-
-        public NotificationSettingsResponse(NotificationSettings settings)
-        {
-            IsEnabled = settings.IsEnabled;
-            SmtpHost = settings.SmtpHost;
-            SmtpPort = settings.SmtpPort;
-            UseSsl = settings.UseSsl;
-            Username = settings.Username;
-            Password = settings.Password;
-            FromAddress = settings.FromAddress;
-            FromName = settings.FromName;
-            SendTimes = settings.SendTimes;
-        }
-    }
-
-    public class SaveNotificationSettingsRequest : NotificationSettingsResponse
-    {
-        public long UserId { get; set; }
+        /// <summary>Почта настроена настолько, чтобы пытаться отправлять.</summary>
+        public bool IsConfigured => SmtpHost.Length > 0 && FromAddress.Length > 0;
     }
 
     /// <summary>Одно письмо.</summary>
@@ -49,7 +31,7 @@ namespace Application.DTOs.Notifications
         public string Body { get; set; } = "";
     }
 
-    /// <summary>Итог прохода рассылки — показывается на странице настроек.</summary>
+    /// <summary>Итог прохода рассылки — показывается на странице напоминаний.</summary>
     public class ReminderRunResult
     {
         public int Sent { get; set; }

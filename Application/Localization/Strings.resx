@@ -1999,4 +1999,82 @@
   <data name="Receipts_PrintFailed" xml:space="preserve">
     <value>Не удалось напечатать чек: {0}</value>
   </data>
+  <data name="Notif_ScheduleAt" xml:space="preserve">
+    <value>Письма уходят раз в день в {0}, пока приложение запущено</value>
+  </data>
+  <data name="Notif_ConfigHint" xml:space="preserve">
+    <value>Настройки почты задаются в файле appsettings.json рядом с программой</value>
+  </data>
+  <data name="Notif_ServerLabel" xml:space="preserve">
+    <value>Сервер:</value>
+  </data>
+  <data name="Notif_FromLabel" xml:space="preserve">
+    <value>Отправитель:</value>
+  </data>
+  <data name="Notif_ServerNotSet" xml:space="preserve">
+    <value>не задан</value>
+  </data>
+  <data name="Notif_FromNotSet" xml:space="preserve">
+    <value>не задан</value>
+  </data>
+  <data name="Notif_NotConfigured" xml:space="preserve">
+    <value>Почта не настроена: заполните SmtpHost и FromAddress в appsettings.json</value>
+  </data>
+  <data name="Notif_Disabled" xml:space="preserve">
+    <value>Плановая рассылка выключена: поставьте Enabled: true в appsettings.json. Досрочная отправка работает и так.</value>
+  </data>
+  <data name="Notif_EarlyTitle" xml:space="preserve">
+    <value>Досрочная отправка</value>
+  </data>
+  <data name="Notif_EarlyHint" xml:space="preserve">
+    <value>Напоминание уйдёт клиенту сразу, не дожидаясь срока оплаты</value>
+  </data>
+  <data name="Notif_EarlyTo" xml:space="preserve">
+    <value>Кому</value>
+  </data>
+  <data name="Notif_EarlySend" xml:space="preserve">
+    <value>Отправить напоминание</value>
+  </data>
+  <data name="Notif_NoDebtors" xml:space="preserve">
+    <value>Нет должников с указанной почтой</value>
+  </data>
+  <data name="Notif_DebtorLine" xml:space="preserve">
+    <value>{0} · {1} · {2}</value>
+  </data>
+  <data name="Notif_SentTo" xml:space="preserve">
+    <value>Напоминание отправлено: {0}</value>
+  </data>
+  <data name="Notif_SendFailed" xml:space="preserve">
+    <value>Не удалось отправить: {0}</value>
+  </data>
+  <data name="Notif_PickDebtor" xml:space="preserve">
+    <value>Выберите должника</value>
+  </data>
+  <data name="Notif_LogSentManual" xml:space="preserve">
+    <value>Отправлено досрочно</value>
+  </data>
+  <data name="Notif_LogManualTip" xml:space="preserve">
+    <value>Досрочная отправка вручную</value>
+  </data>
+  <data name="Notif_RunNowHint" xml:space="preserve">
+    <value>Разослать всем, у кого наступил срок оплаты</value>
+  </data>
+  <data name="Notif_Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Err_MailNotConfigured" xml:space="preserve">
+    <value>Почта не настроена: заполните SmtpHost и FromAddress в appsettings.json</value>
+  </data>
+  <data name="Err_DebtNotFound" xml:space="preserve">
+    <value>Долг по чеку №{0} не найден</value>
+  </data>
+  <data name="Err_DebtorNoEmail" xml:space="preserve">
+    <value>У клиента «{0}» не указана почта</value>
+  </data>
+  <data name="Mail_DueIn" xml:space="preserve">
+    <value>до срока оплаты осталось дней: {0}</value>
+  </data>
+  <data name="Mail_DueNotSet" xml:space="preserve">
+    <value>срок оплаты не назначен</value>
+  </data>
 </root>

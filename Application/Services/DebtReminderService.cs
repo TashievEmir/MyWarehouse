@@ -1,6 +1,7 @@
 using Application.Contracts.Interfaces;
 using Application.Contracts.Persistence;
 using Application.DTOs.Notifications;
+using Application.DTOs.Sales;
 using Application.Localization;
 using Domain.Entities;
 using Domain.Exceptions;
@@ -19,13 +20,13 @@ namespace Application.Services
     {
         private readonly IDataContext _db;
         private readonly ISalesService _sales;
-        private readonly INotificationSettingsService _settings;
+        private readonly INotificationSettingsProvider _settings;
         private readonly IEmailSender _email;
 
         public DebtReminderService(
             IDataContext db,
             ISalesService sales,
-            INotificationSettingsService settings,
+            INotificationSettingsProvider settings,
             IEmailSender email)
         {
             _db = db;
@@ -38,12 +39,12 @@ namespace Application.Services
         {
             var result = new ReminderRunResult();
 
-            var settings = await _settings.GetAsync(ct);
+            var settings = _settings.Get();
 
-            if (!settings.IsEnabled || settings.SmtpHost.Length == 0)
+            if (!settings.IsEnabled || !settings.IsConfigured)
                 return result;
 
-            var times = NotificationSettingsService.ParseTimes(settings.SendTimes);
+            var times = ParseTimes(settings.SendTimes);
 
             if (times.Count == 0)
                 return result;
@@ -137,41 +138,107 @@ namespace Application.Services
             return result;
         }
 
-        public async Task SendTestAsync(string recipient, CancellationToken ct)
+        public async Task<List<DebtResponse>> GetReachableDebtorsAsync(CancellationToken ct)
         {
-            recipient = (recipient ?? "").Trim();
+            var debts = await _sales.GetDebtsAsync(null, ct);
 
-            if (recipient.Length == 0)
-                throw new DomainException(Tr.T("Err_NeedTestRecipient"));
-
-            var settings = await _settings.GetAsync(ct);
-
-            if (settings.SmtpHost.Length == 0)
-                throw new DomainException(Tr.T("Err_NeedSmtpHost"));
-
-            await _email.SendAsync(settings, new EmailMessage
-            {
-                To = recipient,
-                Subject = Tr.T("Mail_TestSubject"),
-                Body = Tr.T("Mail_TestBody"),
-            }, ct);
+            return debts
+                .Where(d => !string.IsNullOrWhiteSpace(d.CustomerEmail))
+                .OrderByDescending(d => d.Debt)
+                .ToList();
         }
 
-        private static EmailMessage BuildMessage(DTOs.Sales.DebtResponse debt, DateTime now)
+        public async Task SendToDebtorAsync(long saleId, CancellationToken ct)
         {
-            var due = debt.DueDate!.Value.ToLocalTime().Date;
-            var daysLate = (now.Date - due).Days;
+            var settings = _settings.Get();
 
-            var when = daysLate <= 0
-                ? Tr.T("Mail_DueToday")
-                : Tr.F("Mail_Overdue", daysLate);
+            if (!settings.IsConfigured)
+                throw new DomainException(Tr.T("Err_MailNotConfigured"));
+
+            var debts = await _sales.GetDebtsAsync(null, ct);
+
+            var debt = debts.FirstOrDefault(d => d.SaleId == saleId)
+                ?? throw new DomainException(Tr.F("Err_DebtNotFound", saleId));
+
+            if (string.IsNullOrWhiteSpace(debt.CustomerEmail))
+                throw new DomainException(Tr.F("Err_DebtorNoEmail", debt.CustomerName));
+
+            var now = DateTime.Now;
+
+            // Отдельный ключ: досрочных отправок за день может быть сколько угодно,
+            // и они не должны занимать слоты плановой рассылки
+            var slotKey = $"{now:yyyy-MM-dd}#manual-{now:HHmmss}";
+
+            var row = new DebtReminder(saleId, slotKey, debt.CustomerEmail!, debt.Debt);
+
+            _db.DebtReminders.Add(row);
+
+            try
+            {
+                await _email.SendAsync(settings, BuildMessage(debt, now), ct);
+
+                row.MarkSent();
+            }
+            catch (Exception ex)
+            {
+                // Неудачу тоже сохраняем — она должна попасть в историю отправок
+                row.RegisterFailure(ex.Message);
+
+                await _db.SaveChangesAsync(CancellationToken.None);
+
+                throw;
+            }
+
+            await _db.SaveChangesAsync(ct);
+        }
+
+        /// <summary>
+        /// Разбирает «10:00, 14:00». Мусор молча отбрасываем, дубли убираем,
+        /// порядок делаем по возрастанию — слоты нумеруются именно так.
+        /// </summary>
+        public static List<TimeSpan> ParseTimes(string? raw)
+        {
+            var result = new List<TimeSpan>();
+
+            foreach (var part in (raw ?? "").Split(',', StringSplitOptions.RemoveEmptyEntries))
+            {
+                if (TimeSpan.TryParse(part.Trim(), out var time) && time >= TimeSpan.Zero && time < TimeSpan.FromDays(1))
+                    result.Add(new TimeSpan(time.Hours, time.Minutes, 0));
+            }
+
+            return result.Distinct().OrderBy(t => t).ToList();
+        }
+
+        private static EmailMessage BuildMessage(DebtResponse debt, DateTime now)
+        {
+            var due = debt.DueDate?.ToLocalTime().Date;
+
+            // Досрочное письмо уходит до срока, плановое — в срок или после,
+            // а срока может не быть вовсе: формулировка подстраивается
+            string when;
+
+            if (due is null)
+            {
+                when = Tr.T("Mail_DueNotSet");
+            }
+            else
+            {
+                var daysLate = (now.Date - due.Value).Days;
+
+                when = daysLate switch
+                {
+                    < 0 => Tr.F("Mail_DueIn", -daysLate),
+                    0 => Tr.T("Mail_DueToday"),
+                    _ => Tr.F("Mail_Overdue", daysLate),
+                };
+            }
 
             var body =
                 Tr.F("Mail_Greeting", debt.CustomerName) + "\n\n" +
                 Tr.F("Mail_Body",
                     debt.SaleId,
                     debt.Debt.ToString("N2"),
-                    due.ToString("dd.MM.yyyy"),
+                    due?.ToString("dd.MM.yyyy") ?? "—",
                     when) + "\n\n" +
                 Tr.T("Mail_Signature");
 

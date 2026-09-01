@@ -2,11 +2,10 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Application.Contracts.Interfaces;
 using Application.Contracts.Persistence;
-using Application.DTOs.Notifications;
+using Application.DTOs.Sales;
 using Microsoft.EntityFrameworkCore;
 using Wpf.Common;
 using Wpf.Localization;
-using Wpf.Services;
 
 namespace Wpf.ViewModels.Notifications;
 
@@ -21,15 +20,19 @@ public class ReminderLogItem
 
     public bool IsSkipped { get; }
 
+    /// <summary>Досрочная отправка — её видно по ключу слота.</summary>
+    public bool IsManual { get; }
+
     public ReminderLogItem(
         DateTimeOffset sentAt, string recipient, decimal amount,
-        bool isSuccess, bool isSkipped, int attempts, string? error)
+        bool isSuccess, bool isSkipped, int attempts, string? error, string slotKey)
     {
         SentAtText = sentAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm", Loc.Instance.Culture);
         Recipient = recipient;
         AmountText = amount.ToString("N2", Loc.Instance.Culture);
         IsSuccess = isSuccess;
         IsSkipped = isSkipped;
+        IsManual = slotKey.Contains("#manual");
 
         if (isSkipped)
         {
@@ -37,7 +40,7 @@ public class ReminderLogItem
         }
         else if (isSuccess)
         {
-            StatusText = Loc.T("Notif_LogSent");
+            StatusText = IsManual ? Loc.T("Notif_LogSentManual") : Loc.T("Notif_LogSent");
         }
         else
         {
@@ -51,112 +54,160 @@ public class ReminderLogItem
     }
 }
 
+/// <summary>Должник в списке досрочной отправки.</summary>
+public class DebtorItem
+{
+    public long SaleId { get; }
+    public string Title { get; }
+
+    public DebtorItem(DebtResponse debt)
+    {
+        SaleId = debt.SaleId;
+
+        Title = Loc.F(
+            "Notif_DebtorLine",
+            debt.CustomerName,
+            debt.Debt.ToString("N2", Loc.Instance.Culture),
+            debt.CustomerEmail ?? "");
+    }
+}
+
 /// <summary>
-/// Настройки почтовых напоминаний о долге и журнал последних отправок.
+/// Журнал почтовых напоминаний и досрочная отправка.
+///
+/// Настройки SMTP сюда больше не заводятся — они лежат в appsettings.json
+/// рядом с exe. Страница только показывает, что настроено, и даёт отправить
+/// напоминание конкретному должнику, не дожидаясь расписания.
 /// </summary>
 public class NotificationsViewModel : ViewModelBase
 {
-    private const int LogSize = 20;
+    private const int LogSize = 50;
 
-    private readonly INotificationSettingsService _settings;
     private readonly IDebtReminderService _reminders;
+    private readonly INotificationSettingsProvider _settings;
     private readonly IDataContext _db;
-    private readonly SessionService _session;
 
     public ObservableCollection<ReminderLogItem> Log { get; } = new();
 
-    public ICommand SaveCommand { get; }
-    public ICommand TestCommand { get; }
+    public ObservableCollection<DebtorItem> Debtors { get; } = new();
+
+    public ICommand RefreshCommand { get; }
     public ICommand RunNowCommand { get; }
+    public ICommand SendToDebtorCommand { get; }
 
     public NotificationsViewModel(
-        INotificationSettingsService settings,
         IDebtReminderService reminders,
-        IDataContext db,
-        SessionService session)
+        INotificationSettingsProvider settings,
+        IDataContext db)
     {
-        _settings = settings;
         _reminders = reminders;
+        _settings = settings;
         _db = db;
-        _session = session;
 
-        SaveCommand = new AsyncRelayCommand(SaveAsync);
-        TestCommand = new AsyncRelayCommand(SendTestAsync);
+        RefreshCommand = new AsyncRelayCommand(LoadAsync);
         RunNowCommand = new AsyncRelayCommand(RunNowAsync);
+        SendToDebtorCommand = new AsyncRelayCommand(SendToDebtorAsync);
 
         Loc.LanguageChanged += () => OnPropertyChanged(string.Empty);
     }
 
-    // ===================== Поля =====================
+    // ===================== Что настроено =====================
 
-    private bool _isEnabled;
-    public bool IsEnabled
+    /// <summary>Читается из appsettings при каждом открытии страницы.</summary>
+    public bool IsMailEnabled => _settings.Get().IsEnabled;
+
+    public bool IsMailConfigured => _settings.Get().IsConfigured;
+
+    /// <summary>Настройки неполные или рассылка выключена — предупреждаем.</summary>
+    public bool ShowMailWarning => !IsMailEnabled || !IsMailConfigured;
+
+    public string MailWarningText => !IsMailConfigured
+        ? Loc.T("Notif_NotConfigured")
+        : Loc.T("Notif_Disabled");
+
+    public string MailServerText
     {
-        get => _isEnabled;
-        set => SetProperty(ref _isEnabled, value);
+        get
+        {
+            var s = _settings.Get();
+
+            return s.SmtpHost.Length == 0
+                ? Loc.T("Notif_ServerNotSet")
+                : $"{s.SmtpHost}:{s.SmtpPort}{(s.UseSsl ? " · SSL/TLS" : "")}";
+        }
     }
 
-    private string _smtpHost = "";
-    public string SmtpHost
+    public string MailFromText
     {
-        get => _smtpHost;
-        set => SetProperty(ref _smtpHost, value);
+        get
+        {
+            var s = _settings.Get();
+
+            return s.FromAddress.Length == 0 ? Loc.T("Notif_FromNotSet") : s.FromAddress;
+        }
     }
 
-    private int _smtpPort = 587;
-    public int SmtpPort
+    public string ScheduleText => Loc.F("Notif_ScheduleAt", _settings.Get().SendTimes);
+
+    private void RaiseSettings()
     {
-        get => _smtpPort;
-        set => SetProperty(ref _smtpPort, value);
+        OnPropertyChanged(nameof(IsMailEnabled));
+        OnPropertyChanged(nameof(IsMailConfigured));
+        OnPropertyChanged(nameof(ShowMailWarning));
+        OnPropertyChanged(nameof(MailWarningText));
+        OnPropertyChanged(nameof(MailServerText));
+        OnPropertyChanged(nameof(MailFromText));
+        OnPropertyChanged(nameof(ScheduleText));
     }
 
-    private bool _useSsl = true;
-    public bool UseSsl
+    // ===================== Досрочная отправка =====================
+
+    private DebtorItem? _selectedDebtor;
+    public DebtorItem? SelectedDebtor
     {
-        get => _useSsl;
-        set => SetProperty(ref _useSsl, value);
+        get => _selectedDebtor;
+        set
+        {
+            if (SetProperty(ref _selectedDebtor, value))
+                OnPropertyChanged(nameof(CanSendToDebtor));
+        }
     }
 
-    private string _username = "";
-    public string Username
-    {
-        get => _username;
-        set => SetProperty(ref _username, value);
-    }
+    public bool CanSendToDebtor => !IsBusy && SelectedDebtor is not null;
 
-    private string _password = "";
-    public string Password
-    {
-        get => _password;
-        set => SetProperty(ref _password, value);
-    }
+    public bool HasDebtors => Debtors.Count > 0;
 
-    private string _fromAddress = "";
-    public string FromAddress
+    private async Task SendToDebtorAsync()
     {
-        get => _fromAddress;
-        set => SetProperty(ref _fromAddress, value);
-    }
+        if (SelectedDebtor is null)
+        {
+            ShowError(Loc.T("Notif_PickDebtor"));
+            return;
+        }
 
-    private string _fromName = "";
-    public string FromName
-    {
-        get => _fromName;
-        set => SetProperty(ref _fromName, value);
-    }
+        IsBusy = true;
 
-    private string _sendTimes = Domain.Entities.NotificationSettings.DefaultTimes;
-    public string SendTimes
-    {
-        get => _sendTimes;
-        set => SetProperty(ref _sendTimes, value);
-    }
+        try
+        {
+            var debtor = SelectedDebtor;
 
-    private string _testRecipient = "";
-    public string TestRecipient
-    {
-        get => _testRecipient;
-        set => SetProperty(ref _testRecipient, value);
+            await _reminders.SendToDebtorAsync(debtor.SaleId, CancellationToken.None);
+
+            await LoadLogAsync();
+
+            ShowInfo(Loc.F("Notif_SentTo", debtor.Title));
+        }
+        catch (Exception ex)
+        {
+            // Неудачная попытка уже записана в журнал — показываем и её
+            await LoadLogAsync();
+
+            ShowError(Loc.F("Notif_SendFailed", ex.Message));
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     // ===================== Состояние =====================
@@ -165,7 +216,11 @@ public class NotificationsViewModel : ViewModelBase
     public bool IsBusy
     {
         get => _isBusy;
-        private set => SetProperty(ref _isBusy, value);
+        private set
+        {
+            if (SetProperty(ref _isBusy, value))
+                OnPropertyChanged(nameof(CanSendToDebtor));
+        }
     }
 
     private string _statusMessage = "";
@@ -190,27 +245,15 @@ public class NotificationsViewModel : ViewModelBase
 
     public bool IsLogEmpty => Log.Count == 0;
 
-    // ===================== Загрузка и сохранение =====================
+    // ===================== Загрузка =====================
 
     public async Task LoadAsync()
     {
         try
         {
-            var settings = await _settings.GetAsync(CancellationToken.None);
+            RaiseSettings();
 
-            IsEnabled = settings.IsEnabled;
-            SmtpHost = settings.SmtpHost;
-            SmtpPort = settings.SmtpPort;
-            UseSsl = settings.UseSsl;
-            Username = settings.Username;
-            Password = settings.Password;
-            FromAddress = settings.FromAddress;
-            FromName = settings.FromName;
-            SendTimes = settings.SendTimes;
-
-            if (TestRecipient.Length == 0)
-                TestRecipient = settings.FromAddress;
-
+            await LoadDebtorsAsync();
             await LoadLogAsync();
         }
         catch (Exception ex)
@@ -219,81 +262,42 @@ public class NotificationsViewModel : ViewModelBase
         }
     }
 
+    private async Task LoadDebtorsAsync()
+    {
+        var debtors = await _reminders.GetReachableDebtorsAsync(CancellationToken.None);
+
+        // Выбор кассира переживает обновление списка
+        var previous = SelectedDebtor?.SaleId;
+
+        Debtors.Clear();
+
+        foreach (var debt in debtors)
+            Debtors.Add(new DebtorItem(debt));
+
+        SelectedDebtor = Debtors.FirstOrDefault(d => d.SaleId == previous) ?? Debtors.FirstOrDefault();
+
+        OnPropertyChanged(nameof(HasDebtors));
+    }
+
     private async Task LoadLogAsync()
     {
         // Сортировка в памяти: SQLite не умеет упорядочивать DateTimeOffset
         var rows = await _db.DebtReminders
             .AsNoTracking()
-            .Select(r => new { r.SentAt, r.Recipient, r.Amount, r.IsSuccess, r.IsSkipped, r.Attempts, r.Error })
+            .Select(r => new
+            {
+                r.SentAt, r.Recipient, r.Amount, r.IsSuccess, r.IsSkipped, r.Attempts, r.Error, r.SlotKey
+            })
             .ToListAsync();
 
         Log.Clear();
 
         foreach (var row in rows.OrderByDescending(r => r.SentAt).Take(LogSize))
             Log.Add(new ReminderLogItem(
-                row.SentAt, row.Recipient, row.Amount, row.IsSuccess, row.IsSkipped, row.Attempts, row.Error));
+                row.SentAt, row.Recipient, row.Amount,
+                row.IsSuccess, row.IsSkipped, row.Attempts, row.Error, row.SlotKey));
 
         OnPropertyChanged(nameof(IsLogEmpty));
-    }
-
-    private async Task SaveAsync()
-    {
-        if (_session.User is null)
-        {
-            ShowError(Loc.T("Notif_NoLogin"));
-            return;
-        }
-
-        IsBusy = true;
-
-        try
-        {
-            await _settings.SaveAsync(new SaveNotificationSettingsRequest
-            {
-                UserId = _session.User.UserId,
-                IsEnabled = IsEnabled,
-                SmtpHost = SmtpHost,
-                SmtpPort = SmtpPort,
-                UseSsl = UseSsl,
-                Username = Username,
-                Password = Password,
-                FromAddress = FromAddress,
-                FromName = FromName,
-                SendTimes = SendTimes,
-            }, CancellationToken.None);
-
-            await LoadAsync();
-
-            ShowInfo(Loc.T("Notif_Saved"));
-        }
-        catch (Exception ex)
-        {
-            ShowError(ex.Message);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
-    }
-
-    private async Task SendTestAsync()
-    {
-        IsBusy = true;
-
-        try
-        {
-            await _reminders.SendTestAsync(TestRecipient, CancellationToken.None);
-
-            ShowInfo(Loc.F("Notif_TestSent", TestRecipient.Trim()));
-        }
-        catch (Exception ex)
-        {
-            ShowError(Loc.F("Notif_TestFailed", ex.Message));
-        }
-        finally
-        {
-            IsBusy = false;
-        }
     }
 
     private async Task RunNowAsync()

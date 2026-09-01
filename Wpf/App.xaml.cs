@@ -7,6 +7,7 @@ using Application.Contracts.Persistence;
 using Application.Services;
 using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Services;
 using Wpf.ViewModels;
@@ -39,6 +40,15 @@ namespace Wpf
 
             var services = new ServiceCollection();
 
+            // Настройки почты лежат рядом с exe: пароль приложения — секрет
+            // окружения, а не пользовательская настройка в базе
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
             var dbPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "app.db");
@@ -60,7 +70,7 @@ namespace Wpf
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IActivityLogService, ActivityLogService>();
             services.AddScoped<IReceiptTemplateService, ReceiptTemplateService>();
-            services.AddScoped<INotificationSettingsService, NotificationSettingsService>();
+            services.AddSingleton<INotificationSettingsProvider, Infrastructure.Notifications.ConfigNotificationSettingsProvider>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDebtReminderService, DebtReminderService>();
             services.AddScoped<IPrinterSettingsService, PrinterSettingsService>();

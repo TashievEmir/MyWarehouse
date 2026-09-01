@@ -1,4 +1,5 @@
 using Application.DTOs.Notifications;
+using Application.DTOs.Sales;
 
 namespace Application.Contracts.Interfaces
 {
@@ -8,11 +9,14 @@ namespace Application.Contracts.Interfaces
         Task SendAsync(NotificationSettingsResponse settings, EmailMessage message, CancellationToken ct);
     }
 
-    public interface INotificationSettingsService
+    /// <summary>
+    /// Настройки почты. Раньше лежали в базе и правились из интерфейса, теперь
+    /// приходят из appsettings.json: пароль приложения — секрет окружения,
+    /// а не пользовательская настройка.
+    /// </summary>
+    public interface INotificationSettingsProvider
     {
-        Task<NotificationSettingsResponse> GetAsync(CancellationToken ct);
-
-        Task SaveAsync(SaveNotificationSettingsRequest request, CancellationToken ct);
+        NotificationSettingsResponse Get();
     }
 
     public interface IDebtReminderService
@@ -23,7 +27,13 @@ namespace Application.Contracts.Interfaces
         /// </summary>
         Task<ReminderRunResult> RunAsync(CancellationToken ct);
 
-        /// <summary>Отправляет пробное письмо на указанный адрес — проверка настроек.</summary>
-        Task SendTestAsync(string recipient, CancellationToken ct);
+        /// <summary>
+        /// Досрочное напоминание конкретному должнику: письмо уходит сразу,
+        /// не дожидаясь срока оплаты и слота рассылки.
+        /// </summary>
+        Task SendToDebtorAsync(long saleId, CancellationToken ct);
+
+        /// <summary>Долги с почтой — список для досрочной отправки.</summary>
+        Task<List<DebtResponse>> GetReachableDebtorsAsync(CancellationToken ct);
     }
 }

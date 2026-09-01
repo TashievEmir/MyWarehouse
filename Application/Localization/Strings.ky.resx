@@ -1999,4 +1999,82 @@
   <data name="Receipts_PrintFailed" xml:space="preserve">
     <value>Чекти басып чыгаруу мүмкүн болгон жок: {0}</value>
   </data>
+  <data name="Notif_ScheduleAt" xml:space="preserve">
+    <value>Каттар күнүнө бир жолу {0}де жөнөтүлөт, колдонмо иштеп турганда</value>
+  </data>
+  <data name="Notif_ConfigHint" xml:space="preserve">
+    <value>Почтанын жөндөөлөрү программанын жанындагы appsettings.json файлында коюлат</value>
+  </data>
+  <data name="Notif_ServerLabel" xml:space="preserve">
+    <value>Сервер:</value>
+  </data>
+  <data name="Notif_FromLabel" xml:space="preserve">
+    <value>Жөнөтүүчү:</value>
+  </data>
+  <data name="Notif_ServerNotSet" xml:space="preserve">
+    <value>коюлган эмес</value>
+  </data>
+  <data name="Notif_FromNotSet" xml:space="preserve">
+    <value>коюлган эмес</value>
+  </data>
+  <data name="Notif_NotConfigured" xml:space="preserve">
+    <value>Почта жөндөлгөн эмес: appsettings.json ичинде SmtpHost жана FromAddress толтуруңуз</value>
+  </data>
+  <data name="Notif_Disabled" xml:space="preserve">
+    <value>Пландуу жөнөтүү өчүк: appsettings.json ичинде Enabled: true коюңуз. Мөөнөтүнөн мурда жөнөтүү ансыз да иштейт.</value>
+  </data>
+  <data name="Notif_EarlyTitle" xml:space="preserve">
+    <value>Мөөнөтүнөн мурда жөнөтүү</value>
+  </data>
+  <data name="Notif_EarlyHint" xml:space="preserve">
+    <value>Эскертме кардарга төлөм мөөнөтүн күтпөстөн дароо жөнөтүлөт</value>
+  </data>
+  <data name="Notif_EarlyTo" xml:space="preserve">
+    <value>Кимге</value>
+  </data>
+  <data name="Notif_EarlySend" xml:space="preserve">
+    <value>Эскертме жөнөтүү</value>
+  </data>
+  <data name="Notif_NoDebtors" xml:space="preserve">
+    <value>Почтасы көрсөтүлгөн карызкерлер жок</value>
+  </data>
+  <data name="Notif_DebtorLine" xml:space="preserve">
+    <value>{0} · {1} · {2}</value>
+  </data>
+  <data name="Notif_SentTo" xml:space="preserve">
+    <value>Эскертме жөнөтүлдү: {0}</value>
+  </data>
+  <data name="Notif_SendFailed" xml:space="preserve">
+    <value>Жөнөтүү мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Notif_PickDebtor" xml:space="preserve">
+    <value>Карызкерди тандаңыз</value>
+  </data>
+  <data name="Notif_LogSentManual" xml:space="preserve">
+    <value>Мөөнөтүнөн мурда жөнөтүлдү</value>
+  </data>
+  <data name="Notif_LogManualTip" xml:space="preserve">
+    <value>Кол менен мөөнөтүнөн мурда жөнөтүү</value>
+  </data>
+  <data name="Notif_RunNowHint" xml:space="preserve">
+    <value>Төлөм мөөнөтү келгендердин баарына жөнөтүү</value>
+  </data>
+  <data name="Notif_Refresh" xml:space="preserve">
+    <value>Жаңылоо</value>
+  </data>
+  <data name="Err_MailNotConfigured" xml:space="preserve">
+    <value>Почта жөндөлгөн эмес: appsettings.json ичинде SmtpHost жана FromAddress толтуруңуз</value>
+  </data>
+  <data name="Err_DebtNotFound" xml:space="preserve">
+    <value>№{0} чеги боюнча карыз табылган жок</value>
+  </data>
+  <data name="Err_DebtorNoEmail" xml:space="preserve">
+    <value>«{0}» кардарынын почтасы көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Mail_DueIn" xml:space="preserve">
+    <value>төлөм мөөнөтүнө чейин калган күн: {0}</value>
+  </data>
+  <data name="Mail_DueNotSet" xml:space="preserve">
+    <value>төлөм мөөнөтү белгиленген эмес</value>
+  </data>
 </root>
