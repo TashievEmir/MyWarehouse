@@ -27,6 +27,7 @@ public class ReceiptsListViewModel : ViewModelBase
     private static readonly CultureInfo Russian = new("ru-RU");
 
     private readonly ISalesService _sales;
+    private readonly IReceiptPrintService _printing;
     private readonly SessionService _session;
 
     public ObservableCollection<ReceiptListItem> Receipts { get; } = new();
@@ -37,11 +38,13 @@ public class ReceiptsListViewModel : ViewModelBase
     public ICommand SetPeriodCommand { get; }
     public ICommand ClearSearchCommand { get; }
     public ICommand CopyCommand { get; }
+    public ICommand PrintCommand { get; }
     public ICommand ReturnCommand { get; }
 
-    public ReceiptsListViewModel(ISalesService sales, SessionService session)
+    public ReceiptsListViewModel(ISalesService sales, IReceiptPrintService printing, SessionService session)
     {
         _sales = sales;
+        _printing = printing;
         _session = session;
 
         RefreshCommand = new AsyncRelayCommand(LoadAsync);
@@ -50,6 +53,7 @@ public class ReceiptsListViewModel : ViewModelBase
         SetPeriodCommand = new RelayCommand<string>(SetPeriod);
         ClearSearchCommand = new RelayCommand(() => SearchText = "");
         CopyCommand = new RelayCommand(CopyToClipboard);
+        PrintCommand = new AsyncRelayCommand(PrintAsync);
         ReturnCommand = new AsyncRelayCommand(ReturnAsync);
 
         SetPeriod(nameof(ReceiptPeriod.Today));
@@ -284,6 +288,28 @@ public class ReceiptsListViewModel : ViewModelBase
         catch (Exception ex)
         {
             ErrorMessage = Loc.F("Receipts_CopyFailed", ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Перепечатка чека. Наличных и сдачи в сохранённом чеке нет — их знала
+    /// только касса в момент продажи, поэтому копия идёт без этих строк.
+    /// </summary>
+    private async Task PrintAsync()
+    {
+        if (Selected is null)
+            return;
+
+        try
+        {
+            await _printing.PrintSaleAsync(Selected.SaleId, null, null, CancellationToken.None);
+
+            StatusMessage = Loc.F("Receipts_Printed", Selected.SaleId);
+            ErrorMessage = "";
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = Loc.F("Receipts_PrintFailed", ex.Message);
         }
     }
 

@@ -859,7 +859,7 @@
     <value>Предпросмотр</value>
   </data>
   <data name="Template_PreviewHint" xml:space="preserve">
-    <value>Лента 80 мм</value>
+    <value>Лента {0}</value>
   </data>
   <data name="Template_MoveUp" xml:space="preserve">
     <value>Выше</value>
@@ -1872,5 +1872,131 @@
   </data>
   <data name="Log_UserDetails" xml:space="preserve">
     <value>{0} · логин {1}</value>
+  </data>
+  <data name="Receipt_Tin" xml:space="preserve">
+    <value>ИНН: {0}</value>
+  </data>
+  <data name="Receipt_Number" xml:space="preserve">
+    <value>Чек №{0}</value>
+  </data>
+  <data name="Receipt_Cashier" xml:space="preserve">
+    <value>Кассир: {0}</value>
+  </data>
+  <data name="Receipt_Subtotal" xml:space="preserve">
+    <value>Подытог:</value>
+  </data>
+  <data name="Receipt_Discount" xml:space="preserve">
+    <value>Скидка:</value>
+  </data>
+  <data name="Receipt_Total" xml:space="preserve">
+    <value>ИТОГО:</value>
+  </data>
+  <data name="Receipt_Cash" xml:space="preserve">
+    <value>Наличными:</value>
+  </data>
+  <data name="Receipt_Change" xml:space="preserve">
+    <value>Сдача:</value>
+  </data>
+  <data name="Receipt_Payment" xml:space="preserve">
+    <value>Оплата: {0}</value>
+  </data>
+  <data name="Receipt_Customer" xml:space="preserve">
+    <value>Клиент: {0}</value>
+  </data>
+  <data name="Receipt_Debt" xml:space="preserve">
+    <value>Долг:</value>
+  </data>
+  <data name="Receipt_Returned" xml:space="preserve">
+    <value>ВОЗВРАТ</value>
+  </data>
+  <data name="Receipt_TestTitle" xml:space="preserve">
+    <value>ТЕСТОВЫЙ ЧЕК</value>
+  </data>
+  <data name="Receipt_TestCashier" xml:space="preserve">
+    <value>Тестовый кассир</value>
+  </data>
+  <data name="Receipt_TestItem1" xml:space="preserve">
+    <value>Хлеб бородинский</value>
+  </data>
+  <data name="Receipt_TestItem2" xml:space="preserve">
+    <value>Молоко 1 л</value>
+  </data>
+  <data name="Print_SaleNotFound" xml:space="preserve">
+    <value>Чек №{0} не найден</value>
+  </data>
+  <data name="Log_PrinterSaved" xml:space="preserve">
+    <value>Настройки принтера сохранены</value>
+  </data>
+  <data name="Log_PrinterDetails" xml:space="preserve">
+    <value>Принтер: {0} · автопечать: {1}</value>
+  </data>
+  <data name="Printer_DefaultName" xml:space="preserve">
+    <value>по умолчанию</value>
+  </data>
+  <data name="Sales_PrintReceipt" xml:space="preserve">
+    <value>Печатать чек</value>
+  </data>
+  <data name="Sales_PrintFailed" xml:space="preserve">
+    <value>Продажа сохранена, но чек не напечатан: {0}</value>
+  </data>
+  <data name="Printer_SectionTitle" xml:space="preserve">
+    <value>Принтер чеков</value>
+  </data>
+  <data name="Printer_SectionHint" xml:space="preserve">
+    <value>Чек уходит на принтер сразу после закрытия сделки</value>
+  </data>
+  <data name="Printer_AutoPrint" xml:space="preserve">
+    <value>Печатать чек при закрытии сделки</value>
+  </data>
+  <data name="Printer_Device" xml:space="preserve">
+    <value>Принтер</value>
+  </data>
+  <data name="Printer_UseDefault" xml:space="preserve">
+    <value>Принтер по умолчанию</value>
+  </data>
+  <data name="Printer_Width" xml:space="preserve">
+    <value>Ширина ленты</value>
+  </data>
+  <data name="Printer_Width58" xml:space="preserve">
+    <value>58 мм — 32 символа</value>
+  </data>
+  <data name="Printer_Width80" xml:space="preserve">
+    <value>80 мм — 48 символов</value>
+  </data>
+  <data name="Printer_Codepage" xml:space="preserve">
+    <value>Кодировка кириллицы</value>
+  </data>
+  <data name="Printer_Cut" xml:space="preserve">
+    <value>Обрезать ленту после чека</value>
+  </data>
+  <data name="Printer_Drawer" xml:space="preserve">
+    <value>Открывать денежный ящик при оплате наличными</value>
+  </data>
+  <data name="Printer_Feed" xml:space="preserve">
+    <value>Промотка строк перед обрезкой</value>
+  </data>
+  <data name="Printer_Saved" xml:space="preserve">
+    <value>Настройки принтера сохранены</value>
+  </data>
+  <data name="Printer_TestOk" xml:space="preserve">
+    <value>Тестовый чек отправлен на принтер</value>
+  </data>
+  <data name="Printer_TestFailed" xml:space="preserve">
+    <value>Тестовая печать не удалась: {0}</value>
+  </data>
+  <data name="Printer_NoPrinters" xml:space="preserve">
+    <value>Принтеры в системе не найдены</value>
+  </data>
+  <data name="Printer_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить настройки принтера: {0}</value>
+  </data>
+  <data name="Receipts_Print" xml:space="preserve">
+    <value>Печать чека</value>
+  </data>
+  <data name="Receipts_Printed" xml:space="preserve">
+    <value>Чек №{0} отправлен на принтер</value>
+  </data>
+  <data name="Receipts_PrintFailed" xml:space="preserve">
+    <value>Не удалось напечатать чек: {0}</value>
   </data>
 </root>

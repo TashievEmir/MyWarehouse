@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
-using System.Text;
 using System.Windows.Input;
 using Application.Contracts.Interfaces;
+using Application.DTOs.Printing;
 using Application.DTOs.Receipts;
+using Application.Services;
 using Wpf.Common;
 using Wpf.Services;
 
@@ -49,33 +49,75 @@ public class ReceiptBlockItem : ViewModelBase
     public ReceiptBlockState ToState() => new() { Key = Key, IsEnabled = IsEnabled };
 }
 
+/// <summary>Вариант выбора в выпадающем списке настроек принтера.</summary>
+public class PrinterChoice
+{
+    public string Title { get; }
+    public string Value { get; }
+
+    public PrinterChoice(string title, string value)
+    {
+        Title = title;
+        Value = value;
+    }
+}
+
+/// <summary>Числовой вариант: ширина ленты и кодировка.</summary>
+public class PrinterNumberChoice
+{
+    public string Title { get; }
+    public int Value { get; }
+
+    public PrinterNumberChoice(string title, int value)
+    {
+        Title = title;
+        Value = value;
+    }
+}
+
 /// <summary>
-/// Редактор шаблона чека: шапка, порядок блоков и подвал.
-/// Любое изменение сразу перерисовывает предпросмотр ленты.
+/// Редактор шаблона чека: шапка, порядок блоков и подвал, плюс настройки
+/// принтера. Любое изменение сразу перерисовывает предпросмотр ленты.
 /// </summary>
 public class ReceiptTemplateViewModel : ViewModelBase
 {
-    private static readonly CultureInfo Russian = new("ru-RU");
-
     private readonly IReceiptTemplateService _templates;
+    private readonly IPrinterSettingsService _printerSettings;
+    private readonly IReceiptPrintService _printing;
+    private readonly IReceiptPrinter _printer;
     private readonly SessionService _session;
 
     public ObservableCollection<ReceiptBlockItem> Blocks { get; } = new();
+
+    /// <summary>Принтеры, установленные в Windows, плюс вариант «по умолчанию».</summary>
+    public ObservableCollection<PrinterChoice> Printers { get; } = new();
+
+    public ObservableCollection<PrinterNumberChoice> Widths { get; } = new();
+
+    public ObservableCollection<PrinterNumberChoice> Codepages { get; } = new();
 
     public ICommand SaveCommand { get; }
     public ICommand MoveUpCommand { get; }
     public ICommand MoveDownCommand { get; }
     public ICommand TestPrintCommand { get; }
 
-    public ReceiptTemplateViewModel(IReceiptTemplateService templates, SessionService session)
+    public ReceiptTemplateViewModel(
+        IReceiptTemplateService templates,
+        IPrinterSettingsService printerSettings,
+        IReceiptPrintService printing,
+        IReceiptPrinter printer,
+        SessionService session)
     {
         _templates = templates;
+        _printerSettings = printerSettings;
+        _printing = printing;
+        _printer = printer;
         _session = session;
 
         SaveCommand = new AsyncRelayCommand(SaveAsync);
         MoveUpCommand = new RelayCommand<ReceiptBlockItem>(block => Move(block, -1));
         MoveDownCommand = new RelayCommand<ReceiptBlockItem>(block => Move(block, +1));
-        TestPrintCommand = new RelayCommand(() => ShowInfo(Loc.T("Template_TestPrintInfo")));
+        TestPrintCommand = new AsyncRelayCommand(TestPrintAsync);
 
         Blocks.CollectionChanged += (_, __) => RefreshPreview();
     }
@@ -117,6 +159,148 @@ public class ReceiptTemplateViewModel : ViewModelBase
         _         => Loc.T("Template_Role_Viewer"),
     };
 
+    // ===================== Настройки принтера =====================
+
+    private bool _autoPrint;
+    /// <summary>Печатать чек сразу после закрытия сделки.</summary>
+    public bool AutoPrint
+    {
+        get => _autoPrint;
+        set => SetProperty(ref _autoPrint, value);
+    }
+
+    private PrinterChoice? _selectedPrinter;
+    public PrinterChoice? SelectedPrinter
+    {
+        get => _selectedPrinter;
+        set => SetProperty(ref _selectedPrinter, value);
+    }
+
+    private PrinterNumberChoice? _selectedWidth;
+    public PrinterNumberChoice? SelectedWidth
+    {
+        get => _selectedWidth;
+        set
+        {
+            // Ширина ленты меняет вёрстку — предпросмотр должен это показать
+            if (!SetProperty(ref _selectedWidth, value))
+                return;
+
+            OnPropertyChanged(nameof(PreviewHint));
+
+            RefreshPreview();
+        }
+    }
+
+    /// <summary>Подпись над предпросмотром: показывает выбранную ширину ленты.</summary>
+    public string PreviewHint => Loc.F("Template_PreviewHint", SelectedWidth?.Title ?? "");
+
+    private PrinterNumberChoice? _selectedCodepage;
+    public PrinterNumberChoice? SelectedCodepage
+    {
+        get => _selectedCodepage;
+        set => SetProperty(ref _selectedCodepage, value);
+    }
+
+    private bool _cutPaper = true;
+    public bool CutPaper
+    {
+        get => _cutPaper;
+        set => SetProperty(ref _cutPaper, value);
+    }
+
+    private bool _openCashDrawer;
+    public bool OpenCashDrawer
+    {
+        get => _openCashDrawer;
+        set => SetProperty(ref _openCashDrawer, value);
+    }
+
+    private int _feedLines = 3;
+    public int FeedLines
+    {
+        get => _feedLines;
+        set => SetProperty(ref _feedLines, Math.Clamp(value, 0, 10));
+    }
+
+    /// <summary>Ширина ленты в символах — её же использует предпросмотр.</summary>
+    private int Width => SelectedWidth?.Value ?? Domain.Entities.PrinterSettings.DefaultCharsPerLine;
+
+    private void FillPrinterChoices()
+    {
+        Widths.Clear();
+        Widths.Add(new PrinterNumberChoice(Loc.T("Printer_Width58"), 32));
+        Widths.Add(new PrinterNumberChoice(Loc.T("Printer_Width80"), 48));
+
+        Codepages.Clear();
+        Codepages.Add(new PrinterNumberChoice("CP866", 866));
+        Codepages.Add(new PrinterNumberChoice("CP1251", 1251));
+
+        Printers.Clear();
+        Printers.Add(new PrinterChoice(Loc.T("Printer_UseDefault"), ""));
+
+        // Список принтеров — вопрос к системе: она может и не ответить
+        try
+        {
+            foreach (var name in _printer.GetInstalledPrinters())
+                Printers.Add(new PrinterChoice(name, name));
+        }
+        catch
+        {
+            // оставляем только «по умолчанию»
+        }
+    }
+
+    private async Task TestPrintAsync()
+    {
+        if (Printers.Count <= 1)
+        {
+            ShowError(Loc.T("Printer_NoPrinters"));
+            return;
+        }
+
+        if (_session.User is null)
+        {
+            ShowError(Loc.T("Template_NoLogin"));
+            return;
+        }
+
+        IsBusy = true;
+
+        try
+        {
+            // Печатаем то, что сейчас в полях: настройки сперва сохраняем
+            await SavePrinterSettingsAsync();
+
+            await _printing.PrintTestAsync(CancellationToken.None);
+
+            ShowInfo(Loc.T("Printer_TestOk"));
+        }
+        catch (Exception ex)
+        {
+            ShowError(Loc.F("Printer_TestFailed", ex.Message));
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    private Task SavePrinterSettingsAsync()
+    {
+        return _printerSettings.SaveAsync(new SavePrinterSettingsRequest
+        {
+            UserId         = _session.User!.UserId,
+            AutoPrint      = AutoPrint,
+            PrinterName    = SelectedPrinter?.Value ?? "",
+            CharsPerLine   = Width,
+            Codepage       = SelectedCodepage?.Value ?? Domain.Entities.PrinterSettings.DefaultCodepage,
+            CutPaper       = CutPaper,
+            OpenCashDrawer = OpenCashDrawer,
+            FeedLines      = FeedLines,
+        }, CancellationToken.None);
+    }
+
     // ===================== Предпросмотр =====================
 
     private string _preview = "";
@@ -126,70 +310,39 @@ public class ReceiptTemplateViewModel : ViewModelBase
         private set => SetProperty(ref _preview, value);
     }
 
-    /// <summary>Собирает ленту так же, как её увидит принтер: только включённые блоки.</summary>
+    /// <summary>
+    /// Предпросмотр собирается тем же рендером, что и печать, — на экране
+    /// ровно та лента, которая выйдет из принтера. Выравнивание принтер
+    /// делает сам, поэтому для экрана его приходится доигрывать пробелами.
+    /// </summary>
     private void RefreshPreview()
     {
-        var enabled = Blocks.Where(b => b.IsEnabled).Select(b => b.Key).ToHashSet();
-
-        var text = new StringBuilder();
-
-        if (enabled.Contains("logo"))
-            text.AppendLine(ShopName.ToUpper(Russian));
-
-        if (enabled.Contains("address"))
+        var template = new ReceiptTemplateResponse
         {
-            if (!string.IsNullOrWhiteSpace(Address)) text.AppendLine(Address);
-            if (!string.IsNullOrWhiteSpace(Tin)) text.AppendLine(Loc.F("Template_Preview_Tin", Tin));
-        }
+            ShopName   = ShopName,
+            Tin        = Tin,
+            Address    = Address,
+            FooterText = FooterText,
+            Blocks = Blocks
+                .Select(b => new ReceiptBlockResponse { Key = b.Key, IsEnabled = b.IsEnabled })
+                .ToList(),
+        };
 
-        text.AppendLine("--------------------------------");
+        var width = Width;
 
-        if (enabled.Contains("number"))
-            text.AppendLine(Loc.F("Template_Preview_Number", DateTime.Now.ToString("dd.MM.yyyy HH:mm", Loc.Instance.Culture)));
+        var lines = ReceiptRenderer.RenderTest(template, width);
 
-        if (enabled.Contains("cashier"))
-            text.AppendLine(Loc.T("Template_Preview_Cashier"));
-
-        text.AppendLine("--------------------------------");
-
-        text.AppendLine(Loc.T("Template_Preview_Item1"));
-        if (enabled.Contains("barcode"))
-            text.AppendLine("  4870001234567");
-        text.AppendLine(Loc.T("Template_Preview_Item1Line"));
-
-        text.AppendLine(Loc.T("Template_Preview_Item2"));
-        if (enabled.Contains("barcode"))
-            text.AppendLine("  4870007654321");
-        text.AppendLine(Loc.T("Template_Preview_Item2Line"));
-
-        text.AppendLine("--------------------------------");
-        text.AppendLine(Loc.T("Template_Preview_Sum"));
-        text.AppendLine(Loc.T("Template_Preview_Discount"));
-        text.AppendLine(Loc.T("Template_Preview_Total"));
-        text.AppendLine(Loc.T("Template_Preview_Cash"));
-        text.AppendLine(Loc.T("Template_Preview_Change"));
-
-        if (enabled.Contains("customer"))
-        {
-            text.AppendLine("--------------------------------");
-            text.AppendLine(Loc.T("Template_Preview_Customer"));
-            text.AppendLine(Loc.T("Template_Preview_Debt"));
-        }
-
-        if (enabled.Contains("qr"))
-        {
-            text.AppendLine("--------------------------------");
-            text.AppendLine(Loc.T("Template_Preview_Qr"));
-        }
-
-        if (!string.IsNullOrWhiteSpace(FooterText))
-        {
-            text.AppendLine("--------------------------------");
-            text.AppendLine(FooterText);
-        }
-
-        Preview = text.ToString().TrimEnd();
+        Preview = string.Join(Environment.NewLine, lines.Select(line => Pad(line, width)));
     }
+
+    private static string Pad(ReceiptPrintLine line, int width) => line.Align switch
+    {
+        PrintAlign.Center => line.Text.Length >= width
+            ? line.Text
+            : line.Text.PadLeft((width + line.Text.Length) / 2),
+        PrintAlign.Right => line.Text.PadLeft(width),
+        _ => line.Text,
+    };
 
     // ===================== Порядок блоков =====================
 
@@ -212,6 +365,10 @@ public class ReceiptTemplateViewModel : ViewModelBase
 
         try
         {
+            FillPrinterChoices();
+
+            await LoadPrinterSettingsAsync();
+
             var template = await _templates.GetAsync(CancellationToken.None);
 
             ShopName = template.ShopName;
@@ -251,6 +408,30 @@ public class ReceiptTemplateViewModel : ViewModelBase
 
     private void OnBlockChanged(object? sender, PropertyChangedEventArgs e) => RefreshPreview();
 
+    private async Task LoadPrinterSettingsAsync()
+    {
+        try
+        {
+            var settings = await _printerSettings.GetAsync(CancellationToken.None);
+
+            AutoPrint      = settings.AutoPrint;
+            CutPaper       = settings.CutPaper;
+            OpenCashDrawer = settings.OpenCashDrawer;
+            FeedLines      = settings.FeedLines;
+
+            // Сохранённого принтера может уже не быть в системе — тогда «по умолчанию»
+            SelectedPrinter = Printers.FirstOrDefault(p => p.Value == settings.PrinterName)
+                              ?? Printers.FirstOrDefault();
+
+            SelectedWidth    = Widths.FirstOrDefault(w => w.Value == settings.CharsPerLine) ?? Widths.FirstOrDefault();
+            SelectedCodepage = Codepages.FirstOrDefault(c => c.Value == settings.Codepage) ?? Codepages.FirstOrDefault();
+        }
+        catch (Exception ex)
+        {
+            ShowError(Loc.F("Printer_LoadFailed", ex.Message));
+        }
+    }
+
     private async Task SaveAsync()
     {
         if (string.IsNullOrWhiteSpace(ShopName))
@@ -278,6 +459,8 @@ public class ReceiptTemplateViewModel : ViewModelBase
                 FooterText = FooterText,
                 Blocks     = Blocks.Select(b => b.ToState()).ToList(),
             }, CancellationToken.None);
+
+            await SavePrinterSettingsAsync();
 
             ShowInfo(Loc.T("Template_Saved"));
         }

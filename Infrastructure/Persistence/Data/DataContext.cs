@@ -28,6 +28,7 @@ namespace Infrastructure.Persistence.Data
         public DbSet<ActivityLogEntry> ActivityLog => Set<ActivityLogEntry>();
         public DbSet<ReceiptTemplate> ReceiptTemplates => Set<ReceiptTemplate>();
         public DbSet<NotificationSettings> NotificationSettings => Set<NotificationSettings>();
+        public DbSet<PrinterSettings> PrinterSettings => Set<PrinterSettings>();
         public DbSet<DebtReminder> DebtReminders => Set<DebtReminder>();
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken ct)

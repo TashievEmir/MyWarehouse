@@ -19,6 +19,7 @@ public class SalesViewModel : ViewModelBase
     private readonly IProductService _products;
     private readonly ISalesService _sales;
     private readonly ICustomerService _customerService;
+    private readonly IReceiptPrintService _printing;
     private readonly SessionService _session;
 
     private int _tabCounter;
@@ -36,11 +37,13 @@ public class SalesViewModel : ViewModelBase
         IProductService products,
         ISalesService sales,
         ICustomerService customerService,
+        IReceiptPrintService printing,
         SessionService session)
     {
         _products = products;
         _sales = sales;
         _customerService = customerService;
+        _printing = printing;
         _session = session;
 
         NewTabCommand = new RelayCommand(AddTab);
@@ -79,6 +82,7 @@ public class SalesViewModel : ViewModelBase
             _products,
             _sales,
             _customerService,
+            _printing,
             _session,
             Customers);
 

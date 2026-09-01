@@ -186,6 +186,55 @@
                     <TextBlock Text="{loc:Tr Template_Footer}" Style="{StaticResource FieldCaption}" Margin="0,14,0,10"/>
                     <TextBox Style="{StaticResource Field}" Text="{Binding FooterText, UpdateSourceTrigger=PropertyChanged}"/>
 
+                    <!-- ============ Принтер ============ -->
+                    <TextBlock Text="{loc:Tr Printer_SectionTitle}" Style="{StaticResource FieldCaption}" Margin="0,26,0,4"/>
+                    <TextBlock Text="{loc:Tr Printer_SectionHint}" Style="{StaticResource Muted}" Margin="2,0,0,12"/>
+
+                    <CheckBox IsChecked="{Binding AutoPrint, Mode=TwoWay}"
+                              Content="{loc:Tr Printer_AutoPrint}"
+                              Margin="0,0,0,12"/>
+
+                    <TextBlock Text="{loc:Tr Printer_Device}" Style="{StaticResource Muted}" Margin="2,0,0,7"/>
+                    <ComboBox ItemsSource="{Binding Printers}"
+                              SelectedItem="{Binding SelectedPrinter, Mode=TwoWay}"
+                              DisplayMemberPath="Title"/>
+
+                    <Grid Margin="0,14,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="0,0,7,0">
+                            <TextBlock Text="{loc:Tr Printer_Width}" Style="{StaticResource Muted}" Margin="2,0,0,7"/>
+                            <ComboBox ItemsSource="{Binding Widths}"
+                                      SelectedItem="{Binding SelectedWidth, Mode=TwoWay}"
+                                      DisplayMemberPath="Title"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="7,0,0,0">
+                            <TextBlock Text="{loc:Tr Printer_Codepage}" Style="{StaticResource Muted}" Margin="2,0,0,7"/>
+                            <ComboBox ItemsSource="{Binding Codepages}"
+                                      SelectedItem="{Binding SelectedCodepage, Mode=TwoWay}"
+                                      DisplayMemberPath="Title"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <CheckBox IsChecked="{Binding CutPaper, Mode=TwoWay}"
+                              Content="{loc:Tr Printer_Cut}"
+                              Margin="0,14,0,0"/>
+
+                    <CheckBox IsChecked="{Binding OpenCashDrawer, Mode=TwoWay}"
+                              Content="{loc:Tr Printer_Drawer}"
+                              Margin="0,10,0,0"/>
+
+                    <StackPanel Margin="0,14,0,0">
+                        <TextBlock Text="{loc:Tr Printer_Feed}" Style="{StaticResource Muted}" Margin="2,0,0,7"/>
+                        <TextBox Style="{StaticResource Field}"
+                                 TextAlignment="Right"
+                                 Text="{Binding FeedLines, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+
                     <Grid Margin="0,18,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -250,7 +299,7 @@
 
                 <StackPanel Grid.Row="0" Margin="0,0,0,14">
                     <TextBlock Text="{loc:Tr Template_Preview}" Style="{StaticResource BlockTitle}"/>
-                    <TextBlock Text="{loc:Tr Template_PreviewHint}" Style="{StaticResource Muted}" Margin="0,2,0,0"/>
+                    <TextBlock Text="{Binding PreviewHint}" Style="{StaticResource Muted}" Margin="0,2,0,0"/>
                 </StackPanel>
 
                 <Border Grid.Row="1"

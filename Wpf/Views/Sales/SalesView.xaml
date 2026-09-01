@@ -649,10 +649,24 @@
                                 </Grid>
                             </StackPanel>
 
+                            <!-- Печать чека: значение по умолчанию берётся из настроек принтера,
+                                 но кассир может снять галочку на конкретный чек -->
+                            <CheckBox Margin="0,16,0,0"
+                                      IsChecked="{Binding PrintReceipt, Mode=TwoWay}">
+
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Printer" Width="16" Height="16" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{loc:Tr Sales_PrintReceipt}"
+                                               Margin="8,0,0,0"
+                                               FontSize="13"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </CheckBox>
+
                             <!-- Закрытие -->
                             <Button Style="{StaticResource PrimaryButton}"
                                     Height="48"
-                                    Margin="0,18,0,0"
+                                    Margin="0,12,0,0"
                                     FontSize="15"
                                     IsEnabled="{Binding CanCloseDeal}"
                                     Click="OnReturnFocusToScanner"

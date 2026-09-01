@@ -63,7 +63,11 @@ namespace Wpf
             services.AddScoped<INotificationSettingsService, NotificationSettingsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDebtReminderService, DebtReminderService>();
+            services.AddScoped<IPrinterSettingsService, PrinterSettingsService>();
+            services.AddScoped<IReceiptPrintService, ReceiptPrintService>();
             services.AddSingleton<IEmailSender, Infrastructure.Notifications.SmtpEmailSender>();
+            // Принтер состояния не держит — одного экземпляра хватает на всё приложение
+            services.AddSingleton<IReceiptPrinter, Infrastructure.Printing.EscPosReceiptPrinter>();
             services.AddSingleton<NavigationService>();
             services.AddSingleton<SessionService>();
             services.AddSingleton<ThemeService>();

@@ -27,6 +27,7 @@ namespace Application.Contracts.Persistence
         DbSet<ActivityLogEntry> ActivityLog { get; }
         DbSet<ReceiptTemplate> ReceiptTemplates { get; }
         DbSet<NotificationSettings> NotificationSettings { get; }
+        DbSet<PrinterSettings> PrinterSettings { get; }
         DbSet<DebtReminder> DebtReminders { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

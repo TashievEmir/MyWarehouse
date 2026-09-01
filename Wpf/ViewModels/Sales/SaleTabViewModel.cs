@@ -29,6 +29,7 @@ public class SaleTabViewModel : ViewModelBase
     private readonly IProductService _products;
     private readonly ISalesService _sales;
     private readonly ICustomerService _customerService;
+    private readonly IReceiptPrintService _printing;
     private readonly SessionService _session;
 
     public string Title { get; }
@@ -55,6 +56,7 @@ public class SaleTabViewModel : ViewModelBase
         IProductService products,
         ISalesService sales,
         ICustomerService customerService,
+        IReceiptPrintService printing,
         SessionService session,
         ObservableCollection<CustomerResponse> customers)
     {
@@ -63,9 +65,13 @@ public class SaleTabViewModel : ViewModelBase
         _products = products;
         _sales = sales;
         _customerService = customerService;
+        _printing = printing;
         _session = session;
 
         Customers = customers;
+
+        // Галочку ставим из настроек принтера: кассир может снять её на один чек
+        _ = InitPrintFlagAsync();
 
         ScanCommand = new AsyncRelayCommand(ScanAsync);
         RemoveLineCommand = new RelayCommand<SaleLineItem>(RemoveLine);
@@ -429,6 +435,29 @@ public class SaleTabViewModel : ViewModelBase
                && !value.Contains(' ');
     }
 
+    // ===================== Печать чека =====================
+
+    private bool _printReceipt;
+    /// <summary>Печатать ли чек по этой сделке. Значение по умолчанию — из настроек принтера.</summary>
+    public bool PrintReceipt
+    {
+        get => _printReceipt;
+        set => SetProperty(ref _printReceipt, value);
+    }
+
+    private async Task InitPrintFlagAsync()
+    {
+        try
+        {
+            PrintReceipt = await _printing.IsAutoPrintEnabledAsync(CancellationToken.None);
+        }
+        catch
+        {
+            // Настройки принтера — не повод не пустить кассира к работе
+            PrintReceipt = false;
+        }
+    }
+
     // ===================== Закрытие сделки =====================
 
     private bool _isBusy;
@@ -510,8 +539,11 @@ public class SaleTabViewModel : ViewModelBase
                 Items = Lines.Select(l => l.ToRequest()).ToList()
             };
 
+            // Суммы для чека снимаем до Reset — он обнулит поля вкладки
             var change = IsCash ? Change : 0m;
             var debt = IsCredit ? DebtAmount : 0m;
+            var cashGiven = IsCash ? CashGiven : 0m;
+            var shouldPrint = PrintReceipt;
 
             var saleId = await _sales.CreateSaleAsync(request, CancellationToken.None);
 
@@ -526,6 +558,9 @@ public class SaleTabViewModel : ViewModelBase
                 message += Loc.F("Sales_ClosedDebt", debt.ToString("N2", Loc.Instance.Culture));
 
             ShowInfo(message);
+
+            if (shouldPrint)
+                await PrintReceiptAsync(saleId, cashGiven, change, message);
         }
         catch (Exception ex)
         {
@@ -534,6 +569,23 @@ public class SaleTabViewModel : ViewModelBase
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    /// <summary>
+    /// Печатаем уже сохранённую продажу: отказ принтера её не отменяет.
+    /// Кассир видит и номер закрытого чека, и причину сбоя — чек всегда
+    /// можно перепечатать из раздела «Чеки».
+    /// </summary>
+    private async Task PrintReceiptAsync(long saleId, decimal cashGiven, decimal change, string closedMessage)
+    {
+        try
+        {
+            await _printing.PrintSaleAsync(saleId, cashGiven, change, CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            ShowError($"{closedMessage} {Loc.F("Sales_PrintFailed", ex.Message)}");
         }
     }
 
