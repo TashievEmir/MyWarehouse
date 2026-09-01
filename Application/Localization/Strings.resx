@@ -2077,4 +2077,97 @@
   <data name="Mail_DueNotSet" xml:space="preserve">
     <value>срок оплаты не назначен</value>
   </data>
+  <data name="Nav_Customers" xml:space="preserve">
+    <value>Клиенты</value>
+  </data>
+  <data name="Page_Customers_Title" xml:space="preserve">
+    <value>Клиенты</value>
+  </data>
+  <data name="Page_Customers_Sub" xml:space="preserve">
+    <value>Покупатели, которым уходят напоминания о долге</value>
+  </data>
+  <data name="Customers_New" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Customers_NewTitle" xml:space="preserve">
+    <value>Новый клиент</value>
+  </data>
+  <data name="Customers_SearchHint" xml:space="preserve">
+    <value>Поиск по имени, телефону или почте</value>
+  </data>
+  <data name="Customers_Count" xml:space="preserve">
+    <value>Всего: {0}</value>
+  </data>
+  <data name="Customers_Empty" xml:space="preserve">
+    <value>Клиентов пока нет. Заведите первого здесь — или он появится сам после продажи в долг через кассу.</value>
+  </data>
+  <data name="Customers_Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Customers_Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Customers_Email" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Customers_EmailHint" xml:space="preserve">
+    <value>Без почты клиент не попадёт в рассылку напоминаний о долге</value>
+  </data>
+  <data name="Customers_NoEmail" xml:space="preserve">
+    <value>почта не указана</value>
+  </data>
+  <data name="Customers_NoEmailTip" xml:space="preserve">
+    <value>Без почты напоминания не уйдут</value>
+  </data>
+  <data name="Customers_NoEmailCount" xml:space="preserve">
+    <value>Без почты: {0}. Эти клиенты не попадут в рассылку напоминаний.</value>
+  </data>
+  <data name="Customers_Debt" xml:space="preserve">
+    <value>Текущий долг</value>
+  </data>
+  <data name="Customers_NeedName" xml:space="preserve">
+    <value>Укажите имя клиента</value>
+  </data>
+  <data name="Customers_BadEmail" xml:space="preserve">
+    <value>Проверьте адрес почты</value>
+  </data>
+  <data name="Customers_Saved" xml:space="preserve">
+    <value>Клиент сохранён</value>
+  </data>
+  <data name="Customers_Deleted" xml:space="preserve">
+    <value>Клиент удалён</value>
+  </data>
+  <data name="Customers_DeleteConfirm" xml:space="preserve">
+    <value>Удалить клиента «{0}»?</value>
+  </data>
+  <data name="Customers_DeleteConfirmTitle" xml:space="preserve">
+    <value>Удаление клиента</value>
+  </data>
+  <data name="Customers_DeleteHint" xml:space="preserve">
+    <value>Удаление доступно, пока за клиентом нет долга и чеков</value>
+  </data>
+  <data name="Customers_DeleteBlocked" xml:space="preserve">
+    <value>У клиента есть непогашенный долг — удалить нельзя</value>
+  </data>
+  <data name="Customers_DeleteHasHistory" xml:space="preserve">
+    <value>За клиентом числятся чеки — удалить нельзя</value>
+  </data>
+  <data name="Customers_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить клиентов: {0}</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Customers_Since" xml:space="preserve">
+    <value>Клиент с {0}</value>
+  </data>
+  <data name="Customers_Address" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="Customers_Note" xml:space="preserve">
+    <value>Заметка</value>
+  </data>
 </root>

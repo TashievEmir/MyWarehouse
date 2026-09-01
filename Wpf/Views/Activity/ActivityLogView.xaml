@@ -26,12 +26,18 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0"
-                           Text="{Binding TimeText}"
-                           FontSize="15"
-                           Margin="0,14,0,0"
-                           TextAlignment="Right"
-                           Foreground="{DynamicResource MutedBrush}"/>
+                <StackPanel Grid.Column="0" Margin="0,14,0,0">
+                    <TextBlock Text="{Binding TimeText}"
+                               FontSize="15"
+                               TextAlignment="Right"
+                               Foreground="{DynamicResource MutedBrush}"/>
+
+                    <TextBlock Text="{Binding DateText}"
+                               FontSize="11"
+                               Margin="0,2,0,0"
+                               TextAlignment="Right"
+                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+                </StackPanel>
 
                 <!-- Линия таймлайна с точкой события -->
                 <Grid Grid.Column="1" Width="16" Margin="16,0">

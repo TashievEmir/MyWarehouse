@@ -101,6 +101,7 @@ namespace Wpf
             services.AddSingleton<ViewModels.Activity.ActivityLogViewModel>();
             services.AddSingleton<ViewModels.Notifications.NotificationsViewModel>();
             services.AddSingleton<ViewModels.Users.UsersViewModel>();
+            services.AddSingleton<ViewModels.Customers.CustomersViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();

@@ -17,6 +17,13 @@ public class ActivityEntryItem
     public DateTimeOffset OccurredAt { get; }
     public string TimeText => OccurredAt.ToLocalTime().ToString("HH:mm", Ui);
 
+    /// <summary>
+    /// Дата под временем: период фильтра может охватывать несколько дней,
+    /// и по одному времени непонятно, к какому дню относится запись.
+    /// Формат фиксированный — он одинаков для обоих языков интерфейса.
+    /// </summary>
+    public string DateText => OccurredAt.ToLocalTime().ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
+
     public string UserName { get; }
     public string Title { get; }
     public string? Details { get; }

@@ -21,7 +21,7 @@ namespace Application.Services
 
         public async Task<long> CreateAsync(CreateCustomerRequest request, CancellationToken ct)
         {
-            var customer = new Customer(request.Name, request.Phone, request.Email);
+            var customer = new Customer(request.Name, request.Phone, request.Email, request.Address, request.Note);
 
             _db.Customers.Add(customer);
             await _db.SaveChangesAsync(ct);
@@ -35,7 +35,7 @@ namespace Application.Services
                 .FirstOrDefaultAsync(x => x.Id == request.Id, ct)
                 ?? throw new DomainException("Customer not found");
 
-            customer.Update(request.Name, request.Phone, request.Email);
+            customer.Update(request.Name, request.Phone, request.Email, request.Address, request.Note);
 
             await _db.SaveChangesAsync(ct);
         }

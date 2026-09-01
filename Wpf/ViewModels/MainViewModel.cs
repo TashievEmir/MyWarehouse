@@ -77,6 +77,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowSalesCommand { get; }
     public ICommand ShowCatalogCommand { get; }
     public ICommand ShowReceivingCommand { get; }
+    public ICommand ShowCustomersCommand { get; }
     public ICommand ShowReceiptsCommand { get; }
     public ICommand ShowReceiptTemplateCommand { get; }
     public ICommand ShowActivityLogCommand { get; }
@@ -129,6 +130,7 @@ public class MainViewModel : ViewModelBase
         ShowSalesCommand           = new RelayCommand(ShowSales);
         ShowCatalogCommand         = new RelayCommand(ShowCatalog);
         ShowReceivingCommand       = new RelayCommand(ShowReceiving);
+        ShowCustomersCommand       = new RelayCommand(ShowCustomers);
         ShowReceiptsCommand        = new RelayCommand(ShowReceipts);
         ShowReceiptTemplateCommand = new RelayCommand(ShowReceiptTemplate);
         ShowActivityLogCommand     = new RelayCommand(ShowActivityLog);
@@ -174,6 +176,15 @@ public class MainViewModel : ViewModelBase
         Products().IsReceivingSelected = true;
 
         Navigate(new Views.Products.ProductsView(), "receiving", "Page_Receiving_Title", "Page_Receiving_Sub", ShowReceiving);
+    }
+
+    private void ShowCustomers()
+    {
+        // Долги и список клиентов меняются в кассе — перечитываем при каждом заходе
+        _ = App.Services.GetRequiredService<ViewModels.Customers.CustomersViewModel>().LoadAsync();
+
+        Navigate(new Views.Customers.CustomersView(), "customers",
+            "Page_Customers_Title", "Page_Customers_Sub", ShowCustomers);
     }
 
     private void ShowReceipts()

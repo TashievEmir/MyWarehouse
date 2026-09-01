@@ -2077,4 +2077,97 @@
   <data name="Mail_DueNotSet" xml:space="preserve">
     <value>төлөм мөөнөтү белгиленген эмес</value>
   </data>
+  <data name="Nav_Customers" xml:space="preserve">
+    <value>Кардарлар</value>
+  </data>
+  <data name="Page_Customers_Title" xml:space="preserve">
+    <value>Кардарлар</value>
+  </data>
+  <data name="Page_Customers_Sub" xml:space="preserve">
+    <value>Карыз жөнүндө эскертме алган сатып алуучулар</value>
+  </data>
+  <data name="Customers_New" xml:space="preserve">
+    <value>Кошуу</value>
+  </data>
+  <data name="Customers_NewTitle" xml:space="preserve">
+    <value>Жаңы кардар</value>
+  </data>
+  <data name="Customers_SearchHint" xml:space="preserve">
+    <value>Аты, телефону же почтасы боюнча издөө</value>
+  </data>
+  <data name="Customers_Count" xml:space="preserve">
+    <value>Бардыгы: {0}</value>
+  </data>
+  <data name="Customers_Empty" xml:space="preserve">
+    <value>Азырынча кардарлар жок. Бирөөнү ушул жерден кошуңуз — же кассадан карызга сатуудан кийин өзү пайда болот.</value>
+  </data>
+  <data name="Customers_Name" xml:space="preserve">
+    <value>Аты</value>
+  </data>
+  <data name="Customers_Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Customers_Email" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Customers_EmailHint" xml:space="preserve">
+    <value>Почтасыз кардар карыз эскертмелерин албайт</value>
+  </data>
+  <data name="Customers_NoEmail" xml:space="preserve">
+    <value>почтасы көрсөтүлгөн эмес</value>
+  </data>
+  <data name="Customers_NoEmailTip" xml:space="preserve">
+    <value>Почтасыз эскертме жөнөтүлбөйт</value>
+  </data>
+  <data name="Customers_NoEmailCount" xml:space="preserve">
+    <value>Почтасыз: {0}. Бул кардарлар эскертме албайт.</value>
+  </data>
+  <data name="Customers_Debt" xml:space="preserve">
+    <value>Учурдагы карыз</value>
+  </data>
+  <data name="Customers_NeedName" xml:space="preserve">
+    <value>Кардардын атын жазыңыз</value>
+  </data>
+  <data name="Customers_BadEmail" xml:space="preserve">
+    <value>Почта дарегин текшериңиз</value>
+  </data>
+  <data name="Customers_Saved" xml:space="preserve">
+    <value>Кардар сакталды</value>
+  </data>
+  <data name="Customers_Deleted" xml:space="preserve">
+    <value>Кардар өчүрүлдү</value>
+  </data>
+  <data name="Customers_DeleteConfirm" xml:space="preserve">
+    <value>«{0}» кардарын өчүрөсүзбү?</value>
+  </data>
+  <data name="Customers_DeleteConfirmTitle" xml:space="preserve">
+    <value>Кардарды өчүрүү</value>
+  </data>
+  <data name="Customers_DeleteHint" xml:space="preserve">
+    <value>Кардарда карыз жана чектер жок болсо өчүрүүгө болот</value>
+  </data>
+  <data name="Customers_DeleteBlocked" xml:space="preserve">
+    <value>Кардардын жабылбаган карызы бар — өчүрүүгө болбойт</value>
+  </data>
+  <data name="Customers_DeleteHasHistory" xml:space="preserve">
+    <value>Кардарда чектер бар — өчүрүүгө болбойт</value>
+  </data>
+  <data name="Customers_LoadFailed" xml:space="preserve">
+    <value>Кардарларды жүктөө мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Сактоо</value>
+  </data>
+  <data name="Common_Delete" xml:space="preserve">
+    <value>Өчүрүү</value>
+  </data>
+  <data name="Customers_Since" xml:space="preserve">
+    <value>Кардар {0} тартып</value>
+  </data>
+  <data name="Customers_Address" xml:space="preserve">
+    <value>Дареги</value>
+  </data>
+  <data name="Customers_Note" xml:space="preserve">
+    <value>Эскертүү</value>
+  </data>
 </root>
