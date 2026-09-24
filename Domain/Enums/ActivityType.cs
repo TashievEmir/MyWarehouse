@@ -17,5 +17,6 @@ namespace Domain.Enums
         UserCreated      = 12,
         UserUpdated      = 13,
         UserDeleted      = 14,
+        BarcodeAssigned  = 15,
     }
 }

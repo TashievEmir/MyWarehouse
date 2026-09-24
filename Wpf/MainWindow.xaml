@@ -394,6 +394,11 @@
                                     Content="{loc:Tr Nav_Receiving}"
                                     common:Nav.PageKey="receiving"
                                     Command="{Binding ShowReceivingCommand}"/>
+
+                            <Button Style="{StaticResource NavSubButton}"
+                                    Content="{loc:Tr Nav_Labels}"
+                                    common:Nav.PageKey="labels"
+                                    Command="{Binding ShowLabelsCommand}"/>
                         </StackPanel>
 
                         <!-- Клиенты: им уходят напоминания о долге -->

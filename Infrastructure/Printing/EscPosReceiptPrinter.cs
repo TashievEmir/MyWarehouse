@@ -94,10 +94,22 @@ namespace Infrastructure.Printing
                     stream.Write([Gs, 0x21, (byte)(doubleHeight ? 0x01 : 0x00)]);
                 }
 
-                var text = encoding.GetBytes(line.Text);
+                if (line.Barcode is { } barcode)
+                {
+                    WriteBarcode(stream, barcode);
+                }
+                else
+                {
+                    stream.Write(encoding.GetBytes(line.Text));
+                    stream.Write([(byte)'\n']);
+                }
 
-                stream.Write(text);
-                stream.Write([(byte)'\n']);
+                // Конец этикетки: промотка и обрез посреди задания
+                if (line.CutAfter)
+                {
+                    stream.Write([Esc, 0x64, (byte)Math.Max(document.FeedLines, 1)]);
+                    stream.Write([Gs, 0x56, 0x42, 0x00]);
+                }
             }
 
             // Возврат к обычному начертанию, иначе следующий чек унаследует стиль
@@ -116,6 +128,42 @@ namespace Infrastructure.Printing
                 stream.Write([Esc, 0x70, 0x00, 0x19, 0xFA]);
 
             return stream.ToArray();
+        }
+
+        /// <summary>
+        /// Штрихкод рисует сам принтер. Нас интересует семейство команд с явной
+        /// длиной данных («GS k m n …»): в отличие от варианта с завершающим
+        /// нулём оно не спотыкается, если в данных попадётся нулевой байт.
+        /// </summary>
+        private static void WriteBarcode(Stream stream, ReceiptBarcode barcode)
+        {
+            var data = (barcode.Data ?? "").Trim();
+
+            if (data.Length == 0)
+                return;
+
+            // Цифры под полосами: 0 — нет, 2 — снизу
+            stream.Write([Gs, 0x48, (byte)(barcode.ShowDigits ? 2 : 0)]);
+
+            // Шрифт цифр: мелкий, иначе на узкой ленте они спорят с названием
+            stream.Write([Gs, 0x66, 0x01]);
+
+            stream.Write([Gs, 0x68, (byte)Math.Clamp(barcode.HeightDots, 1, 255)]);
+            stream.Write([Gs, 0x77, (byte)Math.Clamp(barcode.ModuleWidth, 2, 6)]);
+
+            var type = barcode.Symbology switch
+            {
+                BarcodeSymbology.Ean13 => (byte)67,
+                _ => (byte)67,
+            };
+
+            var payload = Encoding.ASCII.GetBytes(data);
+
+            stream.Write([Gs, 0x6B, type, (byte)payload.Length]);
+            stream.Write(payload);
+
+            // Принтер не переводит строку сам после штрихкода
+            stream.Write([(byte)'\n']);
         }
 
         private static Encoding GetEncoding(int codepage)

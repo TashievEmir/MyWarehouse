@@ -78,6 +78,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowCatalogCommand { get; }
     public ICommand ShowReceivingCommand { get; }
     public ICommand ShowCustomersCommand { get; }
+    public ICommand ShowLabelsCommand { get; }
     public ICommand ShowReceiptsCommand { get; }
     public ICommand ShowReceiptTemplateCommand { get; }
     public ICommand ShowActivityLogCommand { get; }
@@ -131,6 +132,7 @@ public class MainViewModel : ViewModelBase
         ShowCatalogCommand         = new RelayCommand(ShowCatalog);
         ShowReceivingCommand       = new RelayCommand(ShowReceiving);
         ShowCustomersCommand       = new RelayCommand(ShowCustomers);
+        ShowLabelsCommand          = new RelayCommand(ShowLabels);
         ShowReceiptsCommand        = new RelayCommand(ShowReceipts);
         ShowReceiptTemplateCommand = new RelayCommand(ShowReceiptTemplate);
         ShowActivityLogCommand     = new RelayCommand(ShowActivityLog);
@@ -176,6 +178,15 @@ public class MainViewModel : ViewModelBase
         Products().IsReceivingSelected = true;
 
         Navigate(new Views.Products.ProductsView(), "receiving", "Page_Receiving_Title", "Page_Receiving_Sub", ShowReceiving);
+    }
+
+    private void ShowLabels()
+    {
+        // Товары и их коды меняются в приёмке и каталоге — перечитываем при заходе
+        _ = App.Services.GetRequiredService<ViewModels.Labels.LabelsViewModel>().LoadAsync();
+
+        Navigate(new Views.Labels.LabelsView(), "labels",
+            "Page_Labels_Title", "Page_Labels_Sub", ShowLabels);
     }
 
     private void ShowCustomers()

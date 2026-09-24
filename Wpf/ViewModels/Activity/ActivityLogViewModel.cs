@@ -55,6 +55,7 @@ public class ActivityEntryItem
             ActivityType.UserCreated     => ("AccountPlusOutline",      "PrimaryBrush"),
             ActivityType.UserUpdated     => ("AccountEditOutline",      "WarningBrush"),
             ActivityType.UserDeleted     => ("AccountRemoveOutline",    "DangerBrush"),
+            ActivityType.BarcodeAssigned => ("BarcodeScan",             "PrimaryBrush"),
             _                            => ("Login",                   "MutedBrush"),
         };
     }

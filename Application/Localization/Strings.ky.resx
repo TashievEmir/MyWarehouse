@@ -2170,4 +2170,115 @@
   <data name="Customers_Note" xml:space="preserve">
     <value>Эскертүү</value>
   </data>
+  <data name="Nav_Labels" xml:space="preserve">
+    <value>Штрихкоддор</value>
+  </data>
+  <data name="Page_Labels_Title" xml:space="preserve">
+    <value>Штрихкоддор жана этикеткалар</value>
+  </data>
+  <data name="Page_Labels_Sub" xml:space="preserve">
+    <value>Белгиленбеген товарларга код берүү жана наклейка басып чыгаруу</value>
+  </data>
+  <data name="Labels_SearchHint" xml:space="preserve">
+    <value>Аты, артикулу, коду же категориясы боюнча издөө</value>
+  </data>
+  <data name="Labels_OnlyWithout" xml:space="preserve">
+    <value>Штрихкодсуз товарлар гана</value>
+  </data>
+  <data name="Labels_Count" xml:space="preserve">
+    <value>Көрсөтүлдү: {0}</value>
+  </data>
+  <data name="Labels_NoBarcode" xml:space="preserve">
+    <value>код жок</value>
+  </data>
+  <data name="Labels_InternalTip" xml:space="preserve">
+    <value>Код дүкөн тарабынан берилген, завод эмес</value>
+  </data>
+  <data name="Labels_EmptyNoneMissing" xml:space="preserve">
+    <value>Бардык товарлар белгиленген. Калгандарын көрүү үчүн белгини алып салыңыз.</value>
+  </data>
+  <data name="Labels_EmptyNoProducts" xml:space="preserve">
+    <value>Товарлар табылган жок</value>
+  </data>
+  <data name="Labels_Barcode" xml:space="preserve">
+    <value>Штрихкод</value>
+  </data>
+  <data name="Labels_Generate" xml:space="preserve">
+    <value>Код берүү</value>
+  </data>
+  <data name="Labels_Content" xml:space="preserve">
+    <value>Этикеткада эмне болот</value>
+  </data>
+  <data name="Labels_ShowName" xml:space="preserve">
+    <value>Товардын аты</value>
+  </data>
+  <data name="Labels_ShowPrice" xml:space="preserve">
+    <value>Баасы</value>
+  </data>
+  <data name="Labels_ShowSku" xml:space="preserve">
+    <value>Артикул</value>
+  </data>
+  <data name="Labels_Preview" xml:space="preserve">
+    <value>Алдын ала көрүү</value>
+  </data>
+  <data name="Labels_Copies" xml:space="preserve">
+    <value>Канча этикетка басып чыгаруу</value>
+  </data>
+  <data name="Labels_Print" xml:space="preserve">
+    <value>Этикетка басып чыгаруу</value>
+  </data>
+  <data name="Labels_Printed" xml:space="preserve">
+    <value>Принтерге жөнөтүлдү, этикетка: {0}</value>
+  </data>
+  <data name="Labels_PrintFailed" xml:space="preserve">
+    <value>Басып чыгаруу мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Labels_Generated" xml:space="preserve">
+    <value>{0} коду берилди</value>
+  </data>
+  <data name="Labels_Saved" xml:space="preserve">
+    <value>Штрихкод сакталды</value>
+  </data>
+  <data name="Labels_SaveFirst" xml:space="preserve">
+    <value>Адегенде кодду сактаңыз — болбосо наклейкада базада жок код болуп калат</value>
+  </data>
+  <data name="Labels_NoLogin" xml:space="preserve">
+    <value>Системага кириңиз</value>
+  </data>
+  <data name="Labels_LoadFailed" xml:space="preserve">
+    <value>Товарларды жүктөө мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Labels_HintEmpty" xml:space="preserve">
+    <value>Код жок. Ички код бериңиз же таңгактагы заводдук кодду жазыңыз.</value>
+  </data>
+  <data name="Labels_HintInvalid" xml:space="preserve">
+    <value>EAN-13 боюнча 13 сан жана туура көзөмөл саны керек</value>
+  </data>
+  <data name="Labels_HintInternal" xml:space="preserve">
+    <value>Дүкөндүн ички коду</value>
+  </data>
+  <data name="Labels_HintFactory" xml:space="preserve">
+    <value>Заводдук код</value>
+  </data>
+  <data name="Label_Price" xml:space="preserve">
+    <value>{0} сом</value>
+  </data>
+  <data name="Label_Sku" xml:space="preserve">
+    <value>Арт: {0}</value>
+  </data>
+  <data name="Err_BadBarcode" xml:space="preserve">
+    <value>Штрихкод 13 сандан жана туура көзөмөл санынан турушу керек</value>
+  </data>
+  <data name="Err_NoBarcodeToPrint" xml:space="preserve">
+    <value>Товардын штрихкоду жок — адегенде код бериңиз</value>
+  </data>
+  <data name="Log_BarcodeGenerated" xml:space="preserve">
+    <value>Штрихкод берилди</value>
+  </data>
+  <data name="Log_BarcodeSet" xml:space="preserve">
+    <value>Штрихкод өзгөртүлдү</value>
+  </data>
+  <data name="Log_BarcodeDetails" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
 </root>

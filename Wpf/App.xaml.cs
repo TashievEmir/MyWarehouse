@@ -75,6 +75,7 @@ namespace Wpf
             services.AddScoped<IDebtReminderService, DebtReminderService>();
             services.AddScoped<IPrinterSettingsService, PrinterSettingsService>();
             services.AddScoped<IReceiptPrintService, ReceiptPrintService>();
+            services.AddScoped<ILabelService, LabelService>();
             services.AddSingleton<IEmailSender, Infrastructure.Notifications.SmtpEmailSender>();
             // Принтер состояния не держит — одного экземпляра хватает на всё приложение
             services.AddSingleton<IReceiptPrinter, Infrastructure.Printing.EscPosReceiptPrinter>();
@@ -102,6 +103,7 @@ namespace Wpf
             services.AddSingleton<ViewModels.Notifications.NotificationsViewModel>();
             services.AddSingleton<ViewModels.Users.UsersViewModel>();
             services.AddSingleton<ViewModels.Customers.CustomersViewModel>();
+            services.AddSingleton<ViewModels.Labels.LabelsViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();

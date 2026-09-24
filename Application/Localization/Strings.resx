@@ -2170,4 +2170,115 @@
   <data name="Customers_Note" xml:space="preserve">
     <value>Заметка</value>
   </data>
+  <data name="Nav_Labels" xml:space="preserve">
+    <value>Штрихкоды</value>
+  </data>
+  <data name="Page_Labels_Title" xml:space="preserve">
+    <value>Штрихкоды и этикетки</value>
+  </data>
+  <data name="Page_Labels_Sub" xml:space="preserve">
+    <value>Выдача кодов товарам без маркировки и печать наклеек</value>
+  </data>
+  <data name="Labels_SearchHint" xml:space="preserve">
+    <value>Поиск по названию, артикулу, коду или категории</value>
+  </data>
+  <data name="Labels_OnlyWithout" xml:space="preserve">
+    <value>Только товары без штрихкода</value>
+  </data>
+  <data name="Labels_Count" xml:space="preserve">
+    <value>Показано: {0}</value>
+  </data>
+  <data name="Labels_NoBarcode" xml:space="preserve">
+    <value>нет кода</value>
+  </data>
+  <data name="Labels_InternalTip" xml:space="preserve">
+    <value>Код выдан магазином, а не заводом</value>
+  </data>
+  <data name="Labels_EmptyNoneMissing" xml:space="preserve">
+    <value>Все товары уже промаркированы. Снимите галочку, чтобы увидеть остальные и перепечатать этикетку.</value>
+  </data>
+  <data name="Labels_EmptyNoProducts" xml:space="preserve">
+    <value>Товары не найдены</value>
+  </data>
+  <data name="Labels_Barcode" xml:space="preserve">
+    <value>Штрихкод</value>
+  </data>
+  <data name="Labels_Generate" xml:space="preserve">
+    <value>Выдать код</value>
+  </data>
+  <data name="Labels_Content" xml:space="preserve">
+    <value>Что на этикетке</value>
+  </data>
+  <data name="Labels_ShowName" xml:space="preserve">
+    <value>Название товара</value>
+  </data>
+  <data name="Labels_ShowPrice" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="Labels_ShowSku" xml:space="preserve">
+    <value>Артикул</value>
+  </data>
+  <data name="Labels_Preview" xml:space="preserve">
+    <value>Предпросмотр</value>
+  </data>
+  <data name="Labels_Copies" xml:space="preserve">
+    <value>Сколько этикеток напечатать</value>
+  </data>
+  <data name="Labels_Print" xml:space="preserve">
+    <value>Печать этикеток</value>
+  </data>
+  <data name="Labels_Printed" xml:space="preserve">
+    <value>Отправлено на принтер, этикеток: {0}</value>
+  </data>
+  <data name="Labels_PrintFailed" xml:space="preserve">
+    <value>Не удалось напечатать: {0}</value>
+  </data>
+  <data name="Labels_Generated" xml:space="preserve">
+    <value>Выдан код {0}</value>
+  </data>
+  <data name="Labels_Saved" xml:space="preserve">
+    <value>Штрихкод сохранён</value>
+  </data>
+  <data name="Labels_SaveFirst" xml:space="preserve">
+    <value>Сначала сохраните код — иначе на наклейке окажется то, чего нет в базе</value>
+  </data>
+  <data name="Labels_NoLogin" xml:space="preserve">
+    <value>Войдите в систему</value>
+  </data>
+  <data name="Labels_LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить товары: {0}</value>
+  </data>
+  <data name="Labels_HintEmpty" xml:space="preserve">
+    <value>Кода нет. Выдайте внутренний или перепишите заводской с упаковки.</value>
+  </data>
+  <data name="Labels_HintInvalid" xml:space="preserve">
+    <value>Нужны 13 цифр EAN-13 с верной контрольной цифрой</value>
+  </data>
+  <data name="Labels_HintInternal" xml:space="preserve">
+    <value>Внутренний код магазина</value>
+  </data>
+  <data name="Labels_HintFactory" xml:space="preserve">
+    <value>Заводской код</value>
+  </data>
+  <data name="Label_Price" xml:space="preserve">
+    <value>{0} сом</value>
+  </data>
+  <data name="Label_Sku" xml:space="preserve">
+    <value>Арт: {0}</value>
+  </data>
+  <data name="Err_BadBarcode" xml:space="preserve">
+    <value>Штрихкод должен быть из 13 цифр с верной контрольной цифрой</value>
+  </data>
+  <data name="Err_NoBarcodeToPrint" xml:space="preserve">
+    <value>У товара нет штрихкода — сначала выдайте код</value>
+  </data>
+  <data name="Log_BarcodeGenerated" xml:space="preserve">
+    <value>Выдан штрихкод</value>
+  </data>
+  <data name="Log_BarcodeSet" xml:space="preserve">
+    <value>Изменён штрихкод</value>
+  </data>
+  <data name="Log_BarcodeDetails" xml:space="preserve">
+    <value>{0} · {1}</value>
+  </data>
 </root>
