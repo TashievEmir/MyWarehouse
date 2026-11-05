@@ -2281,4 +2281,7 @@
   <data name="Log_BarcodeDetails" xml:space="preserve">
     <value>{0} · {1}</value>
   </data>
+  <data name="Labels_PreviewNoCode" xml:space="preserve">
+    <value>Штрихкод азырынча жок — код бериңиз же заводдукун жазыңыз</value>
+  </data>
 </root>

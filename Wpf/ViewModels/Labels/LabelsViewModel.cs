@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Application.Contracts.Interfaces;
 using Application.DTOs.Labels;
 using Application.DTOs.Printing;
@@ -226,8 +228,9 @@ public class LabelsViewModel : ViewModelBase
     {
         Selected = null;
         BarcodeInput = "";
-        Preview = "";
         StatusMessage = "";
+
+        RefreshPreview();
     }
 
     // ===================== Этикетка =====================
@@ -268,12 +271,51 @@ public class LabelsViewModel : ViewModelBase
         Copies = Copies,
     };
 
-    private string _preview = "";
-    /// <summary>Как этикетка ляжет на ленту — тем же рендером, что и печать.</summary>
-    public string Preview
+    private string _previewTop = "";
+    /// <summary>Строки над штрихкодом: название и цена.</summary>
+    public string PreviewTop
     {
-        get => _preview;
-        private set => SetProperty(ref _preview, value);
+        get => _previewTop;
+        private set => SetProperty(ref _previewTop, value);
+    }
+
+    private string _previewBottom = "";
+    /// <summary>Строки под штрихкодом: артикул.</summary>
+    public string PreviewBottom
+    {
+        get => _previewBottom;
+        private set
+        {
+            if (SetProperty(ref _previewBottom, value))
+                OnPropertyChanged(nameof(HasPreviewBottom));
+        }
+    }
+
+    public bool HasPreviewBottom => PreviewBottom.Length > 0;
+
+    private ImageSource? _barcodeImage;
+    /// <summary>
+    /// Настоящие полосы EAN-13. Печатает их принтер своей командой, но
+    /// увидеть код до печати надо здесь — иначе владелец клеит вслепую.
+    /// </summary>
+    public ImageSource? BarcodeImage
+    {
+        get => _barcodeImage;
+        private set
+        {
+            if (SetProperty(ref _barcodeImage, value))
+                OnPropertyChanged(nameof(HasBarcodeImage));
+        }
+    }
+
+    public bool HasBarcodeImage => BarcodeImage is not null;
+
+    private string _previewDigits = "";
+    /// <summary>Цифры под полосами — их печатает принтер.</summary>
+    public string PreviewDigits
+    {
+        get => _previewDigits;
+        private set => SetProperty(ref _previewDigits, value);
     }
 
     /// <summary>Ширина ленты из настроек принтера; до загрузки считаем 58 мм.</summary>
@@ -283,7 +325,10 @@ public class LabelsViewModel : ViewModelBase
     {
         if (Selected is null)
         {
-            Preview = "";
+            PreviewTop = "";
+            PreviewBottom = "";
+            PreviewDigits = "";
+            BarcodeImage = null;
             return;
         }
 
@@ -297,26 +342,82 @@ public class LabelsViewModel : ViewModelBase
 
         var lines = LabelRenderer.Render(product, single, _width);
 
-        var text = new StringBuilder();
+        var top = new StringBuilder();
+        var bottom = new StringBuilder();
+
+        // Строки до штрихкода идут сверху, после — снизу
+        var seenBarcode = false;
 
         foreach (var line in lines)
         {
             if (line.Barcode is { } barcode)
             {
-                // Полосы на экране не рисуем — показываем место, которое они займут
-                text.AppendLine(Center(new string('█', Math.Min(_width - 4, 24)), _width));
-                text.AppendLine(Center(barcode.Data, _width));
+                seenBarcode = true;
+
+                BarcodeImage = DrawBarcode(barcode.Data);
+                PreviewDigits = BarcodeImage is null ? "" : barcode.Data;
+
                 continue;
             }
 
-            text.AppendLine(line.Align == PrintAlign.Center ? Center(line.Text, _width) : line.Text);
+            var text = line.Align == PrintAlign.Center ? Center(line.Text, _width) : line.Text;
+
+            (seenBarcode ? bottom : top).AppendLine(text);
         }
 
-        Preview = text.ToString().TrimEnd();
+        PreviewTop = top.ToString().TrimEnd();
+        PreviewBottom = bottom.ToString().TrimEnd();
     }
 
     private static string Center(string text, int width)
         => text.Length >= width ? text : text.PadLeft((width + text.Length) / 2);
+
+    /// <summary>Поля по краям кода: без них сканер не находит начало символа.</summary>
+    private const int QuietZoneModules = 9;
+
+    /// <summary>
+    /// Рисует символ EAN-13 как векторную картинку. Чёрные полосы на белом:
+    /// это бумага, а не интерфейс, поэтому цвета темы здесь не применяются —
+    /// инвертированный штрихкод сканер не прочитает.
+    /// </summary>
+    private static ImageSource? DrawBarcode(string? code)
+    {
+        var modules = Ean13Encoder.Encode(code);
+
+        if (modules is null)
+            return null;
+
+        const double height = 44;
+
+        var width = modules.Length + QuietZoneModules * 2;
+
+        var group = new DrawingGroup();
+
+        group.Children.Add(new GeometryDrawing(
+            Brushes.White,
+            null,
+            new RectangleGeometry(new Rect(0, 0, width, height))));
+
+        var bars = new GeometryGroup();
+
+        for (var i = 0; i < modules.Length; i++)
+        {
+            if (!modules[i])
+                continue;
+
+            bars.Children.Add(new RectangleGeometry(
+                new Rect(QuietZoneModules + i, 0, 1, height)));
+        }
+
+        group.Children.Add(new GeometryDrawing(Brushes.Black, null, bars));
+
+        var image = new DrawingImage(group);
+
+        // Картинка уходит в UI-поток только для показа — замораживаем
+        image.Freeze();
+
+        return image;
+    }
 
     // ===================== Действия =====================
 

@@ -279,15 +279,63 @@
                     <!-- Предпросмотр -->
                     <TextBlock Text="{loc:Tr Labels_Preview}" Style="{StaticResource FieldCaption}" Margin="0,20,0,10"/>
 
-                    <Border Padding="12,12"
+                    <!-- Белый фон намеренно: это бумага, а не интерфейс.
+                         Инвертированный под тёмную тему штрихкод сканер не прочитает. -->
+                    <Border Padding="14,14"
                             CornerRadius="10"
-                            Background="{DynamicResource Surface2Brush}">
+                            Background="#FFFFFF">
 
-                        <TextBlock Text="{Binding Preview}"
-                                   FontFamily="Consolas"
-                                   FontSize="12"
-                                   TextWrapping="NoWrap"
-                                   Foreground="{DynamicResource TextBrush}"/>
+                        <StackPanel>
+                            <TextBlock Text="{Binding PreviewTop}"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       TextWrapping="NoWrap"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#111111"/>
+
+                            <Image Source="{Binding BarcodeImage}"
+                                   Height="52"
+                                   Margin="0,8,0,0"
+                                   Stretch="Uniform"
+                                   RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                   SnapsToDevicePixels="True"
+                                   Visibility="{Binding HasBarcodeImage, Converter={StaticResource BoolToVisibility}}"/>
+
+                            <TextBlock Text="{Binding PreviewDigits}"
+                                       FontFamily="Consolas"
+                                       FontSize="13"
+                                       Margin="0,2,0,0"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#111111"/>
+
+                            <TextBlock Text="{Binding PreviewBottom}"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       Margin="0,6,0,0"
+                                       TextWrapping="NoWrap"
+                                       HorizontalAlignment="Center"
+                                       Foreground="#111111"
+                                       Visibility="{Binding HasPreviewBottom, Converter={StaticResource BoolToVisibility}}"/>
+
+                            <!-- Кода нет или он битый — рисовать нечего -->
+                            <TextBlock Text="{loc:Tr Labels_PreviewNoCode}"
+                                       FontSize="12"
+                                       Margin="0,6,0,0"
+                                       TextWrapping="Wrap"
+                                       TextAlignment="Center"
+                                       Foreground="#888888">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasBarcodeImage}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
                     </Border>
 
                     <!-- Печать -->
