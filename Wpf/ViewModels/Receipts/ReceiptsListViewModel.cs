@@ -330,13 +330,12 @@ public class ReceiptsListViewModel : ViewModelBase
             return;
         }
 
-        var answer = MessageBox.Show(
-            Loc.F("Receipts_ReturnConfirm", Selected.SaleId, Selected.TotalAmount.ToString("N2", Loc.Instance.Culture)),
+        var confirmed = Dialog.ConfirmDanger(
             Loc.T("Receipts_ReturnConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            Loc.F("Receipts_ReturnConfirm", Selected.SaleId, Selected.TotalAmount.ToString("N2", Loc.Instance.Culture)),
+            Loc.T("Common_Return"));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         try

@@ -404,13 +404,11 @@ public class UsersViewModel : ViewModelBase
             return;
         }
 
-        var answer = MessageBox.Show(
-            Loc.F("Users_DeleteConfirm", EditorTitle),
+        var confirmed = Dialog.ConfirmDanger(
             Loc.T("Users_DeleteConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            Loc.F("Users_DeleteConfirm", EditorTitle));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         IsBusy = true;

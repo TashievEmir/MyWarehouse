@@ -474,13 +474,11 @@ public class CustomersViewModel : ViewModelBase
             return;
         }
 
-        var answer = MessageBox.Show(
-            Loc.F("Customers_DeleteConfirm", EditorTitle),
+        var confirmed = Dialog.ConfirmDanger(
             Loc.T("Customers_DeleteConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            Loc.F("Customers_DeleteConfirm", EditorTitle));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         IsBusy = true;

@@ -100,13 +100,12 @@ public class SalesViewModel : ViewModelBase
 
         if (tab.Lines.Count > 0)
         {
-            var answer = MessageBox.Show(
-                Loc.F("Sales_CloseTabConfirm", tab.Title, tab.CartSummary),
+            var confirmed = Dialog.ConfirmDanger(
                 Loc.T("Sales_CloseTabConfirmTitle"),
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
+                Loc.F("Sales_CloseTabConfirm", tab.Title, tab.CartSummary),
+                Loc.T("Common_CloseTab"));
 
-            if (answer != MessageBoxResult.Yes)
+            if (!confirmed)
                 return;
         }
 

@@ -2371,4 +2371,16 @@
   <data name="Err_NothingToInstall" xml:space="preserve">
     <value>Адегенде жаңыртууну текшериңиз</value>
   </data>
+  <data name="Common_Continue" xml:space="preserve">
+    <value>Улантуу</value>
+  </data>
+  <data name="Common_WriteOff" xml:space="preserve">
+    <value>Эсептен чыгаруу</value>
+  </data>
+  <data name="Common_Return" xml:space="preserve">
+    <value>Кайтаруу</value>
+  </data>
+  <data name="Common_CloseTab" xml:space="preserve">
+    <value>Өтмөктү жабуу</value>
+  </data>
 </root>

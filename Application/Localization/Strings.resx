@@ -2371,4 +2371,16 @@
   <data name="Err_NothingToInstall" xml:space="preserve">
     <value>Сначала проверьте обновление</value>
   </data>
+  <data name="Common_Continue" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="Common_WriteOff" xml:space="preserve">
+    <value>Списать</value>
+  </data>
+  <data name="Common_Return" xml:space="preserve">
+    <value>Вернуть</value>
+  </data>
+  <data name="Common_CloseTab" xml:space="preserve">
+    <value>Закрыть вкладку</value>
+  </data>
 </root>

@@ -347,13 +347,12 @@ public class ProductEditorViewModel : ViewModelBase
             return;
         }
 
-        var answer = MessageBox.Show(
-            Loc.F("Editor_WriteOffConfirm", WriteOffQuantity, Title, SelectedReason.Name),
+        var confirmed = Dialog.ConfirmDanger(
             Loc.T("Editor_WriteOffConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            Loc.F("Editor_WriteOffConfirm", WriteOffQuantity, Title, SelectedReason.Name),
+            Loc.T("Common_WriteOff"));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         IsBusy = true;
@@ -393,13 +392,11 @@ public class ProductEditorViewModel : ViewModelBase
 
     private async Task DeleteAsync()
     {
-        var answer = MessageBox.Show(
-            Loc.F("Editor_DeleteConfirm", Title),
+        var confirmed = Dialog.ConfirmDanger(
             Loc.T("Editor_DeleteConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
+            Loc.F("Editor_DeleteConfirm", Title));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         IsBusy = true;

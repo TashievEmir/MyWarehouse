@@ -233,13 +233,12 @@ public class UpdatesViewModel : ViewModelBase
             return;
 
         // Установка закрывает приложение — спрашиваем явно
-        var answer = MessageBox.Show(
-            Loc.F("Updates_ConfirmText", _result.AvailableVersion, _result.CurrentVersion),
+        var confirmed = Dialog.Confirm(
             Loc.T("Updates_ConfirmTitle"),
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
+            Loc.F("Updates_ConfirmText", _result.AvailableVersion, _result.CurrentVersion),
+            Loc.T("Updates_Install"));
 
-        if (answer != MessageBoxResult.Yes)
+        if (!confirmed)
             return;
 
         IsBusy = true;
