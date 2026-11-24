@@ -1,8 +1,8 @@
 ﻿{
-    "version":  "1.1.1",
-    "releasedAt":  "2026-11-24T12:06:33Z",
-    "notes":  "Штрихкоды и этикетки, страница клиентов, раздел обновления",
-    "packageUrl":  "https://github.com/TashievEmir/MyWarehouse/releases/download/v1.1.1/MyWarehouse-1.1.1.zip",
-    "sha256":  "0EC9AC6ED87E0EEE92EA9FF418120B5D609A8899C3E8857CA6E908E18738F245",
-    "sizeBytes":  22141562
+    "version":  "1.1.2",
+    "releasedAt":  "2026-11-24T12:35:18Z",
+    "notes":  "Диалоги подтверждения в оформлении приложения",
+    "packageUrl":  "https://github.com/TashievEmir/MyWarehouse/releases/download/v1.1.2/MyWarehouse-1.1.2.zip",
+    "sha256":  "975DC1C314915731F40C3B437FF315D8A83019063D633303467F56A6F1C7461F",
+    "sizeBytes":  22144031
 }
