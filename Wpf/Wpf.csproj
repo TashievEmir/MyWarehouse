@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <!-- Версия, которую обновление сравнивает с манифестом -->
-    <Version>1.1.0</Version>
+    <!-- Р вЂ™Р ВµРЎР‚РЎРѓР С‘РЎРЏ, Р С”Р С•РЎвЂљР С•РЎР‚РЎС“РЎР‹ Р С•Р В±Р Р…Р С•Р Р†Р В»Р ВµР Р…Р С‘Р Вµ РЎРѓРЎР‚Р В°Р Р†Р Р…Р С‘Р Р†Р В°Р ВµРЎвЂљ РЎРѓ Р СР В°Р Р…Р С‘РЎвЂћР ВµРЎРѓРЎвЂљР С•Р С -->
+    <Version>1.1.1</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.3.1-ci1291" />
@@ -19,7 +19,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.2" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Настройки почты лежат рядом с exe и правятся без пересборки -->
+    <!-- Р СњР В°РЎРѓРЎвЂљРЎР‚Р С•Р в„–Р С”Р С‘ Р С—Р С•РЎвЂЎРЎвЂљРЎвЂ№ Р В»Р ВµР В¶Р В°РЎвЂљ РЎР‚РЎРЏР Т‘Р С•Р С РЎРѓ exe Р С‘ Р С—РЎР‚Р В°Р Р†РЎРЏРЎвЂљРЎРѓРЎРЏ Р В±Р ВµР В· Р С—Р ВµРЎР‚Р ВµРЎРѓР В±Р С•РЎР‚Р С”Р С‘ -->
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
