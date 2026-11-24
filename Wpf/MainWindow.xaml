@@ -532,6 +532,12 @@
                                     common:Nav.Icon="BellOutline"
                                     common:Nav.PageKey="notifications"
                                     Command="{Binding ShowNotificationsCommand}"/>
+
+                            <Button Style="{StaticResource NavButton}"
+                                    Content="{loc:Tr Nav_Updates}"
+                                    common:Nav.Icon="CloudDownloadOutline"
+                                    common:Nav.PageKey="updates"
+                                    Command="{Binding ShowUpdatesCommand}"/>
                         </StackPanel>
 
                     </StackPanel>

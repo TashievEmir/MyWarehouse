@@ -76,6 +76,20 @@ namespace Wpf
             services.AddScoped<IPrinterSettingsService, PrinterSettingsService>();
             services.AddScoped<IReceiptPrintService, ReceiptPrintService>();
             services.AddScoped<ILabelService, LabelService>();
+
+            // Обновление: версия берётся из сборки, манифест и архив — по HTTP.
+            // Отдельный клиент с запасом по времени: архив может быть крупным.
+            services.AddSingleton<IAppVersionProvider, AssemblyVersionProvider>();
+            services.AddHttpClient(Infrastructure.Updates.UpdateHttp.ClientName, http =>
+            {
+                http.Timeout = TimeSpan.FromMinutes(10);
+                http.DefaultRequestHeaders.UserAgent.ParseAdd("MyWarehouse-Updater");
+            });
+            services.AddSingleton<IUpdateFeed, Infrastructure.Updates.HttpUpdateFeed>();
+            services.AddSingleton<IUpdateInstaller, Infrastructure.Updates.ZipUpdateInstaller>();
+            // Синглтон намеренно: проверка запоминает найденный выпуск,
+            // и установка должна ставить ровно то, на что согласился владелец
+            services.AddSingleton<IUpdateService, UpdateService>();
             services.AddSingleton<IEmailSender, Infrastructure.Notifications.SmtpEmailSender>();
             // Принтер состояния не держит — одного экземпляра хватает на всё приложение
             services.AddSingleton<IReceiptPrinter, Infrastructure.Printing.EscPosReceiptPrinter>();
@@ -104,6 +118,7 @@ namespace Wpf
             services.AddSingleton<ViewModels.Users.UsersViewModel>();
             services.AddSingleton<ViewModels.Customers.CustomersViewModel>();
             services.AddSingleton<ViewModels.Labels.LabelsViewModel>();
+            services.AddSingleton<ViewModels.Updates.UpdatesViewModel>();
             services.AddSingleton<StatisticsPageViewModel>();
             services.AddSingleton<StockStatisticsViewModel>();
             services.AddSingleton<DebtsViewModel>();

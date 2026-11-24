@@ -2284,4 +2284,91 @@
   <data name="Labels_PreviewNoCode" xml:space="preserve">
     <value>Штрихкода пока нет — выдайте код или введите заводской</value>
   </data>
+  <data name="Nav_Updates" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="Page_Updates_Title" xml:space="preserve">
+    <value>Обновление</value>
+  </data>
+  <data name="Page_Updates_Sub" xml:space="preserve">
+    <value>Проверка новых версий и установка</value>
+  </data>
+  <data name="Updates_Title" xml:space="preserve">
+    <value>Версия приложения</value>
+  </data>
+  <data name="Updates_Subtitle" xml:space="preserve">
+    <value>Проверьте, не вышла ли новая версия. Обновление скачивается с GitHub и ставится поверх текущей.</value>
+  </data>
+  <data name="Updates_Installed" xml:space="preserve">
+    <value>Установлена сейчас</value>
+  </data>
+  <data name="Updates_Available" xml:space="preserve">
+    <value>Доступна новая версия</value>
+  </data>
+  <data name="Updates_Notes" xml:space="preserve">
+    <value>ЧТО НОВОГО</value>
+  </data>
+  <data name="Updates_Check" xml:space="preserve">
+    <value>Проверить обновление</value>
+  </data>
+  <data name="Updates_Install" xml:space="preserve">
+    <value>Скачать и установить</value>
+  </data>
+  <data name="Updates_UpToDate" xml:space="preserve">
+    <value>Установлена последняя версия {0}</value>
+  </data>
+  <data name="Updates_Found" xml:space="preserve">
+    <value>Доступна версия {0}</value>
+  </data>
+  <data name="Updates_CheckFailed" xml:space="preserve">
+    <value>Не удалось проверить обновление: {0}</value>
+  </data>
+  <data name="Updates_InstallFailed" xml:space="preserve">
+    <value>Не удалось установить: {0}</value>
+  </data>
+  <data name="Updates_Restarting" xml:space="preserve">
+    <value>Приложение закроется и запустится заново уже обновлённым</value>
+  </data>
+  <data name="Updates_ConfirmTitle" xml:space="preserve">
+    <value>Установить обновление</value>
+  </data>
+  <data name="Updates_ConfirmText" xml:space="preserve">
+    <value>Установить версию {0} вместо {1}?&#10;&#10;Приложение закроется и запустится заново. База данных и настройки сохранятся.</value>
+  </data>
+  <data name="Updates_DataSafe" xml:space="preserve">
+    <value>База данных, настройки почты и язык интерфейса при обновлении не затрагиваются</value>
+  </data>
+  <data name="Updates_StageDownloading" xml:space="preserve">
+    <value>Скачиваем обновление</value>
+  </data>
+  <data name="Updates_StageVerifying" xml:space="preserve">
+    <value>Проверяем контрольную сумму</value>
+  </data>
+  <data name="Updates_StageExtracting" xml:space="preserve">
+    <value>Распаковываем</value>
+  </data>
+  <data name="Updates_StagePreparing" xml:space="preserve">
+    <value>Готовим установку</value>
+  </data>
+  <data name="Updates_StageRestarting" xml:space="preserve">
+    <value>Перезапускаем приложение</value>
+  </data>
+  <data name="Updates_SizeMb" xml:space="preserve">
+    <value>{0} МБ</value>
+  </data>
+  <data name="Updates_SizeKb" xml:space="preserve">
+    <value>{0} КБ</value>
+  </data>
+  <data name="Err_BadCurrentVersion" xml:space="preserve">
+    <value>Не удалось определить версию приложения</value>
+  </data>
+  <data name="Err_BadManifestVersion" xml:space="preserve">
+    <value>В манифесте указана непонятная версия: {0}</value>
+  </data>
+  <data name="Err_IncompleteManifest" xml:space="preserve">
+    <value>В манифесте нет ссылки на архив или контрольной суммы</value>
+  </data>
+  <data name="Err_NothingToInstall" xml:space="preserve">
+    <value>Сначала проверьте обновление</value>
+  </data>
 </root>

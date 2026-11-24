@@ -87,6 +87,7 @@ public class MainViewModel : ViewModelBase
     public ICommand ShowPurchasesCommand { get; }
     public ICommand ShowNotificationsCommand { get; }
     public ICommand ShowUsersCommand { get; }
+    public ICommand ShowUpdatesCommand { get; }
     public ICommand ToggleThemeCommand { get; }
     public ICommand ToggleLanguageCommand { get; }
 
@@ -141,6 +142,7 @@ public class MainViewModel : ViewModelBase
         ShowPurchasesCommand       = new RelayCommand(ShowPurchases);
         ShowNotificationsCommand   = new RelayCommand(ShowNotifications);
         ShowUsersCommand           = new RelayCommand(ShowUsers);
+        ShowUpdatesCommand         = new RelayCommand(ShowUpdates);
         ToggleThemeCommand         = new RelayCommand(_theme.Toggle);
         ToggleLanguageCommand      = new RelayCommand(Loc.Instance.Toggle);
 
@@ -283,6 +285,15 @@ public class MainViewModel : ViewModelBase
 
         Navigate(new Views.Users.UsersView(), "users",
             "Page_Users_Title", "Page_Users_Sub", ShowUsers);
+    }
+
+    private void ShowUpdates()
+    {
+        if (!CanSeeSettings)
+            return;
+
+        Navigate(new Views.Updates.UpdatesView(), "updates",
+            "Page_Updates_Title", "Page_Updates_Sub", ShowUpdates);
     }
 
     // ── Общее ──

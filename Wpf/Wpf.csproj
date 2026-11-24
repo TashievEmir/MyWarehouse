@@ -1,13 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <!-- Версия, которую обновление сравнивает с манифестом -->
+    <Version>1.1.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.3.1-ci1291" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.2">
@@ -18,16 +18,13 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <!-- Настройки почты лежат рядом с exe и правятся без пересборки -->
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

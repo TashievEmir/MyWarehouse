@@ -2284,4 +2284,91 @@
   <data name="Labels_PreviewNoCode" xml:space="preserve">
     <value>Штрихкод азырынча жок — код бериңиз же заводдукун жазыңыз</value>
   </data>
+  <data name="Nav_Updates" xml:space="preserve">
+    <value>Жаңыртуу</value>
+  </data>
+  <data name="Page_Updates_Title" xml:space="preserve">
+    <value>Жаңыртуу</value>
+  </data>
+  <data name="Page_Updates_Sub" xml:space="preserve">
+    <value>Жаңы версияларды текшерүү жана орнотуу</value>
+  </data>
+  <data name="Updates_Title" xml:space="preserve">
+    <value>Колдонмонун версиясы</value>
+  </data>
+  <data name="Updates_Subtitle" xml:space="preserve">
+    <value>Жаңы версия чыкканын текшериңиз. Жаңыртуу GitHub'дан жүктөлүп, учурдагынын ордуна коюлат.</value>
+  </data>
+  <data name="Updates_Installed" xml:space="preserve">
+    <value>Азыр орнотулган</value>
+  </data>
+  <data name="Updates_Available" xml:space="preserve">
+    <value>Жаңы версия бар</value>
+  </data>
+  <data name="Updates_Notes" xml:space="preserve">
+    <value>ЭМНЕ ЖАҢЫ</value>
+  </data>
+  <data name="Updates_Check" xml:space="preserve">
+    <value>Жаңыртууну текшерүү</value>
+  </data>
+  <data name="Updates_Install" xml:space="preserve">
+    <value>Жүктөп орнотуу</value>
+  </data>
+  <data name="Updates_UpToDate" xml:space="preserve">
+    <value>Акыркы версия орнотулган: {0}</value>
+  </data>
+  <data name="Updates_Found" xml:space="preserve">
+    <value>{0} версиясы жеткиликтүү</value>
+  </data>
+  <data name="Updates_CheckFailed" xml:space="preserve">
+    <value>Жаңыртууну текшерүү мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Updates_InstallFailed" xml:space="preserve">
+    <value>Орнотуу мүмкүн болгон жок: {0}</value>
+  </data>
+  <data name="Updates_Restarting" xml:space="preserve">
+    <value>Колдонмо жабылып, жаңыртылган түрдө кайра ишке кирет</value>
+  </data>
+  <data name="Updates_ConfirmTitle" xml:space="preserve">
+    <value>Жаңыртууну орнотуу</value>
+  </data>
+  <data name="Updates_ConfirmText" xml:space="preserve">
+    <value>{1} ордуна {0} версиясын орнотолубу?&#10;&#10;Колдонмо жабылып, кайра ишке кирет. Маалымат базасы жана жөндөөлөр сакталат.</value>
+  </data>
+  <data name="Updates_DataSafe" xml:space="preserve">
+    <value>Маалымат базасы, почта жөндөөлөрү жана тил жаңыртууда өзгөрбөйт</value>
+  </data>
+  <data name="Updates_StageDownloading" xml:space="preserve">
+    <value>Жаңыртуу жүктөлүүдө</value>
+  </data>
+  <data name="Updates_StageVerifying" xml:space="preserve">
+    <value>Көзөмөл суммасы текшерилүүдө</value>
+  </data>
+  <data name="Updates_StageExtracting" xml:space="preserve">
+    <value>Ачылууда</value>
+  </data>
+  <data name="Updates_StagePreparing" xml:space="preserve">
+    <value>Орнотууга даярдалууда</value>
+  </data>
+  <data name="Updates_StageRestarting" xml:space="preserve">
+    <value>Колдонмо кайра ишке киргизилүүдө</value>
+  </data>
+  <data name="Updates_SizeMb" xml:space="preserve">
+    <value>{0} МБ</value>
+  </data>
+  <data name="Updates_SizeKb" xml:space="preserve">
+    <value>{0} КБ</value>
+  </data>
+  <data name="Err_BadCurrentVersion" xml:space="preserve">
+    <value>Колдонмонун версиясын аныктоо мүмкүн болгон жок</value>
+  </data>
+  <data name="Err_BadManifestVersion" xml:space="preserve">
+    <value>Манифестте түшүнүксүз версия: {0}</value>
+  </data>
+  <data name="Err_IncompleteManifest" xml:space="preserve">
+    <value>Манифестте архивге шилтеме же көзөмөл суммасы жок</value>
+  </data>
+  <data name="Err_NothingToInstall" xml:space="preserve">
+    <value>Адегенде жаңыртууну текшериңиз</value>
+  </data>
 </root>
