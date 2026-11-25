@@ -99,6 +99,24 @@ public class EqualsConverter : IMultiValueConverter
 }
 
 /// <summary>
+/// true, если второе значение встречается в списке ключей из первого.
+/// Нужен разделу навбара: он подсвечивается, пока открыта любая его страница.
+/// </summary>
+public class ContainsKeyConverter : IMultiValueConverter
+{
+    public object Convert(object?[] values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (values.Length < 2 || values[0] is not string keys || values[1] is not string key || key.Length == 0)
+            return false;
+
+        return keys.Split(' ', StringSplitOptions.RemoveEmptyEntries).Contains(key);
+    }
+
+    public object[] ConvertBack(object? value, Type[] targetTypes, object? parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}
+
+/// <summary>
 /// "Иван Петров" -> "ИП". Для аватара в хедере.
 /// </summary>
 public class InitialsConverter : IValueConverter

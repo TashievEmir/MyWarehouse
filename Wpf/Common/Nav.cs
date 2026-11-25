@@ -48,4 +48,22 @@ public static class Nav
 
     public static void SetPageKey(DependencyObject element, string value)
         => element.SetValue(PageKeyProperty, value);
+
+    /// <summary>
+    /// Ключи всех страниц раздела через пробел. Нужны пункту с выпадающим
+    /// списком: сам он никуда не ведёт, но подсвечивается, пока открыт
+    /// любой его подпункт.
+    /// </summary>
+    public static readonly DependencyProperty PageKeysProperty =
+        DependencyProperty.RegisterAttached(
+            "PageKeys",
+            typeof(string),
+            typeof(Nav),
+            new PropertyMetadata(""));
+
+    public static string GetPageKeys(DependencyObject element)
+        => (string)element.GetValue(PageKeysProperty);
+
+    public static void SetPageKeys(DependencyObject element, string value)
+        => element.SetValue(PageKeysProperty, value);
 }

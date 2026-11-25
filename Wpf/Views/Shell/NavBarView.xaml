@@ -1,0 +1,567 @@
+<UserControl x:Class="Wpf.Views.Shell.NavBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:common="clr-namespace:Wpf.Common"
+             xmlns:loc="clr-namespace:Wpf.Localization">
+
+    <!--
+        Верхнее меню приложения.
+
+        Разделы с подпунктами (Товары, Чеки, Аналитика, Настройки) сами никуда
+        не ведут: по нажатию раскрывается список, и страница открывается только
+        после выбора подпункта. Раскрытием, закрытием по клику вне меню и
+        клавиатурой занимается штатный Menu — своей логики показа не держим.
+    -->
+
+    <UserControl.Resources>
+
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+        <common:MinWidthToVisibilityConverter x:Key="MinWidthToVisibility"/>
+        <common:EqualsConverter x:Key="Equals"/>
+        <common:ContainsKeyConverter x:Key="ContainsKey"/>
+        <common:InitialsConverter x:Key="Initials"/>
+
+        <!-- Полоса меню: пункты в ряд, при нехватке ширины переносятся на вторую строку -->
+        <Style x:Key="NavBar" TargetType="Menu">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Menu">
+                        <ItemsPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Общий вид пункта верхнего уровня -->
+        <Style x:Key="NavTop" TargetType="MenuItem">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavTextBrush}"/>
+            <Setter Property="FontSize" Value="14.5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+
+        <!-- Раздел без подпунктов: открывает страницу сразу -->
+        <Style x:Key="NavLeaf" TargetType="MenuItem" BasedOn="{StaticResource NavTop}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="Bg"
+                                Height="40"
+                                CornerRadius="11"
+                                Padding="12,0"
+                                Background="Transparent"
+                                SnapsToDevicePixels="True">
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <materialDesign:PackIcon x:Name="Icon"
+                                                         Width="19"
+                                                         Height="19"
+                                                         Margin="0,0,9,0"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{TemplateBinding Foreground}"
+                                                         Kind="{Binding (common:Nav.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+                                                         Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1120}"/>
+
+                                <TextBlock x:Name="Label"
+                                           VerticalAlignment="Center"
+                                           Text="{TemplateBinding Header}"
+                                           Foreground="{TemplateBinding Foreground}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+
+                            <!-- Открыта страница этого пункта -->
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource Equals}">
+                                        <Binding Path="(common:Nav.PageKey)" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="DataContext.CurrentPage" RelativeSource="{RelativeSource Self}"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Раздел с подпунктами: по нажатию раскрывает список -->
+        <Style x:Key="NavRoot" TargetType="MenuItem" BasedOn="{StaticResource NavTop}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Grid>
+                            <Border x:Name="Bg"
+                                    Height="40"
+                                    CornerRadius="11"
+                                    Padding="12,0"
+                                    Background="Transparent"
+                                    SnapsToDevicePixels="True">
+
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <materialDesign:PackIcon x:Name="Icon"
+                                                             Width="19"
+                                                             Height="19"
+                                                             Margin="0,0,9,0"
+                                                             VerticalAlignment="Center"
+                                                             Foreground="{TemplateBinding Foreground}"
+                                                             Kind="{Binding (common:Nav.Icon), RelativeSource={RelativeSource TemplatedParent}}"
+                                                             Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1120}"/>
+
+                                    <TextBlock x:Name="Label"
+                                               VerticalAlignment="Center"
+                                               Text="{TemplateBinding Header}"
+                                               Foreground="{TemplateBinding Foreground}"/>
+
+                                    <materialDesign:PackIcon x:Name="Chevron"
+                                                             Kind="ChevronDown"
+                                                             Width="15"
+                                                             Height="15"
+                                                             Margin="6,1,0,0"
+                                                             VerticalAlignment="Center"
+                                                             RenderTransformOrigin="0.5,0.5"
+                                                             Foreground="{TemplateBinding Foreground}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Popup x:Name="PART_Popup"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   Placement="Bottom"
+                                   PopupAnimation="Fade"
+                                   IsOpen="{TemplateBinding IsSubmenuOpen}">
+
+                                <Border Margin="0,6,0,0"
+                                        Padding="6"
+                                        CornerRadius="12"
+                                        MinWidth="234"
+                                        Background="{DynamicResource SurfaceBrush}"
+                                        BorderBrush="{DynamicResource LineBrush}"
+                                        BorderThickness="1">
+
+                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+
+                            <Trigger Property="IsSubmenuOpen" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                                <Setter TargetName="Chevron" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="180"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <!-- Открыта любая страница раздела: ключи перечислены в Nav.PageKeys -->
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource ContainsKey}">
+                                        <Binding Path="(common:Nav.PageKeys)" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="DataContext.CurrentPage" RelativeSource="{RelativeSource Self}"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Подпункт в раскрытом списке -->
+        <Style x:Key="NavItem" TargetType="MenuItem">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="Bg"
+                                Height="40"
+                                CornerRadius="9"
+                                Padding="10,0"
+                                Background="Transparent"
+                                SnapsToDevicePixels="True">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="22"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse x:Name="Marker"
+                                         Grid.Column="0"
+                                         Width="5"
+                                         Height="5"
+                                         Margin="4,0,0,0"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource MutedBrush}"/>
+
+                                <TextBlock x:Name="Label"
+                                           Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{TemplateBinding Header}"
+                                           Foreground="{TemplateBinding Foreground}"/>
+
+                                <ContentPresenter Grid.Column="2"
+                                                  Margin="10,0,0,0"
+                                                  VerticalAlignment="Center"
+                                                  Content="{Binding (common:Nav.Badge), RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource Surface2Brush}"/>
+                            </Trigger>
+
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource Equals}">
+                                        <Binding Path="(common:Nav.PageKey)" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="DataContext.CurrentPage" RelativeSource="{RelativeSource Self}"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource PrimarySoftBrush}"/>
+                                <Setter TargetName="Marker" Property="Fill" Value="{DynamicResource PrimaryBrush}"/>
+                                <Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Кнопки языка и темы справа в полосе -->
+        <Style x:Key="NavChip" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource NavTextBrush}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg"
+                                CornerRadius="9"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource NavLineBrush}"
+                                BorderThickness="1"
+                                Padding="{TemplateBinding Padding}"
+                                SnapsToDevicePixels="True">
+
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource NavActiveBrush}"/>
+                                <Setter Property="Foreground" Value="#FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Счётчик долгов у подпункта -->
+        <Style x:Key="NavBadge" TargetType="Border">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="7,2"/>
+            <Setter Property="Background" Value="{DynamicResource DangerBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Border Background="{DynamicResource NavBgBrush}">
+
+        <Grid Margin="16,11,20,11">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ============ Знак приложения ============ -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+
+                <Border Width="40"
+                        Height="40"
+                        CornerRadius="12"
+                        Background="{DynamicResource BrandGradientBrush}">
+
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Rectangle Width="18" Height="3.5" RadiusX="2" RadiusY="2" Fill="#FFFFFF"/>
+                        <Rectangle Width="13" Height="3.5" RadiusX="2" RadiusY="2" Fill="#FFFFFF" Opacity="0.7" Margin="0,3"/>
+                        <Rectangle Width="18" Height="3.5" RadiusX="2" RadiusY="2" Fill="#FFFFFF"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Название уступает место пунктам меню на узком окне -->
+                <TextBlock Text="{loc:Tr App_Title}"
+                           Margin="11,0,8,0"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Foreground="#FFFFFF"
+                           TextTrimming="CharacterEllipsis"
+                           Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1280}"/>
+            </StackPanel>
+
+            <!-- ============ Разделы ============ -->
+            <Menu x:Name="Bar"
+                  Grid.Column="1"
+                  Margin="10,0"
+                  VerticalAlignment="Center"
+                  HorizontalAlignment="Left"
+                  Style="{StaticResource NavBar}">
+
+                <MenuItem Style="{StaticResource NavLeaf}"
+                          Header="{loc:Tr Nav_Dashboard}"
+                          common:Nav.Icon="ViewDashboardOutline"
+                          common:Nav.PageKey="dashboard"
+                          Command="{Binding ShowDashboardCommand}"
+                          Visibility="{Binding CanSeeOverview, Converter={StaticResource BoolToVisibility}}"/>
+
+                <MenuItem Style="{StaticResource NavLeaf}"
+                          Header="{loc:Tr Nav_Sales}"
+                          common:Nav.Icon="CashRegister"
+                          common:Nav.PageKey="sales"
+                          Command="{Binding ShowSalesCommand}"/>
+
+                <!-- Товары -->
+                <MenuItem Style="{StaticResource NavRoot}"
+                          Header="{loc:Tr Nav_Products}"
+                          common:Nav.Icon="PackageVariantClosed"
+                          common:Nav.PageKeys="catalog receiving labels">
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Catalog}"
+                              common:Nav.PageKey="catalog"
+                              Command="{Binding ShowCatalogCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Receiving}"
+                              common:Nav.PageKey="receiving"
+                              Command="{Binding ShowReceivingCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Labels}"
+                              common:Nav.PageKey="labels"
+                              Command="{Binding ShowLabelsCommand}"/>
+                </MenuItem>
+
+                <!-- Клиенты: им уходят напоминания о долге -->
+                <MenuItem Style="{StaticResource NavLeaf}"
+                          Header="{loc:Tr Nav_Customers}"
+                          common:Nav.Icon="AccountGroupOutline"
+                          common:Nav.PageKey="customers"
+                          Command="{Binding ShowCustomersCommand}"/>
+
+                <!-- Чеки: кассиру не нужны -->
+                <MenuItem Style="{StaticResource NavRoot}"
+                          Header="{loc:Tr Nav_Receipts}"
+                          common:Nav.Icon="ReceiptTextOutline"
+                          common:Nav.PageKeys="receipts editor"
+                          Visibility="{Binding CanSeeReceipts, Converter={StaticResource BoolToVisibility}}">
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_ReceiptsList}"
+                              common:Nav.PageKey="receipts"
+                              Command="{Binding ShowReceiptsCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_ReceiptEditor}"
+                              common:Nav.PageKey="editor"
+                              Command="{Binding ShowReceiptTemplateCommand}"
+                              Visibility="{Binding CanEditReceiptTemplate, Converter={StaticResource BoolToVisibility}}">
+
+                        <common:Nav.Badge>
+                            <Border CornerRadius="7"
+                                    Padding="6,1"
+                                    BorderBrush="{DynamicResource LineBrush}"
+                                    BorderThickness="1">
+
+                                <TextBlock Text="{loc:Tr Nav_Badge_Admin}"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource MutedBrush}"/>
+                            </Border>
+                        </common:Nav.Badge>
+                    </MenuItem>
+                </MenuItem>
+
+                <!-- Аналитика: сводные экраны для админа и менеджера -->
+                <MenuItem Style="{StaticResource NavRoot}"
+                          Header="{loc:Tr Nav_Analytics}"
+                          common:Nav.Icon="ChartLine"
+                          common:Nav.PageKeys="history stock debts purchases"
+                          Visibility="{Binding CanSeeAnalytics, Converter={StaticResource BoolToVisibility}}">
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_History}"
+                              common:Nav.PageKey="history"
+                              Command="{Binding ShowActivityLogCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Stock}"
+                              common:Nav.PageKey="stock"
+                              Command="{Binding ShowStockCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Debts}"
+                              common:Nav.PageKey="debts"
+                              Command="{Binding ShowDebtsCommand}">
+
+                        <common:Nav.Badge>
+                            <Border Style="{StaticResource NavBadge}"
+                                    Visibility="{Binding HasDebts, Converter={StaticResource BoolToVisibility}}">
+
+                                <TextBlock Text="{Binding DebtsCount}"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="#FFFFFF"/>
+                            </Border>
+                        </common:Nav.Badge>
+                    </MenuItem>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Purchases}"
+                              common:Nav.PageKey="purchases"
+                              Command="{Binding ShowPurchasesCommand}"/>
+                </MenuItem>
+
+                <!-- Настройки видит тот же круг, что и аналитику -->
+                <MenuItem Style="{StaticResource NavRoot}"
+                          Header="{loc:Tr Nav_Settings}"
+                          common:Nav.Icon="CogOutline"
+                          common:Nav.PageKeys="users notifications updates"
+                          Visibility="{Binding CanSeeSettings, Converter={StaticResource BoolToVisibility}}">
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Users}"
+                              common:Nav.PageKey="users"
+                              Command="{Binding ShowUsersCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Notifications}"
+                              common:Nav.PageKey="notifications"
+                              Command="{Binding ShowNotificationsCommand}"/>
+
+                    <MenuItem Style="{StaticResource NavItem}"
+                              Header="{loc:Tr Nav_Updates}"
+                              common:Nav.PageKey="updates"
+                              Command="{Binding ShowUpdatesCommand}"/>
+                </MenuItem>
+            </Menu>
+
+            <!-- ============ Язык, тема, пользователь ============ -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+
+                <Button Style="{StaticResource NavChip}"
+                        Margin="0,0,6,0"
+                        Command="{Binding ToggleLanguageCommand}"
+                        ToolTip="{loc:Tr Tip_ToggleLanguage}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Translate" Width="16" Height="16" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding LanguageLabel}"
+                                   Margin="6,0,0,0"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button Style="{StaticResource NavChip}"
+                        Command="{Binding ToggleThemeCommand}"
+                        ToolTip="{loc:Tr Tip_ToggleTheme}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ThemeLightDark" Width="16" Height="16" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding ThemeLabel}"
+                                   Margin="7,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1360}"/>
+                    </StackPanel>
+                </Button>
+
+                <Border Width="1"
+                        Height="26"
+                        Margin="14,0"
+                        Background="{DynamicResource NavLineBrush}"/>
+
+                <Border Width="38"
+                        Height="38"
+                        CornerRadius="19"
+                        Background="{DynamicResource BrandGradientBrush}">
+
+                    <TextBlock Text="{Binding UserName, Converter={StaticResource Initials}}"
+                               Foreground="#FFFFFF"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
+
+                <StackPanel Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Visibility="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource MinWidthToVisibility}, ConverterParameter=1200}">
+
+                    <TextBlock Text="{Binding UserName}"
+                               FontSize="13.5"
+                               FontWeight="SemiBold"
+                               Foreground="#FFFFFF"
+                               TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock Text="{Binding UserRole}"
+                               FontSize="12"
+                               Foreground="{DynamicResource NavCaptionBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>
